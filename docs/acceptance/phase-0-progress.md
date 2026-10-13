@@ -23,3 +23,9 @@
 - Task 1：complete。Vue 官方脚手架已创建；精确依赖和锁文件已生成。typecheck、build 退出码 0；Wrapper 输出 Maven 3.9.9 / Java 21.0.12.1。
 - 安装排查：pnpm dlx 默认用户缓存报 UNKNOWN，通过 --config.cache-dir 指向项目缓存后成功。脚手架 TypeScript ~6.0.0 实际稳定版本为 6.0.3，固定为 6.0.3。
 - Wrapper 排查：PowerShell 将未引用的 -Dmaven=3.9.9 拆分，重新以字符串参数生成后通过。Git 所有者不同，命令使用仅本次生效的 -c safe.directory，不修改全局设置。
+
+- Task 2：接口代码与迁移已实现；先运行缺实现测试失败，补实现后 8/8 测试通过。数据库首次迁移、服务端版本、Swagger 运行验收未完成。
+- Task 2 排查：Boot 4 MVC 切片缺少 HttpSecurity，补 spring-boot-starter-security-test 后通过；依据官方 Boot 4 迁移说明。
+- Task 3：导航 6 项测试已在空脚手架失败，开始实现布局。
+- 用户补充：以 D:\codex\English Learner\prototype\index.html 为页面基准，允许适当优化，页面最终效果待用户亲自确认。
+- Ruling：启用协作后，将独立的 Task 4 API / Badge / unit tests 分给一名 Executor；页面与集成仍由主代理负责。风险：须执行集成检查，确保组件契约一致。

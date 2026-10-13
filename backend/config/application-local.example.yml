@@ -1,0 +1,6 @@
+# 复制到 application-local.yml，使用本地工具填写密码；此真实配置被 Git 忽略。
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/english_hero_dev?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true&connectTimeout=3000&socketTimeout=3000
+    username: english_hero_dev
+    password: "REPLACE_LOCALLY"

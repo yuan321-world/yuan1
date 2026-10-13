@@ -1,0 +1,6 @@
+# 复制到 application-test.yml。mysql-it 只允许 english_hero_test，使用独立账号。
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/english_hero_test?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true&connectTimeout=3000&socketTimeout=3000
+    username: english_hero_test
+    password: "REPLACE_LOCALLY"

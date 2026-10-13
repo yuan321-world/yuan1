@@ -1,0 +1,30 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: english-hero
+  profiles:
+    default: local
+  config:
+    import: optional:file:./config/application-local.yml
+  datasource:
+    url: ${ENGLISH_HERO_DB_URL:jdbc:mysql://127.0.0.1:3306/english_hero_dev?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true&connectTimeout=3000&socketTimeout=3000}
+    username: ${ENGLISH_HERO_DB_USERNAME:english_hero_dev}
+    password: ${ENGLISH_HERO_DB_PASSWORD:}
+    hikari:
+      connection-timeout: 3000
+      validation-timeout: 2000
+      initialization-fail-timeout: 3000
+      maximum-pool-size: 4
+      minimum-idle: 1
+      connection-init-sql: SET time_zone = '+00:00'
+  flyway:
+    clean-disabled: true
+    validate-on-migrate: true
+  jackson:
+    time-zone: UTC
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
