@@ -1,0 +1,15 @@
+.env*
+!.env*.example
+backend/config/application-local.yml
+backend/config/application-test.yml
+node_modules/
+dist/
+target/
+playwright-report/
+test-results/
+.superpowers/
+.tool-cache/
+*.log
+.idea/
+.vscode/
+*.iml
