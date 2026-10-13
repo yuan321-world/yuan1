@@ -1,3 +1,6 @@
+<script setup lang="ts">
+import SystemStatusBadge from '@/components/SystemStatusBadge.vue'
+</script>
 <template>
 <section class="home-intro">
   <p class="home-wordmark">Lingua Loop</p>
@@ -15,7 +18,7 @@
 </section>
 <div class="home-lower">
   <section class="next-panel"><h2>接下来，建立你的学习空间</h2><p>真实账号、阅读内容和复习记录将随各阶段逐步开放。</p><ul class="next-list"><li><RouterLink to="/login">登录与账号</RouterLink></li><li><RouterLink to="/stats">学习统计</RouterLink></li><li><RouterLink to="/admin">管理端预览</RouterLink></li></ul></section>
-  <aside class="connection-panel"><h2>开发连接状态</h2><p>这里只展示基础服务连接情况。</p><div class="prototype-status">连接状态将在接口接入后显示</div></aside>
+  <aside class="connection-panel"><h2>开发连接状态</h2><p>这里只展示基础服务连接情况。</p><SystemStatusBadge /></aside>
 </div>
 <p class="study-hint">当前页面为工程基础预览，学习内容、账号和学习记录尚未接入。</p>
 </template>
