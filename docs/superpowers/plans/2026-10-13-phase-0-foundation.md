@@ -20,7 +20,7 @@
 - 阶段 0 管理端仅预览空布局，不提供管理数据或修改接口。
 - MySQL 时间统一保存为 UTC；数据库密码由用户在本地配置，不在聊天中收集。
 - Docker、Redis、Python、AI、JDBC 会话表不属于阶段 0 前置条件。
-- 当前只是实施计划，没有实施记录；所有检查框均表示待执行。
+- 阶段 0 已开始实施，实际进度与验证记录见 ../../acceptance/phase-0-progress.md 和 ../../acceptance/phase-0.md；未满足完成条件的项目不标记完成。
 
 ## Review Focus
 
