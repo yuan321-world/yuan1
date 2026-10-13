@@ -29,3 +29,6 @@
 - Task 3：导航 6 项测试已在空脚手架失败，开始实现布局。
 - 用户补充：以 D:\codex\English Learner\prototype\index.html 为页面基准，允许适当优化，页面最终效果待用户亲自确认。
 - Ruling：启用协作后，将独立的 Task 4 API / Badge / unit tests 分给一名 Executor；页面与集成仍由主代理负责。风险：须执行集成检查，确保组件契约一致。
+
+- Task 3：6/6 桌面和手机导航测试通过，typecheck 通过。history 直接访问、刷新、404、键盘焦点与 Escape 通过。
+- 单文件 HTML 原型：frontend/public/phase-0-interface.html；直接 file URL 打开验证 1440px / 390px 所有入口、刷新、键盘菜单与无横向溢出通过。页面设计待用户确认，不据此宣布视觉验收完成。
