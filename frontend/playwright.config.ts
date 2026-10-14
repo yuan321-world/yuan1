@@ -1,6 +1,7 @@
 import { defineConfig } from '@playwright/test'
 const preview = process.env.E2E_PREVIEW === '1'
-const port = preview ? 4173 : 5173
+const port = process.env.E2E_PORT ? Number(process.env.E2E_PORT) : (preview ? 4173 : 5173)
+if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('E2E_PORT must be an integer from 1024 to 65535')
 export default defineConfig({
   testDir: './tests/e2e', timeout: 30_000,
   forbidOnly: !!process.env.CI, retries: 0, workers: 2,
@@ -15,7 +16,7 @@ export default defineConfig({
     { name: 'mobile', use: { viewport: { width: 390, height: 844 } } },
   ],
   webServer: {
-    command: preview ? 'pnpm preview' : 'pnpm dev',
+    command: preview ? `pnpm preview --port ${port}` : `pnpm dev --port ${port}`,
     url: `http://127.0.0.1:${port}`, reuseExistingServer: false,
   },
 })

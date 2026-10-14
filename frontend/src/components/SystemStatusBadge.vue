@@ -59,5 +59,9 @@ onBeforeUnmount(() => {
   font: inherit;
   color: inherit;
   cursor: pointer;
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  padding: 8px 14px;
 }
 </style>

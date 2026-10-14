@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const entries = [
-  ['首页', '/', '把英语学习连成一个循环。'],
+  ['首页', '/', 'Lingua Loop'],
   ['背单词', '/vocabulary', '背单词'],
   ['外刊精读', '/reading', '外刊精读'],
   ['专项练习', '/practice', '专项练习'],
@@ -22,7 +22,7 @@ test('all learner entries and the admin preview are reachable', async ({ page },
   await page.getByRole('navigation', { name: '学习导航' }).getByRole('link', { name: '管理端预览' }).click()
   await expect(page.getByRole('heading', { name: '管理端布局预览' })).toBeVisible()
   await page.getByRole('link', { name: '返回学习端' }).click()
-  await expect(page.getByRole('heading', { name: '把英语学习连成一个循环。' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Lingua Loop' })).toBeVisible()
 })
 
 test('direct route and refresh work; unknown addresses show 404', async ({ page }) => {
