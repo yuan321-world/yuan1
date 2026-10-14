@@ -7,6 +7,22 @@ import org.slf4j.MDC;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RequestTraceFilterTest {
+    @Test void logsRemoveRawAndEncodedMatrixParameters() throws Exception {
+        var logger = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(RequestTraceFilter.class);
+        var appender = new ch.qos.logback.core.read.ListAppender<ch.qos.logback.classic.spi.ILoggingEvent>();
+        appender.start(); logger.addAppender(appender);
+        try {
+            for (var suffix : new String[]{";jsessionid=private-session-token", "%3Bjsessionid=private-session-token"}) {
+                appender.list.clear();
+                new RequestTraceFilter().doFilter(new MockHttpServletRequest("GET", "/api/v1/system/status" + suffix),
+                    new MockHttpServletResponse(), (req, res) -> {});
+                var message = appender.list.getFirst().getFormattedMessage();
+                assertFalse(message.contains("private-session-token"));
+                assertFalse(message.toLowerCase().contains("jsessionid"));
+                assertTrue(message.contains("path=/api/v1/system/status status="));
+            }
+        } finally { logger.detachAppender(appender); appender.stop(); }
+    }
     @Test void logsExcludeQueryHeadersAndRequestBody() throws Exception {
         var logger = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(RequestTraceFilter.class);
         var appender = new ch.qos.logback.core.read.ListAppender<ch.qos.logback.classic.spi.ILoggingEvent>();

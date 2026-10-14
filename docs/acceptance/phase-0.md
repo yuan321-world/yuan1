@@ -118,3 +118,7 @@ Boot 4 Security 测试模块依据：[官方迁移说明](https://github.com/spr
 真实日志发现Boot自动创建未使用的默认身份/临时密码，与阶段0没有身份的边界不一致。主应用仅排除 UserDetailsServiceAutoConfiguration，仍保留Spring Security链和CSRF。新增 PhaseZeroStartupIT 在启动上下文前限制连接测试库；真实完整上下文断言没有UserDetailsService并读取UP。先复现有inMemoryUserDetailsManager的RED，再修正GREEN；MVC测试切片与实际配置一致。最终verify与打包应用日志均不再生成默认身份密码，既有拒绝边界保持。独立新增范围审查未发现剩余重要问题。
 
 本轮临时后端/Vite服务在验证后关闭，不停止用户MySQL或4173现有服务。已执行V1不修改、不清库。真实登录与持久会话仍在阶段1，Vue登录外观不表示认证功能已完成。
+
+## 2026-10-14 结案复核
+
+独立审查发现URI日志可能包含URL重写的会话参数，新增失败回归后在日志值中剥离原始及编码matrix参数；请求处理不变。mvnw -o verify -Pmysql-it退出0，15单元/MVC+2真实MySQL集成通过。前端类型检查与15单元退出0；未发现剩余阻断问题。方案过时状态已同步，阶段0完成，阶段1等待批准。详见 ../reviews/2026-10-14-phase-0-final-audit.md。

@@ -37,7 +37,9 @@ public class RequestTraceFilter extends OncePerRequestFilter {
             throw exception;
         } finally {
             // Never log query strings, bodies, headers, credentials or exception messages.
-            String path = request.getRequestURI().replaceAll("[\\r\\n\\t]", "_");
+            // URI matrix parameters may carry URL-rewritten session IDs. Only sanitize the log value.
+            String path = request.getRequestURI().replaceAll("(?i)(?:;|%3b)[^/]*", "")
+                .replaceAll("[\\r\\n\\t]", "_");
             if (path.length() > 200) path = path.substring(0, 200);
             log.info("request traceId={} method={} path={} status={} durationMs={}", traceId,
                 request.getMethod(), path, failed ? 500 : response.getStatus(), (System.nanoTime() - start) / 1_000_000);
