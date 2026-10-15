@@ -30,7 +30,7 @@ async function submit() {
   if (busy.value) return
   error.value = ''; notice.value = ''; fieldErrors.value = {}
   if (registering.value && password.value !== confirmation.value) {
-    fieldErrors.value.confirmation = '两次密码不一致'; error.value = '请确认两次输入的密码一致'
+    fieldErrors.value.confirmation = '两次密码不一致'
     await focusError(); return
   }
   busy.value = true
@@ -46,10 +46,10 @@ async function submit() {
     if (e instanceof ApiError && e.fieldErrors) {
       fieldErrors.value = Object.fromEntries(Object.entries(e.fieldErrors).filter(([key]) => ['username', 'password', 'displayName'].includes(key)))
     }
-    error.value = Object.keys(fieldErrors.value).length ? '请检查下方标注的填写内容' : errorMessage(e)
+    error.value = Object.keys(fieldErrors.value).length ? '' : errorMessage(e)
   } finally {
     busy.value = false; password.value = ''; confirmation.value = ''
-    if (error.value) await focusError()
+    if (error.value || Object.keys(fieldErrors.value).length) await focusError()
   }
 }
 async function retry() {
@@ -80,26 +80,26 @@ async function retry() {
             <input id="login-username" v-model="username" autocomplete="username" placeholder="你的用户名" minlength="3" maxlength="32" required :disabled="busy"
               :aria-invalid="fieldErrors.username ? 'true' : undefined" :aria-describedby="describedBy('username', registering ? 'username-hint' : undefined)" @input="clearField('username')">
             <p v-if="registering" id="username-hint" class="auth-hint">3—32位字母、数字或下划线；admin 开头不可注册（忽略大小写）。</p>
-            <p v-if="fieldErrors.username" id="username-error" class="auth-field-error">{{ fieldErrors.username }}</p>
+            <p v-if="fieldErrors.username" id="username-error" class="auth-field-error" role="alert">{{ fieldErrors.username }}</p>
           </div>
           <div v-if="registering" class="auth-field">
             <label for="register-name">昵称<span class="auth-optional">（选填）</span></label>
             <input id="register-name" v-model="displayName" autocomplete="nickname" placeholder="你希望被怎样称呼" maxlength="64" :disabled="busy"
               :aria-invalid="fieldErrors.displayName ? 'true' : undefined" :aria-describedby="describedBy('displayName')" @input="clearField('displayName')">
-            <p v-if="fieldErrors.displayName" id="displayName-error" class="auth-field-error">{{ fieldErrors.displayName }}</p>
+            <p v-if="fieldErrors.displayName" id="displayName-error" class="auth-field-error" role="alert">{{ fieldErrors.displayName }}</p>
           </div>
           <div class="auth-field">
             <label for="login-password">密码</label>
             <input id="login-password" v-model="password" type="password" :autocomplete="registering ? 'new-password' : 'current-password'" :placeholder="registering ? '设置你的密码' : '输入你的密码'" minlength="8" maxlength="128" required :disabled="busy"
               :aria-invalid="fieldErrors.password ? 'true' : undefined" :aria-describedby="describedBy('password', registering ? 'password-hint' : undefined)" @input="clearField('password')">
             <p v-if="registering" id="password-hint" class="auth-hint">8—64个字符，UTF-8最多72字节。</p>
-            <p v-if="fieldErrors.password" id="password-error" class="auth-field-error">{{ fieldErrors.password }}</p>
+            <p v-if="fieldErrors.password" id="password-error" class="auth-field-error" role="alert">{{ fieldErrors.password }}</p>
           </div>
           <div v-if="registering" class="auth-field">
             <label for="register-confirm">确认密码</label>
             <input id="register-confirm" v-model="confirmation" type="password" autocomplete="new-password" placeholder="再次输入密码" required :disabled="busy"
               :aria-invalid="fieldErrors.confirmation ? 'true' : undefined" :aria-describedby="describedBy('confirmation')" @input="clearField('confirmation')">
-            <p v-if="fieldErrors.confirmation" id="confirmation-error" class="auth-field-error">{{ fieldErrors.confirmation }}</p>
+            <p v-if="fieldErrors.confirmation" id="confirmation-error" class="auth-field-error" role="alert">{{ fieldErrors.confirmation }}</p>
           </div>
         </div>
         <label v-if="!registering" class="remember-label"><input v-model="remember" type="checkbox" :disabled="busy">保持登录7天</label>
