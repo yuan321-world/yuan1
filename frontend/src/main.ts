@@ -5,4 +5,5 @@ import router from './router'
 import './styles/tokens.css'
 import './styles/base.css'
 import './styles/approved-layout.css'
+import './styles/auth.css'
 createApp(App).use(createPinia()).use(router).mount('#app')
