@@ -5,7 +5,9 @@ import { learnerNavigation } from '@/router/navigation'
 import { useAuthStore } from '@/stores/auth'
 import { errorMessage } from '@/api/identity'
 const auth = useAuthStore(), router = useRouter(), logoutError = ref(''), signingOut = ref(false)
-const navigation = computed(() => auth.user ? [...learnerNavigation.filter(i => i.to !== '/login' && i.to !== '/admin'), { to: '/account', label: '账户' }, ...(auth.isAdmin ? [{ to: '/admin', label: '管理端' }] : [])] : [{ to: '/login', label: '登录' }, { to: '/register', label: '注册' }])
+const navigation = computed(() => auth.isAdmin ? [{ to: '/admin', label: '数据管理' }, { to: '/admin/account', label: '账户设置' }]
+  : auth.user ? [...learnerNavigation.filter(i => i.to !== '/login' && i.to !== '/admin'), { to: '/account', label: '账户' }]
+    : [{ to: '/login', label: '登录' }, { to: '/register', label: '注册' }])
 async function signOut() {
   signingOut.value = true; logoutError.value = ''
   try { await auth.signOut(); await router.replace('/login') }
@@ -30,7 +32,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleEscape))
 <template>
   <header class="topbar">
     <div class="nav-shell">
-      <RouterLink class="brand" to="/" aria-label="Lingua Loop 首页"><span class="brand-mark" aria-hidden="true">L</span>Lingua Loop</RouterLink>
+      <RouterLink class="brand" :to="auth.isAdmin ? '/admin' : '/'" :aria-label="auth.isAdmin ? 'Lingua Loop 管理端' : 'Lingua Loop 首页'"><span class="brand-mark" aria-hidden="true">L</span>Lingua Loop</RouterLink>
       <button ref="toggle" class="menu-toggle" type="button" :aria-expanded="open" aria-controls="learner-navigation" :aria-label="open ? '关闭导航' : '打开导航'" @click="open = !open">{{ open ? '关闭' : '菜单' }}</button>
       <nav id="learner-navigation" class="learner-nav" :class="{ 'is-open': open }" aria-label="学习导航">
         <RouterLink v-for="item in navigation" :key="item.to" :to="item.to" class="nav-link" :class="{ 'admin-link': item.to === '/admin' }" @click="open = false">{{ item.label }}</RouterLink>

@@ -11,7 +11,7 @@ const entries = [
   ['账户', '/account', '账户设置'],
 ] as const
 
-test('authenticated learner entries and authorized admin are reachable with Mock identity', async ({ page }, info) => {
+test('authenticated learner entries remain reachable with Mock USER identity', async ({ page }, info) => {
   await page.goto('/')
   for (const [label, path, heading] of entries) {
     if (info.project.name === 'mobile') await page.getByRole('button', { name: '打开导航' }).click()
@@ -20,11 +20,7 @@ test('authenticated learner entries and authorized admin are reachable with Mock
     await expect(page.getByRole('heading', { name: heading, exact: true })).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   }
-  if (info.project.name === 'mobile') await page.getByRole('button', { name: '打开导航' }).click()
-  await page.getByRole('navigation', { name: '学习导航' }).getByRole('link', { name: '管理端' }).click()
-  await expect(page.getByRole('heading', { name: '管理端', exact: true })).toBeVisible()
-  await page.getByRole('link', { name: '返回学习端' }).click()
-  await expect(page.getByRole('heading', { name: 'Lingua Loop' })).toBeVisible()
+  await expect(page.getByRole('link', { name: '管理端', exact: true })).toHaveCount(0)
 })
 
 test('direct route and refresh work; unknown addresses show 404', async ({ page }) => {

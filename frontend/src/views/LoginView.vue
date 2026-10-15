@@ -17,7 +17,8 @@ async function submit() {
     if (registering.value) { await register(username.value, password.value, displayName.value); await router.replace('/login'); notice.value = '注册成功，请登录' }
     else {
       await auth.signIn(username.value, password.value, remember.value)
-      const destination = typeof route.query.redirect === 'string' && ['/', '/account', '/reading', '/vocabulary', '/practice', '/stats', '/admin'].includes(route.query.redirect) ? route.query.redirect : '/'
+      const destination = auth.isAdmin ? (route.query.redirect === '/admin/account' ? '/admin/account' : '/admin')
+        : typeof route.query.redirect === 'string' && ['/', '/account', '/reading', '/vocabulary', '/practice', '/stats', '/admin'].includes(route.query.redirect) ? route.query.redirect : '/'
       await router.replace(destination)
     }
   } catch (e) { error.value = errorMessage(e) }

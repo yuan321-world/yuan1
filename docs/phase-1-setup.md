@@ -27,6 +27,8 @@ pnpm --dir frontend dev
 
 本机已按用户要求创建管理员admin123，使用用户指定密码；可在相同登录页面登录后进入 `/admin`。以下流程供未来创建新管理员使用，不会覆盖现有账号。
 
+管理员登录后直接进入数据管理后台，仅显示数据管理、账户设置和退出；后台账户地址为 `/admin/account`。管理员不进入背单词、阅读或练习学习页面；这些功能仍提供给普通学习者。数据管理的实际文章/词书/题库操作随对应阶段开放。
+
 复制 `backend/config/application-admin.example.yml` 为同目录`application-admin.yml`，只在文件中填写新的应用管理员用户名、昵称、密码。它与MySQL账号不同；无默认密码，真实文件忽略Git。
 
 在backend目录、已设置Java21的终端执行：

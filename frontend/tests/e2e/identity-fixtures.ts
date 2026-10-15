@@ -1,8 +1,8 @@
 import { expect, type Page } from '@playwright/test'
 import { randomUUID } from 'node:crypto'
 import { appendFileSync } from 'node:fs'
-export async function mockIdentity(page: Page, anonymous = false) {
-  const user = { id: 'mock-identity', username: 'mock_learner', displayName: 'Mock 学习者', roles: ['USER', 'ADMIN'] }
+export async function mockIdentity(page: Page, anonymous = false, admin = false) {
+  const user = { id: 'mock-identity', username: 'mock_learner', displayName: 'Mock 学习者', roles: admin ? ['USER', 'ADMIN'] : ['USER'] }
   await page.route('**/api/v1/auth/me', route => route.fulfill(anonymous ? { status: 401, json: { code: 'UNAUTHENTICATED' } } : { status: 200, json: user }))
   await page.route('**/api/v1/admin/identity', route => route.fulfill({ status: 200, json: user }))
 }

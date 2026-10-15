@@ -6,6 +6,7 @@ import LoginView from '@/views/LoginView.vue'
 import PendingFeatureView from '@/views/PendingFeatureView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import AccountView from '@/views/AccountView.vue'
+import AdminDashboardView from '@/views/AdminDashboardView.vue'
 import { useAuthStore } from '@/stores/auth'
 import { adminIdentity } from '@/api/identity'
 
@@ -25,7 +26,10 @@ const router = createRouter({
         { path: ':pathMatch(.*)*', component: NotFoundView, meta: { title: '页面不存在', public: true } },
       ],
     },
-    { path: '/admin', component: AdminLayout, meta: { title: '管理端', admin: true } },
+    { path: '/admin', component: AdminLayout, meta: { admin: true }, children: [
+      { path: '', component: AdminDashboardView, meta: { title: '数据管理' } },
+      { path: 'account', component: AccountView, meta: { title: '管理员账户设置' } },
+    ] },
   ],
   scrollBehavior: () => ({ top: 0 }),
 })
@@ -34,10 +38,13 @@ router.beforeEach(async to => {
   try { await auth.restore(!to.meta.public) }
   catch { return to.path === '/login' ? true : { path: '/login', query: { redirect: to.path } } }
   if (!auth.user && !to.meta.public) return { path: '/login', query: { redirect: to.path } }
-  if (auth.user && !auth.connectionError && (to.path === '/login' || to.path === '/register')) return '/'
+  if (auth.user && !auth.connectionError && (to.path === '/login' || to.path === '/register')) return auth.isAdmin ? '/admin' : '/'
+  if (auth.isAdmin && ['/', '/vocabulary', '/reading', '/practice', '/stats'].includes(to.path)) return '/admin'
+  if (auth.isAdmin && to.path === '/account') return '/admin/account'
   if (to.meta.admin) {
     if (!auth.isAdmin) return '/account'
-    try { await adminIdentity() } catch { return '/account' }
+    try { await adminIdentity() }
+    catch { auth.connectionError = true; return { path: '/login', query: { redirect: to.path } } }
   }
   return true
 })
