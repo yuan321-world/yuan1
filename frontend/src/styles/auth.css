@@ -1,8 +1,10 @@
 /* Shared login/register presentation; API, session and role behavior stay in identity. */
+:root:has(.auth-layout) { scrollbar-gutter: stable; }
 .auth-layout {
+  height: 100svh;
   min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
 }
 .auth-header {
   width: min(1120px, calc(100% - 64px));
@@ -11,15 +13,16 @@
 }
 .auth-header .brand { width: fit-content; font-size: 18px; }
 .auth-main {
-  flex: 1;
   display: grid;
+  grid-template-rows: minmax(0, 1fr);
   grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
   column-gap: clamp(48px, 6vw, 96px);
-  align-items: center;
+  align-items: safe center;
   width: min(1120px, calc(100% - 64px));
   margin-inline: auto;
   padding: 24px 0 52px;
   min-width: 0;
+  min-height: 0;
 }
 .auth-main:focus { outline: none; }
 .auth-brand-panel { min-width: 0; padding-block: 12px; }
@@ -110,7 +113,7 @@
 @keyframes auth-spin { to { transform: rotate(360deg); } }
 @media (max-width: 1000px) {
   .auth-header { width: calc(100% - 48px); }
-  .auth-main { width: min(560px, calc(100% - 48px)); grid-template-columns: minmax(0, 1fr); justify-items: center; align-content: center; row-gap: 24px; padding: 16px 0 40px; }
+  .auth-main { width: min(560px, calc(100% - 48px)); grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; justify-items: center; align-content: start; row-gap: 24px; padding: 16px 0 40px; }
   .auth-brand-panel { width: 100%; padding: 0; text-align: center; }
   .auth-brand-title { font-size: 32px; letter-spacing: -.04em; }
   .auth-brand-title span { display: inline; }
@@ -119,7 +122,7 @@
 }
 @media (max-width: 600px) {
   .auth-header { width: 100%; padding: 18px 20px 8px; }
-  .auth-main { width: 100%; row-gap: 0; padding: 12px 16px 24px; }
+  .auth-main { width: 100%; grid-template-rows: minmax(0, 1fr); align-content: normal; row-gap: 0; padding: 12px 16px 24px; }
   .auth-brand-panel { display: none; }
   .login-card { padding: 25px 22px; border-radius: 20px; }
   .auth-heading { margin-bottom: 20px; }
