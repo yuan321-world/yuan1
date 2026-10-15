@@ -9,7 +9,8 @@ public final class IdentityRules {
     public static String username(String value, boolean registration) {
         String name = value == null ? "" : value.strip().toLowerCase(Locale.ROOT);
         if (!name.matches("[a-z0-9_]{3,32}")) throw IdentityException.invalid("username", "用户名须为3—32位英文字母、数字或下划线");
-        if (registration && Set.of("admin", "administrator", "root", "system").contains(name)) throw IdentityException.invalid("username", "此用户名不可用于注册");
+        if (registration && (name.startsWith("admin") || Set.of("root", "system").contains(name)))
+            throw IdentityException.invalid("username", "以 admin 开头的用户名及系统保留名称不可注册");
         return name;
     }
     public static String password(String value, String field) {

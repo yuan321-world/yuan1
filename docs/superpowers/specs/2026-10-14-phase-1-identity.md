@@ -10,7 +10,7 @@ Vue 3/TypeScript/Pinia、Java 21/Boot 4.0.8/MyBatis-Plus/MySQL 保持不变。�
 
 ## 输入与持久化
 
-- username：去首尾空白、Locale.ROOT 小写，3—32 ASCII 字母/数字/下划线，唯一且不可修改。公开注册保留 admin/administrator/root/system。
+- username：去首尾空白、Locale.ROOT 小写，3—32 ASCII 字母/数字/下划线，唯一且不可修改。按用户2026-10-15补充要求，公开注册禁止整个admin前缀（不区分大小写，去首尾空白后检查），同时保留root/system；受控管理员创建和登录允许admin前缀。
 - password：8—64 Unicode 字符、UTF-8 最多72字节；不 trim，拒绝控制字符及不配对代理字符。使用 DelegatingPasswordEncoder 的 BCrypt。错误密码与禁用账号均返回相同401。
 - displayName：1—32 Unicode 字符、去首尾空白，无控制字符；注册未填默认用户名。
 - USER/ADMIN 为服务端角色；注册仅 USER。DTO 不接受 role/userId/enabled，拒绝未知字段。用户DTO：id（字符串）、username、displayName、roles。

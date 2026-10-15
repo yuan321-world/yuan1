@@ -144,4 +144,12 @@ class IdentityFlowIT {
         }
         assertThat(jdbc.queryForObject("SELECT security_version FROM identity_user WHERE username=?", Integer.class, name)).isEqualTo(1);
     }
+    @Test void publicRegistrationRejectsAdminPrefixIncludingMixedCaseAndWhitespace() throws Exception {
+        var c = client();
+        String name = "admin_" + UUID.randomUUID().toString().replace("-", "").substring(0, 16);
+        fixtures.add(name);
+        String body = "{\"username\":\"  " + name.replace("admin", "AdMiN") + "  \",\"password\":\"" + UUID.randomUUID() + "aA!\"}";
+        assertThat(call(c, "POST", "/auth/register", body, csrf(c)).statusCode()).isEqualTo(400);
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM identity_user WHERE username=?", Integer.class, name)).isZero();
+    }
 }

@@ -34,7 +34,7 @@ async function retry() { try { await auth.restore(true); if (auth.user) await ro
   <p v-if="notice" class="form-message" role="status">{{ notice }}</p>
   <form :aria-busy="busy" @submit.prevent="submit">
     <label for="login-username">用户名</label><input id="login-username" v-model="username" autocomplete="username" placeholder="你的用户名" minlength="3" maxlength="32" required :disabled="busy" aria-describedby="username-hint">
-    <p v-if="registering" id="username-hint" class="field-hint">3—32位英文字母、数字或下划线。</p>
+    <p v-if="registering" id="username-hint" class="field-hint">3—32位英文字母、数字或下划线；不可使用 admin 开头的用户名（不区分大小写）。</p>
     <template v-if="registering"><label for="register-name">昵称（选填）</label><input id="register-name" v-model="displayName" autocomplete="nickname" maxlength="64" :disabled="busy"></template>
     <label for="login-password">密码</label><input id="login-password" v-model="password" type="password" :autocomplete="registering ? 'new-password' : 'current-password'" placeholder="你的密码" minlength="8" maxlength="128" required :disabled="busy">
     <template v-if="registering"><p class="field-hint">8—64个字符，UTF-8最多72字节。</p><label for="register-confirm">确认密码</label><input id="register-confirm" v-model="confirmation" type="password" autocomplete="new-password" required :disabled="busy"></template>
