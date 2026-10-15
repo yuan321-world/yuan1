@@ -23,6 +23,12 @@ spring:
     validate-on-migrate: true
   jackson:
     time-zone: UTC
+    deserialization:
+      fail-on-unknown-properties: true
+  session:
+    timeout: 2h
+    jdbc:
+      initialize-schema: never
 springdoc:
   api-docs:
     enabled: false

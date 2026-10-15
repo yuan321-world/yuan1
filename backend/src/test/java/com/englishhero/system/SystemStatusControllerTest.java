@@ -17,6 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class SystemStatusControllerTest {
     @Autowired MockMvc mvc;
     @MockitoBean SystemStatusService service;
+    @MockitoBean com.englishhero.identity.IdentityMapper identities;
+    @MockitoBean com.englishhero.identity.IdentityService identityService;
 
 
     @Test void statusIsPublicAndMatchesContract() throws Exception {
@@ -34,9 +36,9 @@ class SystemStatusControllerTest {
             .andExpect(content().json("{\"status\":\"DOWN\",\"service\":\"english-hero\",\"database\":\"DOWN\"}"));
     }
     @Test void unknownApiAndProductionDocsAreDenied() throws Exception {
-        mvc.perform(get("/api/v1/users")).andExpect(status().isForbidden()).andExpect(header().exists("X-Request-Id"));
-        mvc.perform(get("/v3/api-docs")).andExpect(status().isForbidden());
-        mvc.perform(get("/swagger-ui/index.html")).andExpect(status().isForbidden());
+        mvc.perform(get("/api/v1/users")).andExpect(status().isUnauthorized()).andExpect(header().exists("X-Request-Id"));
+        mvc.perform(get("/v3/api-docs")).andExpect(status().isUnauthorized());
+        mvc.perform(get("/swagger-ui/index.html")).andExpect(status().isUnauthorized());
     }
     @Test void writesAreDeniedAndCsrfIsRetained() throws Exception {
         mvc.perform(post("/api/v1/system/status")).andExpect(status().isForbidden()).andExpect(header().exists("X-Request-Id"));

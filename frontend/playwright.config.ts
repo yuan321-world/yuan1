@@ -9,13 +9,14 @@ export default defineConfig({
   use: {
     baseURL: `http://127.0.0.1:${port}`,
     browserName: 'chromium', headless: true,
-    trace: 'retain-on-failure', screenshot: 'only-on-failure',
+    trace: 'off', screenshot: 'off',
   },
   projects: [
     { name: 'desktop', use: { viewport: { width: 1440, height: 1000 } } },
     { name: 'mobile', use: { viewport: { width: 390, height: 844 } } },
   ],
-  webServer: {
+  // Explicit mode for a separately started, controlled preview (avoids Windows child cleanup stalls).
+  webServer: process.env.E2E_EXTERNAL_SERVER === '1' ? undefined : {
     command: preview ? `pnpm preview --port ${port}` : `pnpm dev --port ${port}`,
     url: `http://127.0.0.1:${port}`, reuseExistingServer: false,
   },

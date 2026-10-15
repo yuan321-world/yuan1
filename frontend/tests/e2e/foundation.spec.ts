@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test'
+import { mockIdentity, realAccount } from './identity-fixtures'
+test.beforeEach(async ({ page }, info) => { if (!info.title.startsWith('real backend')) await mockIdentity(page) })
 
 const statusPath = '**/api/v1/system/status'
 const ready = { status: 'UP', service: 'english-hero', database: 'UP' }
@@ -33,7 +35,9 @@ test('a 200 HTML fallback is displayed as unavailable', async ({ page }) => {
 })
 
 test('real backend readiness travels through Vite to MySQL', async ({ page }) => {
+  test.info().annotations.push({ type: 'scope', description: 'Real identity + database' })
   test.skip(process.env.E2E_REAL_BACKEND !== '1', 'Requires configured dedicated dev database and running Java backend; this is not a mocked test.')
+  await realAccount(page)
   const responsePromise = page.waitForResponse(response => new URL(response.url()).pathname === '/api/v1/system/status')
   await page.goto('/')
   const response = await responsePromise

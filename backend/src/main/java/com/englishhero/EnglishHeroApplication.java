@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration;
 
-// Phase 0 has no identities; keep the security chain without generating a demo user/password.
+// Identity is explicitly configured; never generate a fallback demo user/password.
 @SpringBootApplication(exclude = UserDetailsServiceAutoConfiguration.class)
 public class EnglishHeroApplication {
     public static void main(String[] args) {

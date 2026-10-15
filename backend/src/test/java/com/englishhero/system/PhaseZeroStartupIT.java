@@ -31,7 +31,8 @@ class PhaseZeroStartupIT {
     }
 
     @Test void fullApplicationUsesRealMetadataWithoutCreatingAnAutomaticIdentity() {
-        assertThat(context.getBeansOfType(UserDetailsService.class)).isEmpty();
+        assertThat(context.getBeansOfType(org.springframework.security.provisioning.InMemoryUserDetailsManager.class)).isEmpty();
+        assertThat(context.getBeansOfType(UserDetailsService.class)).hasSize(1);
         assertThat(status.getStatus()).isEqualTo(new SystemStatusResponse("UP", "english-hero", "UP"));
     }
 }

@@ -3,3 +3,6 @@ springdoc:
     enabled: false
   swagger-ui:
     enabled: false
+english-hero:
+  session:
+    secure: true

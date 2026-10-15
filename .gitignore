@@ -2,6 +2,7 @@
 !.env*.example
 backend/config/application-local.yml
 backend/config/application-test.yml
+backend/config/application-admin.yml
 node_modules/
 dist/
 target/

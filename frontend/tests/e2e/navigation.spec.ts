@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test'
+import { mockIdentity } from './identity-fixtures'
+test.beforeEach(async ({ page }) => { await mockIdentity(page) })
 
 const entries = [
   ['首页', '/', 'Lingua Loop'],
@@ -6,10 +8,10 @@ const entries = [
   ['外刊精读', '/reading', '外刊精读'],
   ['专项练习', '/practice', '专项练习'],
   ['学习统计', '/stats', '学习统计'],
-  ['登录', '/login', '登录与账号'],
+  ['账户', '/account', '账户设置'],
 ] as const
 
-test('all learner entries and the admin preview are reachable', async ({ page }, info) => {
+test('authenticated learner entries and authorized admin are reachable with Mock identity', async ({ page }, info) => {
   await page.goto('/')
   for (const [label, path, heading] of entries) {
     if (info.project.name === 'mobile') await page.getByRole('button', { name: '打开导航' }).click()
@@ -19,8 +21,8 @@ test('all learner entries and the admin preview are reachable', async ({ page },
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   }
   if (info.project.name === 'mobile') await page.getByRole('button', { name: '打开导航' }).click()
-  await page.getByRole('navigation', { name: '学习导航' }).getByRole('link', { name: '管理端预览' }).click()
-  await expect(page.getByRole('heading', { name: '管理端布局预览' })).toBeVisible()
+  await page.getByRole('navigation', { name: '学习导航' }).getByRole('link', { name: '管理端' }).click()
+  await expect(page.getByRole('heading', { name: '管理端', exact: true })).toBeVisible()
   await page.getByRole('link', { name: '返回学习端' }).click()
   await expect(page.getByRole('heading', { name: 'Lingua Loop' })).toBeVisible()
 })
@@ -38,6 +40,7 @@ test('direct route and refresh work; unknown addresses show 404', async ({ page 
 
 test('keyboard can reach navigation; Escape restores mobile menu focus', async ({ page }, info) => {
   await page.goto('/')
+  await expect(page.getByRole('heading', { name: 'Lingua Loop', exact: true })).toBeVisible()
   await page.keyboard.press('Tab')
   await expect(page.getByRole('link', { name: '跳到主要内容' })).toBeFocused()
   if (info.project.name === 'mobile') {

@@ -3,11 +3,17 @@ const API_PREFIX = '/api/v1/'
 
 export class ApiError extends Error {
   readonly status: number
+  readonly code?: string
+  readonly publicMessage?: string
+  readonly fieldErrors?: Record<string, string>
 
-  constructor(status: number) {
+  constructor(status: number, payload?: { code?: string; message?: string; fieldErrors?: Record<string, string> }) {
     super(`Request failed with HTTP status ${status}`)
     this.name = 'ApiError'
     this.status = status
+    this.code = payload?.code
+    this.publicMessage = payload?.message
+    this.fieldErrors = payload?.fieldErrors
   }
 }
 
@@ -88,7 +94,21 @@ export async function requestJson<T>(path: string, options: RequestInit = {}): P
       rejectOnAbort,
     ])
 
-    if (!response.ok) throw new ApiError(response.status)
+    if (!response.ok) {
+      let payload: { code?: string; message?: string; fieldErrors?: Record<string, string> } | undefined
+      try {
+        const data: unknown = await Promise.race([response.json(), rejectOnAbort])
+        if (data && typeof data === 'object') {
+          const p = data as Record<string, unknown>
+          payload = { code: typeof p.code === 'string' ? p.code : undefined, message: typeof p.message === 'string' ? p.message : undefined }
+          if (p.fieldErrors && typeof p.fieldErrors === 'object' && !Array.isArray(p.fieldErrors)) {
+            payload.fieldErrors = Object.fromEntries(Object.entries(p.fieldErrors).filter((entry): entry is [string, string] => typeof entry[1] === 'string'))
+          }
+        }
+      } catch { if (controller.signal.aborted) throw controller.signal.reason }
+      throw new ApiError(response.status, payload)
+    }
+    if (response.status === 204) return undefined as T
 
     const result = await Promise.race([
       Promise.resolve().then(() => response.json()),

@@ -51,9 +51,9 @@ class SchemaMigrationIT {
             }
             var tables = new ArrayList<String>();
             try (var result = statement.executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE()")) {
-                while (result.next()) tables.add(result.getString(1));
+                while (result.next()) tables.add(result.getString(1).toLowerCase(java.util.Locale.ROOT));
             }
-            assertThat(tables).containsExactlyInAnyOrder("system_metadata", "flyway_schema_history");
+            assertThat(tables).containsExactlyInAnyOrder("system_metadata", "flyway_schema_history", "identity_user", "identity_user_role", "spring_session", "spring_session_attributes");
         }
     }
 }
