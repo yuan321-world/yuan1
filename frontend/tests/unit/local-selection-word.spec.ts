@@ -1,0 +1,8 @@
+import {expect,it,vi,beforeEach} from 'vitest'
+import {lookupWord} from '../../src/api/dictionary'
+import {localSelectionWord} from '../../src/reading/local-selection-word'
+vi.mock('../../src/api/dictionary',()=>({lookupWord:vi.fn()}))
+beforeEach(()=>vi.clearAllMocks())
+it('uses dictionary Chinese meanings for the exact selected fragment',async()=>{vi.mocked(lookupWord).mockResolvedValue({found:true,candidates:[{entryId:'1',lemma:'look',phonetic:null,senses:[{partOfSpeech:'v.',definitionZh:'看',definitionEn:'see'}],sourceNote:'local',collection:null}]});expect(await localSelectionWord('look',new AbortController().signal)).toMatchObject({found:true,candidates:[{lemma:'look',senses:[{definitionZh:'看'}]}]});expect(lookupWord).toHaveBeenCalledWith('look',expect.any(AbortSignal))})
+it('falls through for missing words and entries without Chinese meanings',async()=>{vi.mocked(lookupWord).mockResolvedValue({found:false,candidates:[]});expect(await localSelectionWord('eli',new AbortController().signal)).toBeNull();vi.mocked(lookupWord).mockResolvedValue({found:true,candidates:[{entryId:'1',lemma:'eli',phonetic:null,senses:[{partOfSpeech:'n.',definitionZh:'',definitionEn:'name'}],sourceNote:'local',collection:null}]});expect(await localSelectionWord('eli',new AbortController().signal)).toBeNull()})
+it('does not query word dictionary for a phrase or hide transport errors',async()=>{expect(await localSelectionWord('look forward',new AbortController().signal)).toBeNull();expect(lookupWord).not.toHaveBeenCalled();vi.mocked(lookupWord).mockRejectedValue(new Error('offline'));await expect(localSelectionWord('look',new AbortController().signal)).rejects.toThrow('offline')})

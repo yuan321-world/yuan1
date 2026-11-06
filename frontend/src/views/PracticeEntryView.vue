@@ -1,0 +1,17 @@
+<script setup lang="ts">
+import {ref,computed,onMounted,onBeforeUnmount} from 'vue'
+import {useRoute,useRouter} from 'vue-router'
+import {practiceCatalog,practiceHistory,type Catalog,type Attempt} from '@/api/practice'
+import {useAuthStore} from '@/stores/auth'
+import {errorMessage} from '@/api/identity'
+import {getGeneration} from '@/auth/token-session'
+import '@/styles/practice.css'
+import PracticeLibraryView from './PracticeLibraryView.vue'
+import {libraryDestination} from '@/practice/library-memory'
+const route=useRoute(),router=useRouter(),source=computed(()=>route.query.source==='ORIGINAL'?'ORIGINAL':'PAST')
+function selectSource(value:string){void router.replace({path:'/practice',query:{source:value}})}
+const auth=useAuthStore(),catalog=ref<Catalog>(),saved=ref<Attempt>(),error=ref('');let disposed=false
+async function load(){const generation=getGeneration();error.value='';try{const c=await practiceCatalog();if(!disposed)catalog.value=c;if(auth.user){const h=await practiceHistory(new URLSearchParams({status:'IN_PROGRESS',page:'1',pageSize:'1'}));if(!disposed&&generation===getGeneration())saved.value=h.items[0]}}catch(e){if(!disposed)error.value=errorMessage(e)}}
+onMounted(load);onBeforeUnmount(()=>{disposed=true;saved.value=undefined})
+</script>
+<template><section class="practice-page practice-study-entry"><header class="practice-heading"><div><h1>专项练习</h1><p>真题按考试分类，原创题直接选择练习。</p></div></header><div class="practice-entry-modes"><div role="tablist" aria-label="题目来源"><button role="tab" :aria-selected="source==='PAST'" @click="selectSource('PAST')">真题训练</button><button role="tab" :aria-selected="source==='ORIGINAL'" @click="selectSource('ORIGINAL')">原创练习</button></div><button disabled title="后续仅为原创题接入AI生成能力">生成题目 <small>规划中</small></button></div><p class="practice-entry-description">{{source==='PAST'?'仅展示已校对发布的真实试题；未引入的分类显示为空。':'原创题可借助外部AI制作，当前由管理员录入、校对和发布；用户投稿后续开放。'}}</p><p v-if="auth.isAdmin&&source==='ORIGINAL'" class="practice-actions"><RouterLink to="/admin/practice/new">录入原创题目</RouterLink><RouterLink to="/admin/practice/import">导入题组草稿</RouterLink></p><p v-if="error" class="practice-notice practice-error" role="alert">{{error}}<button @click="load">重试</button></p><p v-if="source==='PAST'&&!catalog&&!error" role="status">正在加载考试分类…</p><PracticeLibraryView v-if="source==='ORIGINAL'" original/><div v-else-if="catalog" class="practice-family-grid"><RouterLink class="practice-family-card" :to="libraryDestination('/practice/cet',source)"><span class="practice-family-symbol" aria-hidden="true">CET</span><h2>大学英语</h2><p>四级 / 六级</p><small>{{catalog.exams.some(e=>e.code==='CET4'&&e.available)?'四级仔细阅读已开放 · 六级规划中':'当前暂无已开放题型'}}</small></RouterLink><RouterLink class="practice-family-card" :to="libraryDestination('/practice/postgraduate',source)"><span class="practice-family-symbol" aria-hidden="true">研</span><h2>考研英语</h2><p>英语一 / 英语二</p><small>查看分类 · 专项作答规划中</small></RouterLink><div class="practice-family-card practice-family-planned" aria-disabled="true"><span class="practice-family-symbol" aria-hidden="true">高</span><h2>高考英语</h2><p>全国卷 / 地方卷</p><small>未来分类 · 尚未开放</small></div></div><div v-if="saved" class="practice-notice"><p>有已保存的练习：{{saved.title}}</p><RouterLink class="button-primary" :to="'/practice/attempts/'+saved.id">继续上次练习</RouterLink></div><p class="practice-hint">题组标明原创或真实来源。客观题正确率仅供练习参考；写作和翻译提交后自行对照，不提供自动评分。</p></section></template>

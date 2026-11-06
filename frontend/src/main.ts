@@ -6,4 +6,7 @@ import './styles/tokens.css'
 import './styles/base.css'
 import './styles/approved-layout.css'
 import './styles/auth.css'
+import './styles/reading.css'
+import './styles/reading-library.css'
+import './styles/reading-detail.css'
 createApp(App).use(createPinia()).use(router).mount('#app')

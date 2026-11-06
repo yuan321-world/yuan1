@@ -1,0 +1,9 @@
+package com.englishhero.reading.translation;
+import org.springframework.stereotype.Component;import org.springframework.scheduling.annotation.*;import java.util.concurrent.*;import jakarta.annotation.PreDestroy;import com.englishhero.practice.review.*;
+@Component @EnableScheduling
+public class SelectionTranslationWorker {
+ private final BaiduTranslationClient baidu;private final SelectionTranslationJobs jobs;private final DeepSeekReviewClient client;private final PracticeReviewProperties config;private final Semaphore capacity=new Semaphore(1);private final ExecutorService executor=Executors.newSingleThreadExecutor(r->{var t=new Thread(r,"reading-selection-translation");t.setDaemon(true);return t;});
+ public SelectionTranslationWorker(SelectionTranslationJobs jobs,DeepSeekReviewClient client,PracticeReviewProperties config,BaiduTranslationClient baidu){this.baidu=baidu;this.jobs=jobs;this.client=client;this.config=config;}
+ @Scheduled(fixedDelay=700)public void tick(){if(!config.isWorkerEnabled()||!capacity.tryAcquire())return;boolean sent=false;try{jobs.recover();var next=jobs.claim();if(next.isEmpty())return;var j=next.get();executor.execute(()->{try{if("GRAMMAR".equals(j.mode()))jobs.complete(j,client.analyze(j.text()));else if(BaiduTranslationProperties.MODEL.equals(j.model()))jobs.completeBaidu(j,baidu.translate(j.text()));else jobs.fail(j,new DeepSeekReviewClient.Failure("UNAVAILABLE",null,null,true));}catch(BaiduTranslationClient.Failure e){jobs.failBaidu(j,e);}catch(DeepSeekReviewClient.Failure e){jobs.fail(j,e);}catch(Exception e){jobs.fail(j,new DeepSeekReviewClient.Failure("OUTCOME_UNKNOWN"));}finally{capacity.release();}});sent=true;}catch(Exception ignored){/* DB recovery retries; never log source text or keys. */}finally{if(!sent)capacity.release();}}
+ @PreDestroy void close(){executor.shutdownNow();}
+}

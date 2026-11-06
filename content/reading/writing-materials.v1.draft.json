@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_FOR_USER_REVIEW",
+  "note": "3条原创学习素材，待用户校对；未保存到数据库或发布。第9篇例句中的They指交接记录，第10篇例句为编辑改写。来源元数据不属于管理接口Input。",
+  "articles": [
+    {
+      "title": "A Library Card and an Empty Chair",
+      "titleZh": "一张借书卡与一把空椅子",
+      "articleId": "8",
+      "articleVersionId": "8",
+      "sourceBodySha256": "30d843e0bf2428c06ce2ae361991481abf3c5c21cb03df4c5c10d5f2805db415",
+      "sourceParagraph": 3,
+      "sourceQuote": "Sharing a space required attention to other people's needs as well as one's own.",
+      "exampleType": "原文例句",
+      "content": {
+        "expression": "... require(s) ... as well as ...",
+        "meaningZh": "……需要……，也需要……；用来说明应同时兼顾的两方面。",
+        "keyPhrases": [
+          "require attention to：需要关注……",
+          "as well as：以及；也",
+          "other people’s needs：他人的需求"
+        ],
+        "structure": "主语 + require(s) + 名词短语 + as well as + 名词短语。本句中attention to作用于两组需求，one’s own省略了needs。",
+        "exampleEn": "Sharing a space required attention to other people's needs as well as one's own.",
+        "exampleZh": "共享一个空间，需要关注他人的需求，也要顾及自己的需求。",
+        "scenarios": [
+          "公共空间使用",
+          "团队合作",
+          "讨论个人与集体需求"
+        ],
+        "sortOrder": 0
+      }
+    },
+    {
+      "title": "The Note That Helped the Next Shift",
+      "titleZh": "帮助下一班同事的一份记录",
+      "articleId": "9",
+      "articleVersionId": "9",
+      "sourceBodySha256": "0e5d7e6ca66f2a8562bd6325952f7b335618979448fb70cacee1940ddc2ac282",
+      "sourceParagraph": 6,
+      "sourceQuote": "They made conversations more specific and reduced repeated searches for basic information.",
+      "exampleType": "原文例句",
+      "content": {
+        "expression": "... make(s) ... more ... and reduce(s) ...",
+        "meaningZh": "……使……更加……，并减少……；用于说明一项做法带来的两种效果。",
+        "keyPhrases": [
+          "make conversations more specific：使交流更具体",
+          "reduce repeated searches：减少重复查找",
+          "basic information：基本信息"
+        ],
+        "structure": "主语 + make + 宾语 + more + 形容词 + and + reduce + 宾语。两个动词共用主语；原文用made/reduced表示过去发生的效果。",
+        "exampleEn": "They made conversations more specific and reduced repeated searches for basic information.",
+        "exampleZh": "这些记录让交流更加具体，也减少了对基本信息的重复查找。",
+        "scenarios": [
+          "工作交接",
+          "沟通效率",
+          "说明流程改进的效果"
+        ],
+        "sortOrder": 0
+      }
+    },
+    {
+      "title": "A Meeting with Time to Think",
+      "titleZh": "留出思考时间的会议",
+      "articleId": "10",
+      "articleVersionId": "10",
+      "sourceBodySha256": "9f0160801173a7d4c588135b80c8bd29909e2d3a8035a47dadbeae37f8d85c54",
+      "sourceParagraph": 6,
+      "sourceQuote": "It also depended on how people received information, prepared a response, and understood what would happen next.",
+      "exampleType": "依据原句改写的编辑例句（非原文逐字引用）",
+      "content": {
+        "expression": "... depend(s) on how ...",
+        "meaningZh": "……取决于人们如何……；可用于解释一个结果受到哪些过程因素影响。",
+        "keyPhrases": [
+          "depend on：取决于",
+          "prepare a response：准备回应",
+          "what will happen next：接下来会发生什么"
+        ],
+        "structure": "主语 + depend(s) on + how引导的宾语从句。how从句可包含共用主语的多个并列谓语，分别说明影响结果的因素。",
+        "exampleEn": "Effective participation depends on how people receive information, prepare a response, and understand what will happen next.",
+        "exampleZh": "有效参与取决于人们如何获取信息、准备回应，以及了解接下来的安排。",
+        "scenarios": [
+          "课堂讨论",
+          "会议组织",
+          "分析影响参与度的因素"
+        ],
+        "sortOrder": 0
+      }
+    }
+  ]
+}

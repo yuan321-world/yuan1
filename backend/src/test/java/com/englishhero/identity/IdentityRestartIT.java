@@ -14,13 +14,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import static org.assertj.core.api.Assertions.*;
 
 class IdentityRestartIT {
+    String access;
     HttpResponse<String> call(HttpClient client, int port, String method, String path, String body, String csrf) throws Exception {
         var request = HttpRequest.newBuilder(URI.create("http://127.0.0.1:" + port + "/api/v1" + path));
+        request.header("Origin","http://127.0.0.1:4174");
+        if(access!=null)request.header("Authorization","Bearer "+access);
         if (csrf != null) request.header("X-CSRF-TOKEN", csrf);
         if (body != null) request.header("Content-Type", "application/json");
-        return client.send(request.method(method, body == null ? HttpRequest.BodyPublishers.noBody() : HttpRequest.BodyPublishers.ofString(body)).build(), HttpResponse.BodyHandlers.ofString());
+        var result=client.send(request.method(method, body == null ? HttpRequest.BodyPublishers.noBody() : HttpRequest.BodyPublishers.ofString(body)).build(), HttpResponse.BodyHandlers.ofString());
+        if(result.statusCode()==200 && (path.equals("/auth/login")||path.equals("/auth/refresh")))access=JsonPath.read(result.body(),"$.accessToken");
+        return result;
     }
-    @Test void jdbcSessionSurvivesApplicationRestartAndIdleExpiryReallyDeniesAccess() throws Exception {
+    @Test void jwtAndRefreshSurviveApplicationRestartAndIdleExpiryReallyDeniesAccess() throws Exception {
         var yaml = new YamlPropertiesFactoryBean(); yaml.setResources(new FileSystemResource("./config/application-test.yml"));
         var p = Objects.requireNonNull(yaml.getObject()); var url = p.getProperty("spring.datasource.url", "");
         assertThat(url).matches("^jdbc:mysql://127\\.0\\.0\\.1:3306/english_hero_test(?:\\?.*)?$");
@@ -29,6 +34,7 @@ class IdentityRestartIT {
         properties.put("spring.datasource.url", url);
         properties.put("spring.datasource.username", p.getProperty("spring.datasource.username"));
         properties.put("spring.datasource.password", p.getProperty("spring.datasource.password"));
+        com.englishhero.identity.token.TokenTestSupport.properties().forEach((k,v)->properties.put(k.toString(),v));
         properties.put("server.port", "0");
         properties.put("english-hero.bootstrap.enabled", "false");
         // Builder defaults do not override application.yml; explicit in-memory PropertySource wins without secret CLI args.
@@ -49,8 +55,11 @@ class IdentityRestartIT {
             try (var context = new SpringApplicationBuilder(EnglishHeroApplication.class).initializers(initializer).run()) {
                 int port = ((WebServerApplicationContext) context).getWebServer().getPort();
                 assertThat(call(client, port, "GET", "/auth/me", null, null).statusCode()).isEqualTo(200);
-                var jdbc = context.getBean(JdbcTemplate.class);
-                jdbc.update("UPDATE SPRING_SESSION SET LAST_ACCESS_TIME=0,EXPIRY_TIME=0 WHERE PRINCIPAL_NAME=?", name);
+                String csrf=JsonPath.read(call(client,port,"GET","/auth/csrf",null,null).body(),"$.token");
+                assertThat(call(client,port,"POST","/auth/refresh",null,csrf).statusCode()).isEqualTo(200);
+                var verified=context.getBean(com.englishhero.identity.token.JwtService.class).verifySignatureAndClaims(access);
+                var repo=context.getBean(com.englishhero.identity.token.RedisFamilyRepository.class);
+                context.getBean(org.springframework.data.redis.core.StringRedisTemplate.class).opsForHash().put(repo.familyKey(verified.sid()),"lastSeen","0");
                 assertThat(call(client, port, "GET", "/auth/me", null, null).statusCode()).isEqualTo(401);
             }
         } finally {

@@ -13,7 +13,7 @@ export default defineConfig({
   },
   projects: [
     { name: 'desktop', use: { viewport: { width: 1440, height: 1000 } } },
-    { name: 'mobile', use: { viewport: { width: 390, height: 844 } } },
+    { name: 'mobile', use: { viewport: { width: 320, height: 844 } } },
   ],
   // Explicit mode for a separately started, controlled preview (avoids Windows child cleanup stalls).
   webServer: process.env.E2E_EXTERNAL_SERVER === '1' ? undefined : {

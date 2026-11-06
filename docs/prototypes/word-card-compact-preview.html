@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lingua Loop · 短卡片原型</title>
+<style>
+:root{--bg:#f5f5ed;--paper:#faf8ef;--ink:#273227;--green:#48623c;--muted:#606b5e;--line:#dce2d3;--soft:#e8efdf}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,sans-serif}
+main{width:min(660px,calc(100% - 28px));margin:18px auto}.top,.word,.actions{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+h1,h2,p{margin:0}h1{font-size:22px}h2{font:700 36px Georgia,serif}.muted,small{color:var(--muted);font-size:12px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:12px}
+progress{width:100%;height:6px;accent-color:var(--green);margin:6px 0 12px}.senses{margin:9px 0}.example{border-left:3px solid #a6ba94;padding:6px 10px;margin:10px 0;background:var(--soft)}
+button{font:inherit;color:inherit;cursor:pointer;padding:7px 11px;background:var(--paper);border:1px solid var(--line);border-radius:9px}button:focus-visible,summary:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.primary{background:var(--green);color:white;border-color:var(--green);font-weight:700}.actions{justify-content:flex-start;margin:12px 0 10px}.actions .primary{margin-left:auto}
+.more{border-top:1px solid var(--line);margin-top:8px;padding-top:6px}details{border-bottom:1px solid var(--line);padding:5px 0}summary{cursor:pointer;color:var(--green);padding:3px 0;font-size:13px}details p{padding:4px 0}
+.status{min-height:1.55em}.status:empty{min-height:0}.word aside{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.pronunciation{display:inline-flex;align-items:center;gap:5px;padding:4px 5px;border:0;background:transparent;font-size:13px}.pronunciation b,.pronunciation svg{color:var(--muted)}.pronunciation svg{width:15px;height:15px}.pronunciation:hover{background:var(--soft)}
+@media(max-width:420px){main{margin:12px auto}.card{padding:12px}.actions{gap:5px}.actions button{font-size:12px;padding:7px 8px}h2{font-size:31px}}
+</style>
+<main>
+  <header class="top"><div><p class="muted">Lingua Loop · 示例数据</p><h1>看词学习</h1></div><button id="reset">重试原型</button></header>
+  <section class="card" aria-label="当前单词">
+    <div class="top"><small id="count"></small><small>看词 · 手动下一词</small></div>
+    <progress id="progress" aria-label="本轮进度" max="3" value="1"></progress>
+    <div id="content"></div>
+    <div class="actions"><button id="collect" aria-pressed="false">加入生词本</button><button id="master" aria-pressed="false">标记熟练</button><button id="next" class="primary">下一个 →</button></div>
+    <p id="status" class="muted status" role="status"></p>
+    <div id="more" class="more"></div>
+  </section>
+</main>
+<script>
+const words=[
+ {word:'horizon',uk:'/həˈraɪ.zən/',us:'/həˈraɪ.zən/',senses:['n. 地平线','n. 眼界；范围','n. （地质）层位'],example:['The sun rose above the horizon.','太阳从地平线上升起。'],extra:['Travel can broaden your horizons.','旅行可以开阔眼界。'],phrase:['broaden your horizons','开阔眼界'],syn:'skyline / outlook'},
+ {word:'steady',uk:'/ˈsted.i/',us:'/ˈsted.i/',senses:['adj. 稳定的；持续的','v. 使平稳'],example:['She made steady progress.','她取得了稳步进展。'],extra:['Keep your hands steady.','双手保持平稳。'],phrase:['steady progress','稳步进展'],syn:'stable / consistent'},
+ {word:'reflect',uk:'/rɪˈflekt/',us:'/rɪˈflekt/',senses:['v. 反射；映出','v. 反映；体现','v. 仔细思考'],example:['The lake reflects the mountains.','湖水映出了群山。'],extra:['Take a moment to reflect on what you learned.','花一点时间回顾你学到的内容。'],phrase:['reflect on','反思；回顾'],syn:'mirror / consider'},
+];
+const $=id=>document.getElementById(id);
+const collected=new Set(), mastered=new Set(), phrases=new Set();
+let index=0;
+function pronunciation(region,label,ipa){
+ const speaker='<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h4l4-4v12l-4-4H4zM16 9a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12"/></svg>';
+ return '<button class="pronunciation" id="speak-'+region+'" aria-label="'+label+'"><b>'+region.toUpperCase()+'</b><span>'+ipa+'</span>'+speaker+'</button>';
+}
+function render(){
+ const entry=words[index];
+ $('count').textContent='第 '+(index+1)+' / '+words.length+' 词';
+ $('progress').value=index+1;
+ $('status').textContent='';
+ $('content').innerHTML='<div class="word"><h2 lang="en">'+entry.word+'</h2><aside>'+pronunciation('uk','英音',entry.uk)+pronunciation('us','美音',entry.us)+'</aside></div><div class="senses">'+entry.senses.slice(0,2).map(s=>'<p>'+s+'</p>').join('')+'</div><div class="example"><p lang="en">'+entry.example[0]+'</p><small>'+entry.example[1]+'</small></div>';
+ $('more').innerHTML=(entry.senses.length>2?'<details><summary>更多释义</summary><p>'+entry.senses.slice(2).join('；')+'</p></details>':'')+'<details><summary>更多例句</summary><p lang="en">'+entry.extra[0]+'</p><p>'+entry.extra[1]+'</p></details><details><summary>常用短语</summary><p><strong lang="en">'+entry.phrase[0]+'</strong> · '+entry.phrase[1]+'</p><button id="phrase"></button></details><details><summary>近义词</summary><p lang="en">'+entry.syn+'</p></details>';
+ for (const [id, locale, label] of [['speak-uk','en-GB','英音'],['speak-us','en-US','美音']]) {
+  $(id).onclick=()=>{
+   if(!window.speechSynthesis){$('status').textContent='当前浏览器暂不支持朗读。';return}
+   const audio=new SpeechSynthesisUtterance(entry.word);
+   audio.lang=locale;
+   const voice=window.speechSynthesis.getVoices().find(item=>item.lang.replace('_','-').toLowerCase()===locale.toLowerCase());
+   if(voice)audio.voice=voice;
+   window.speechSynthesis.cancel();
+   audio.onerror=event=>{if(!['canceled','interrupted'].includes(event.error))$('status').textContent=label+'暂不可用，可检查浏览器的英语语音设置。'};
+   window.speechSynthesis.speak(audio);
+  };
+ }
+
+ bindToggle('collect',collected,entry.word,'加入生词本','已加入生词本');
+ bindToggle('master',mastered,entry.word,'标记熟练','已标记熟练');
+ bindToggle('phrase',phrases,entry.word,'收藏词组','已收藏词组');
+ $('next').textContent=index===words.length-1?'完成本轮':'下一个 →';
+}
+function bindToggle(id,set,key,off,on){
+ const button=$(id);
+ function update(){button.textContent=set.has(key)?on:off;button.setAttribute('aria-pressed',set.has(key))}
+ update();
+ button.onclick=()=>{if(set.has(key))set.delete(key);else set.add(key);update();$('status').textContent=set.has(key)?on:'已取消'};
+}
+$('next').onclick=()=>{
+ if(index===words.length-1){$('content').innerHTML='<h2>本轮完成</h2><p>已查看 3 个示例单词。</p>';$('more').hidden=true;$('collect').hidden=true;$('master').hidden=true;$('next').hidden=true;$('status').textContent='';return}
+ index++;render();window.scrollTo(0,0);$('next').focus({preventScroll:true});
+};
+$('reset').onclick=()=>{index=0;for(const id of ['more','collect','master','next'])$(id).hidden=false;render()};
+render();
+</script>
+</html>

@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "1.1",
+  "editorialNotes": [
+    "All ten articles are original fictional learning scenarios.",
+    "Difficulty labels are editorial estimates, not official CEFR certification.",
+    "Keyword forms and selected dictionary senses were checked against each article.",
+    "Independent human language and visual acceptance are still pending."
+  ],
+  "articles": [
+    {
+      "title": "A Notebook That Makes Room for Tomorrow",
+      "keywords": [
+        {
+          "surface": "habit",
+          "lemma": "habit"
+        },
+        {
+          "surface": "routine",
+          "lemma": "routine"
+        },
+        {
+          "surface": "review",
+          "lemma": "review"
+        }
+      ]
+    },
+    {
+      "title": "The Question at the Back of the Classroom",
+      "keywords": [
+        {
+          "surface": "question",
+          "lemma": "question"
+        },
+        {
+          "surface": "evidence",
+          "lemma": "evidence"
+        },
+        {
+          "surface": "confidence",
+          "lemma": "confidence"
+        }
+      ]
+    },
+    {
+      "title": "Saturday at the Repair Table",
+      "keywords": [
+        {
+          "surface": "repair",
+          "lemma": "repair"
+        },
+        {
+          "surface": "borrow",
+          "lemma": "borrow"
+        },
+        {
+          "surface": "community",
+          "lemma": "community"
+        }
+      ]
+    },
+    {
+      "title": "A Different Route Home",
+      "keywords": [
+        {
+          "surface": "attention",
+          "lemma": "attention"
+        },
+        {
+          "surface": "route",
+          "lemma": "route"
+        },
+        {
+          "surface": "balance",
+          "lemma": "balance"
+        }
+      ]
+    },
+    {
+      "title": "Before You Press Allow",
+      "keywords": [
+        {
+          "surface": "privacy",
+          "lemma": "privacy"
+        },
+        {
+          "surface": "permission",
+          "lemma": "permission"
+        },
+        {
+          "surface": "verify",
+          "lemma": "verify"
+        }
+      ]
+    },
+    {
+      "title": "Choosing a Journey, Not Just a Vehicle",
+      "keywords": [
+        {
+          "surface": "energy",
+          "lemma": "energy"
+        },
+        {
+          "surface": "battery",
+          "lemma": "battery"
+        },
+        {
+          "surface": "efficient",
+          "lemma": "efficient"
+        }
+      ]
+    },
+    {
+      "title": "The Recipe with Three Different Endings",
+      "keywords": [
+        {
+          "surface": "tradition",
+          "lemma": "tradition"
+        },
+        {
+          "surface": "recipe",
+          "lemma": "recipe"
+        },
+        {
+          "surface": "memory",
+          "lemma": "memory"
+        }
+      ]
+    },
+    {
+      "title": "A Library Card and an Empty Chair",
+      "keywords": [
+        {
+          "surface": "library",
+          "lemma": "library"
+        },
+        {
+          "surface": "access",
+          "lemma": "access"
+        },
+        {
+          "surface": "volunteer",
+          "lemma": "volunteer"
+        }
+      ]
+    },
+    {
+      "title": "The Note That Helped the Next Shift",
+      "keywords": [
+        {
+          "surface": "handoff",
+          "lemma": "handoff"
+        },
+        {
+          "surface": "deadline",
+          "lemma": "deadline"
+        },
+        {
+          "surface": "responsibility",
+          "lemma": "responsibility"
+        }
+      ]
+    },
+    {
+      "title": "A Meeting with Time to Think",
+      "keywords": [
+        {
+          "surface": "agenda",
+          "lemma": "agenda"
+        },
+        {
+          "surface": "contribution",
+          "lemma": "contribution"
+        },
+        {
+          "surface": "summary",
+          "lemma": "summary"
+        }
+      ]
+    }
+  ]
+}

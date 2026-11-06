@@ -4,3 +4,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/english_hero_dev?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true&connectTimeout=3000&socketTimeout=3000
     username: english_hero_dev
     password: "REPLACE_LOCALLY"
+
+# 本项目已确认用于本地开发的 ECDICT 离线词典。关闭时不删除已导入词条，
+# 但会停用音标补全和短语补充；生产部署仍需单独确认数据许可。
+english-hero.dictionary.ecdict.enabled: true

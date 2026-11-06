@@ -1,0 +1,83 @@
+import {test,expect} from '@playwright/test'
+import {mockIdentity} from './identity-fixtures'
+
+test('reading uses compact separate entries and visible date filters; listening defaults to whole sets',async({page},info)=>{
+ await mockIdentity(page,true);const calls:string[]=[]
+ await page.route('**/api/v1/practice/sets?*',r=>{calls.push(r.request().url());return r.fulfill({json:{items:['DETAILED','CLOZE','MATCH'].map((type,i)=>({id:String(i+1),setVersionId:String(i+10),examCode:'CET4',readingType:type,questionCount:type==='DETAILED'?5:10,metadata:{title:'Test material '+(i+1),titleZh:['仔细阅读篇章（测试专用）','选词填空（测试专用）','长篇匹配（测试专用）'][i],sourceKind:'PAST',topic:'education',year:2024,month:6,paperNo:1,sourceName:'Mock fixture, not an imported exam',usageNote:'测试专用'},personalState:i===0?'IN_PROGRESS':null,currentAttemptId:i===0?'31':null})),page:1,pageSize:20,total:3}})})
+ await page.route('**/api/v1/practice/facets?*',r=>r.fulfill({json:{source:[{value:'PAST',count:3}],readingType:[],topic:[],state:[],year:[{value:'2024',count:3}],month:[{value:'6',count:3}],paperNo:[]}}))
+ await page.goto('/practice/cet?collection=PAST&source=PAST&exam=CET4');await expect(page.locator('.practice-set-row')).toHaveCount(3);await expect(page.locator('.practice-set-row').nth(0)).toContainText('仔细阅读篇章（测试专用）');await expect(page.locator('.practice-set-row').nth(1)).toContainText('选词填空');await expect(page.locator('.practice-set-row').nth(2)).toContainText('长篇匹配')
+ if(info.project.name==='desktop')expect((await page.locator('.practice-set-row').first().boundingBox())!.height).toBeLessThan(140)
+ if(info.project.name==='mobile')await page.getByRole('button',{name:'筛选题组',exact:true}).click()
+ await page.locator('summary').filter({hasText:'年份'}).filter({visible:true}).click();await page.locator('summary').filter({hasText:'月份'}).filter({visible:true}).click();await expect(page.getByRole('button',{name:'年份：2024年',exact:true}).filter({visible:true})).toBeVisible();await page.getByRole('button',{name:'月份：6月',exact:true}).filter({visible:true}).click();await expect.poll(()=>new URL(calls.at(-1)!).searchParams.get('month')).toBe('6');await expect(page.getByLabel('搜索题组')).toHaveCount(0);await page.getByLabel('题型筛选',{exact:true}).filter({visible:true}).selectOption('MATCH');await expect.poll(()=>new URL(calls.at(-1)!).searchParams.get('readingType')).toBe('MATCH')
+ if(info.project.name==='mobile')await page.getByRole('button',{name:'关闭筛选',exact:true}).click()
+ await page.getByRole('button',{name:'听力',exact:true}).click();await expect(page.getByLabel('题型筛选',{exact:true})).toHaveCount(0);await expect(page.getByText('整套听力包含该试卷的全部听力部分，进入后连续收听与作答。',{exact:true})).toBeVisible();expect(new URL(page.url()).searchParams.has('readingType')).toBe(false)
+ await expect(page.getByRole('button',{name:'单项训练',exact:true})).toHaveCount(0);await page.reload();await expect(page.getByLabel('题型筛选',{exact:true})).toHaveCount(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
+})
+
+test('legacy listening subtype links normalize to whole sets',async({page},info)=>{
+ await mockIdentity(page,true);await page.route('**/api/v1/practice/sets?*',r=>r.fulfill({json:{items:[],page:1,pageSize:20,total:0}}));await page.route('**/api/v1/practice/facets?*',r=>r.fulfill({json:{source:[],readingType:[],topic:[],state:[],year:[{value:'2024',count:3}],month:[{value:'6',count:3}],paperNo:[]}}))
+ await page.goto('/practice/cet?source=PAST&collection=PAST&section=listening&listeningType=NEWS&exam=CET4');await expect(page.getByLabel('题型筛选',{exact:true})).toHaveCount(0);await expect.poll(()=>new URL(page.url()).searchParams.has('listeningType')).toBe(false);expect(new URL(page.url()).searchParams.has('listeningMode')).toBe(false);await page.getByRole('button',{name:'阅读',exact:true}).click();expect(new URL(page.url()).searchParams.has('listeningMode')).toBe(false);expect(new URL(page.url()).searchParams.has('listeningType')).toBe(false)
+})
+
+
+test('admin practice filters retain scroll, mounted controls and result position during loading',async({page})=>{
+ await mockIdentity(page,false,true)
+ const items=Array.from({length:20},(_,i)=>({id:String(i+1),examCode:'CET4',readingType:'WRITING',status:'PUBLISHED',questions:[],metadata:{title:'Original fixture '+i,titleZh:'筛选稳定性测试',sourceKind:'ORIGINAL'}}))
+ let hold=false,release:(()=>void)|undefined
+ await page.route('**/api/v1/admin/practice/sets?*',async r=>{if(hold)await new Promise<void>(resolve=>release=resolve);await r.fulfill({json:{items,total:20,page:1,pageSize:20}})})
+ await page.goto('/admin/practice?source=ORIGINAL')
+ await expect(page.locator('.practice-table tbody tr')).toHaveCount(20)
+ const type=page.getByLabel('题型筛选',{exact:true})
+ await type.evaluate(el=>window.scrollTo(0,Math.max(50,el.getBoundingClientRect().top+scrollY-160)))
+ const result=page.locator('.practice-table-wrap:visible,.practice-mobile-cards:visible')
+ const before={scroll:await page.evaluate(()=>scrollY),top:await result.evaluate(el=>el.getBoundingClientRect().top)}
+ const originalInput=await page.getByLabel('搜索题组',{exact:true}).elementHandle()
+ hold=true;await type.selectOption('WRITING')
+ await expect.poll(()=>new URL(page.url()).searchParams.get('readingType')).toBe('WRITING')
+ await expect(page.getByText('正在加载题组…',{exact:true})).toBeVisible()
+ await page.evaluate(()=>new Promise<void>(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>r()))))
+ expect(Math.abs(await page.evaluate(()=>scrollY)-before.scroll)).toBeLessThan(1)
+ expect(Math.abs(await result.evaluate(el=>el.getBoundingClientRect().top)-before.top)).toBeLessThan(1)
+ expect(await originalInput!.evaluate(el=>el===document.querySelector('[aria-label="搜索题组"]'))).toBe(true)
+ hold=false;release!()
+ await expect(page.getByText('正在加载题组…',{exact:true})).toHaveCount(0)
+ expect(Math.abs(await page.evaluate(()=>scrollY)-before.scroll)).toBeLessThan(1)
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
+})
+
+
+test('admin empty results do not clamp scroll and source changes keep search button size',async({page},info)=>{
+ await mockIdentity(page,false,true)
+ const items=Array.from({length:20},(_,i)=>({id:String(i+1),examCode:'CET4',readingType:'WRITING',status:'PUBLISHED',questions:[],metadata:{title:'Original fixture '+i,titleZh:'筛选稳定性测试',sourceKind:'ORIGINAL'}}))
+ await page.route('**/api/v1/admin/practice/sets?*',r=>{const empty=new URL(r.request().url()).searchParams.get('readingType')==='TRANSLATION';return r.fulfill({json:{items:empty?[]:items,total:empty?0:20,page:1,pageSize:20}})})
+ await page.goto('/admin/practice?source=ORIGINAL')
+ await expect(page.locator('.practice-table tbody tr')).toHaveCount(20)
+ const search=page.getByRole('button',{name:'搜索',exact:true}),source=page.getByLabel('来源筛选',{exact:true})
+ const original=await search.boundingBox()
+ await source.selectOption('PAST');await expect(page.getByLabel('考试类别筛选',{exact:true})).toBeVisible()
+ const past=await search.boundingBox()
+ expect.soft(Math.abs(past!.width-original!.width)).toBeLessThan(1)
+ expect.soft(Math.abs(past!.height-original!.height)).toBeLessThan(1)
+ await source.selectOption('ORIGINAL');await expect(page.getByLabel('考试类别筛选',{exact:true})).toHaveCount(0)
+ const type=page.getByLabel('题型筛选',{exact:true})
+ await type.evaluate(el=>window.scrollTo(0,Math.max(50,el.getBoundingClientRect().top+scrollY-150)))
+ const before=await page.evaluate(()=>scrollY)
+ await type.selectOption('TRANSLATION');await expect(page.locator('.practice-empty')).toBeVisible()
+ await page.evaluate(()=>new Promise<void>(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>r()))))
+ expect(Math.abs(await page.evaluate(()=>scrollY)-before)).toBeLessThanOrEqual(1)
+ await source.selectOption('PAST');await expect(page.getByLabel('考试类别筛选',{exact:true})).toBeVisible()
+ await page.getByLabel('考试类别筛选',{exact:true}).selectOption('CET4')
+ await expect.poll(()=>new URL(page.url()).searchParams.get('exam')).toBe('CET4')
+ await page.getByLabel('发布状态筛选',{exact:true}).selectOption('PUBLISHED')
+ await expect.poll(()=>new URL(page.url()).searchParams.get('status')).toBe('PUBLISHED')
+ await page.getByLabel('题组排序',{exact:true}).selectOption('TITLE')
+ await expect.poll(()=>new URL(page.url()).searchParams.get('sort')).toBe('TITLE')
+ await page.getByLabel('搜索题组',{exact:true}).fill('fixture')
+ await search.click();await expect.poll(()=>new URL(page.url()).searchParams.get('q')).toBe('fixture')
+ expect(Math.abs(await page.evaluate(()=>scrollY)-before)).toBeLessThanOrEqual(1)
+ const finalSize=await search.boundingBox();expect(Math.abs(finalSize!.width-original!.width)).toBeLessThan(1);expect(Math.abs(finalSize!.height-original!.height)).toBeLessThan(1)
+ await page.screenshot({path:'../.tool-cache/practice-subjective-implementation/admin-filter-stable-'+info.project.name+'.png'})
+ await page.getByRole('button',{name:'清空筛选',exact:true}).click();await expect.poll(()=>new URL(page.url()).searchParams.has('source')).toBe(false)
+ expect(Math.abs(await page.evaluate(()=>scrollY)-before)).toBeLessThanOrEqual(1)
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
+})

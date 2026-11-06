@@ -1,0 +1,20 @@
+# Loopback SMTP collector ONLY. Import explicitly with the dedicated test database.
+# Never enable this configuration for development users or production.
+spring:
+  mail:
+    host: 127.0.0.1
+    port: 2525
+    properties:
+      mail:
+        smtp:
+          auth: false
+          ssl:
+            enable: false
+          connectiontimeout: 3000
+          timeout: 3000
+          writetimeout: 3000
+english-hero:
+  email:
+    enabled: true
+    from: integration@example.com
+    hmac-secret: ${ENGLISH_HERO_TEST_EMAIL_HMAC_SECRET:}

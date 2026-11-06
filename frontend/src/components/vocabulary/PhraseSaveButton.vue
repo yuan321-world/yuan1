@@ -1,0 +1,19 @@
+<script setup lang="ts">
+import {computed,nextTick,onBeforeUnmount,ref,watch,useId} from 'vue'
+import {useAuthStore} from '@/stores/auth'
+import {useAuthDialogStore} from '@/stores/auth-dialog'
+import {getGeneration} from '@/auth/token-session'
+import {createPhrase,type PhraseSourceInput} from '@/api/vocabulary-phrases'
+import {errorMessage} from '@/api/identity'
+const props=defineProps<{text:string;meaning?:string;source?:PhraseSourceInput;note?:string}>()
+const dialogTitleId=useId()
+const auth=useAuthStore(),authDialog=useAuthDialogStore(),dialog=ref<HTMLDialogElement>(),meaning=ref(''),busy=ref(false),error=ref(''),saved=ref(false)
+const eligible=computed(()=>props.text.length<=80&&/^[A-Za-z]+(?:['’\-][A-Za-z]+)*(?:\s+[A-Za-z]+(?:['’\-][A-Za-z]+)*){1,9}$/.test(props.text.trim()))
+let disposed=false,sequence=0,controller:AbortController|undefined
+async function open(){if(!auth.user){authDialog.request();return}meaning.value=props.meaning||'';error.value='';await nextTick();dialog.value?.showModal()}
+async function submit(){if(busy.value||!meaning.value.trim())return;const identity=getGeneration(),n=++sequence;controller=new AbortController();busy.value=true;error.value='';const text=props.text,source=props.source;const current=()=>!disposed&&n===sequence&&identity===getGeneration()&&text===props.text;try{await createPhrase({text,meaningZh:meaning.value.trim(),...(props.note?{note:props.note}:{}),...(source?{source}:{})},controller.signal,current);if(current()){saved.value=true;dialog.value?.close()}}catch(e){if(current()&&!(e instanceof DOMException&&e.name==='AbortError'))error.value=errorMessage(e)}finally{if(n===sequence)busy.value=false}}
+function reset(){sequence++;controller?.abort();busy.value=false;saved.value=false;error.value='';dialog.value?.close()}
+watch(()=>[props.text,auth.user?.id],reset);onBeforeUnmount(()=>{disposed=true;reset()})
+</script>
+<template><span v-if="eligible" class="phrase-save"><button type="button" class="button-secondary" :disabled="busy||saved" @click="open">{{saved?'已收藏词组':'收藏词组'}}</button><span v-if="saved" role="status" class="phrase-save-note">已保存到词组本</span><Teleport to="body"><dialog ref="dialog" class="phrase-save-dialog" :aria-labelledby="dialogTitleId" @cancel="busy&&$event.preventDefault()"><header><h2 :id="dialogTitleId">收藏词组</h2><button type="button" aria-label="关闭词组收藏" :disabled="busy" @click="dialog?.close()">×</button></header><p lang="en">{{text}}</p><p class="phrase-save-note">{{source?'会保留当前原句和来源。':'此次不附加文章定位。'}}收藏不会自动加入学习。</p><form @submit.prevent="submit"><label>中文释义<textarea v-model="meaning" maxlength="300" rows="3" required placeholder="填写你在这个语境中记下的意思" :disabled="busy"></textarea></label><p v-if="error" role="alert">{{error}}</p><button type="submit" class="button-secondary" :disabled="busy||!meaning.trim()">{{busy?'正在保存…':'保存到词组本'}}</button></form></dialog></Teleport></span></template>
+<style scoped>.phrase-save{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}.phrase-save-note{font-size:12px;color:#74796e;line-height:1.8}.phrase-save-dialog{width:min(500px,calc(100% - 28px));max-height:85dvh;overflow:auto;padding:28px;border:1px solid #e0e5d7;border-radius:20px;background:#fcfbf7;color:#293027}.phrase-save-dialog::backdrop{background:#26302055;backdrop-filter:blur(3px)}.phrase-save-dialog header{display:flex;justify-content:space-between;gap:15px;align-items:center}.phrase-save-dialog header h2{font-size:22px}.phrase-save-dialog header button{background:none;border:0;font-size:24px}.phrase-save-dialog>p[lang=en]{font:25px Georgia,serif;overflow-wrap:anywhere}.phrase-save-dialog textarea{display:block;width:100%;box-sizing:border-box;border:1px solid #dce2d2;border-radius:10px;padding:12px;font:inherit;margin:12px 0 20px;resize:vertical}.phrase-save-dialog form>p{font-size:13px;color:#994538}</style>

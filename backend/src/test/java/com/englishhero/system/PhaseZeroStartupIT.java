@@ -19,6 +19,7 @@ class PhaseZeroStartupIT {
 
     @DynamicPropertySource
     static void dedicatedTestDatabaseOnly(DynamicPropertyRegistry registry) {
+        com.englishhero.identity.token.TokenTestSupport.register(registry);
         var yaml = new YamlPropertiesFactoryBean();
         yaml.setResources(new FileSystemResource("./config/application-test.yml"));
         var properties = Objects.requireNonNull(yaml.getObject());

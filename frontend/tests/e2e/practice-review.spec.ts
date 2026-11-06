@@ -1,0 +1,43 @@
+import {test,expect} from '@playwright/test'
+import {mockIdentity} from './identity-fixtures'
+const attempt=(type='WRITING')=>({id:'91',setId:'9',setVersionId:'90',title:'AI批改原创夹具',readingType:type,prompt:{prompt:type==='WRITING'?'Propose a quiet study room.':'学校提供安静的学习室。',requirements:'Explain the benefit.',minWords:3,maxWords:180,minutes:30},answerText:'Students finds a quiet room useful.',wordCount:7,status:'COMPLETED',version:2,startedAt:'2026-10-26T00:00:00Z',updatedAt:'2026-10-26T00:01:00Z',completedAt:'2026-10-26T00:01:00Z',reference:'A reference expression.',notes:'Not the only answer.'})
+const record=(slot='WRITING')=>({id:'5',sourceType:'SUBJECTIVE',attemptId:'91',slot,status:'SUCCEEDED',errorCode:null,model:'deepseek-flash',promptVersion:'v1',rubricVersion:'learning-15-v1',createdAt:'2026-10-26T00:02:00Z',completedAt:'2026-10-26T00:02:10Z',submittedText:'Students finds a quiet room useful.',result:{score:11,summaryZh:'主谓一致需要修改',summaryEn:'Check subject–verb agreement.',dimensions:[{name:'内容',level:'GOOD'},{name:'结构',level:'GOOD'},{name:'语言',level:'IMPROVE'}],annotations:[{kind:'语法',severity:'ERROR',quote:'Students finds',occurrence:1,replacement:'Students find',reasonZh:'复数主语用find',reasonEn:'Use a plural verb.'}],omissions:[],revisedText:'Students find a quiet room useful.'}})
+test('consent, queue recovery, bilingual feedback and original reference remain separate',async({page},info)=>{
+ await mockIdentity(page);const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));let started=false,reads=0,calls=0
+ await page.route('**/api/v1/practice/subjective-attempts/91',r=>r.fulfill({json:attempt()}))
+ await page.route('**/api/v1/practice/subjective-reviews**',r=>{if(r.request().method()==='POST'){calls++;expect(r.request().postDataJSON()).toMatchObject({sourceType:'SUBJECTIVE',attemptId:'91',slot:'WRITING',consentVersion:'2026-10-26'});started=true;return r.fulfill({status:202,json:{...record(),status:'QUEUED',result:null}})}reads++;return r.fulfill({json:started?[reads>2?record():{...record(),status:'RUNNING',result:null}]:[]})})
+ await page.goto('/practice/subjective-attempts/91');const panel=page.getByTestId('ai-review-panel');await expect(panel).toBeVisible()
+ const toolbar=panel.locator('.subjective-tools-row');await expect(toolbar).toBeVisible();await expect(toolbar.getByRole('button',{name:'参考范文',exact:true})).toBeVisible();await expect(toolbar.getByRole('button',{name:'解析',exact:true})).toBeVisible();await expect(toolbar.getByText('我的作文 6 词',{exact:true})).toBeVisible()
+ await panel.getByRole('button',{name:'申请批改',exact:true}).click();await expect(panel.getByRole('button',{name:'确认申请批改'})).toBeDisabled();expect(calls).toBe(0)
+ await panel.getByLabel('我同意发送本次题目和作答').check();await panel.getByRole('button',{name:'确认申请批改'}).click();await expect(panel.getByText('复数主语用find',{exact:true})).toBeVisible({timeout:12000});expect(calls).toBe(1)
+ await expect(panel.getByText('Use a plural verb.',{exact:true})).toBeVisible();await panel.getByRole('button',{name:'当次原文'}).click();await expect(panel.locator('.review-fulltext')).toHaveText(attempt().answerText)
+ await panel.getByRole('button',{name:'参考修改稿'}).click();await expect(panel.locator('.review-fulltext')).toHaveText(record().result.revisedText)
+ await page.getByText('参考范文',{exact:true}).click();await expect(page.getByText('A reference expression.',{exact:true})).toBeVisible()
+ await page.reload();await expect(panel.getByRole('button',{name:'本次已批改'})).toBeDisabled();expect(calls).toBe(1)
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(errors).toEqual([])
+ await page.screenshot({path:`../.tool-cache/20261026-ai-review/${info.project.name}-writing.png`,fullPage:true})
+})
+test('translation displays safe text and failed attempts retain the original',async({page})=>{
+ await mockIdentity(page);let failed=true
+ await page.route('**/api/v1/practice/subjective-attempts/91',r=>r.fulfill({json:attempt('TRANSLATION')}))
+ await page.route('**/api/v1/practice/subjective-reviews**',r=>{if(r.request().method()==='POST'){failed=false;return r.fulfill({status:202,json:{...record('TRANSLATION'),result:{...record().result,summaryZh:'<img src=x onerror=alert(1)> 不作为HTML显示'}}})}return r.fulfill({json:[failed?{...record('TRANSLATION'),status:'FAILED',errorCode:'OUTCOME_UNKNOWN',result:null}:record('TRANSLATION')]})})
+ await page.goto('/practice/subjective-attempts/91');const panel=page.getByTestId('ai-review-panel');await expect(panel.getByRole('alert')).toContainText('再次计费');await panel.getByRole('button',{name:'重新申请批改'}).click();await panel.getByLabel('我同意发送本次题目和作答').check();await panel.getByRole('button',{name:'确认申请批改'}).click();await expect(panel.getByText('<img src=x onerror=alert(1)> 不作为HTML显示',{exact:true})).toBeVisible();await expect(panel.locator('img')).toHaveCount(0);await expect(page.getByLabel('英文译文',{exact:true})).toHaveValue(attempt().answerText)
+})
+test('drafts do not show a review request or send their text',async({page})=>{
+ await mockIdentity(page);let calls=0;await page.route('**/api/v1/practice/subjective-attempts/91',r=>r.fulfill({json:{...attempt(),status:'IN_PROGRESS'}}));await page.route('**/api/v1/practice/subjective-reviews**',r=>{calls++;return r.fulfill({json:[]})});await page.goto('/practice/subjective-attempts/91');await expect(page.getByTestId('ai-review-panel')).toHaveCount(0);expect(calls).toBe(0)
+})
+
+test('invalid feedback distinguishes settled usage, released quota and unknown cost without a score',async({page})=>{
+ await mockIdentity(page);await page.route('**/api/v1/practice/subjective-attempts/91',r=>r.fulfill({json:attempt()}));
+ let budgetStatus='SETTLED',amount=22000;await page.route('**/api/v1/practice/subjective-reviews**',r=>r.fulfill({json:[{...record(),status:'FAILED',errorCode:'INVALID_OUTPUT',result:null,budgetStatus,budgetAmountMicrocny:amount}]}));
+ await page.goto('/practice/subjective-attempts/91');const panel=page.getByTestId('ai-review-panel');await expect(panel.locator('.review-budget')).toContainText('按返回用量结算');await expect(panel.locator('.review-budget')).toContainText('¥0.0220');await expect(panel.locator('.review-score')).toHaveCount(0);
+ budgetStatus='RELEASED';amount=0;await page.reload();await expect(panel.locator('.review-budget')).toContainText('预留已释放');
+ budgetStatus='UNKNOWN';amount=333334;await page.reload();await expect(panel.locator('.review-budget')).toContainText('费用待确认');await expect(panel.locator('.review-budget')).toContainText('不表示已实际扣除');await expect(panel.locator('.review-score')).toHaveCount(0);
+})
+test('completed paper shares the feedback panel for writing and translation without changing the answer card',async({page},info)=>{
+ await mockIdentity(page);const components=['WRITING','TRANSLATION'].map(slot=>({slot,type:slot,title:slot,prompt:attempt(slot).prompt,text:attempt().answerText,wordCount:7,reference:'Paper reference '+slot,notes:'Paper comparison'}));
+ await page.route('**/api/v1/practice/paper-attempts/84',r=>r.fulfill({json:{id:'84',paperId:'8',paperVersionId:'80',title:'整卷批改原型夹具',sourceNote:'Original fixture',status:'COMPLETED',lockVersion:2,currentSlot:'WRITING',currentQuestionId:null,responses:components.map(c=>({slot:c.slot,text:c.text,choices:{}})),components,startedAt:'2026-10-26T00:00:00Z',completedAt:'2026-10-26T00:02:00Z'}}))
+ const scopes:string[]=[];await page.route('**/api/v1/practice/subjective-reviews?*',r=>{const q=new URL(r.request().url()).searchParams;scopes.push([q.get('sourceType'),q.get('attemptId'),q.get('slot')].join(':'));const slot=q.get('slot')!;return r.fulfill({json:[{...record(slot),sourceType:'PAPER',attemptId:'84',id:slot,result:{...record().result,score:slot==='WRITING'?11:10}}]})})
+ await page.goto('/practice/paper-attempts/84');await page.getByRole('button',{name:'查看作答与参考'}).click();const panels=page.getByTestId('ai-review-panel');await expect(panels).toHaveCount(2);await expect(panels.first().locator('.review-score strong')).toContainText('11');await expect(panels.last().locator('.review-score strong')).toContainText('10');expect(scopes).toEqual(expect.arrayContaining(['PAPER:84:WRITING','PAPER:84:TRANSLATION']));await expect(page.locator('.paper-answer-card')).toHaveCount(info.project.name==='desktop'?1:1);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
+ await panels.first().getByRole('button',{name:'参考修改稿',exact:true}).click();await page.getByLabel('英文译文',{exact:true}).focus();await expect(panels.first().locator('.review-fulltext')).toHaveText(record().result.revisedText)
+})

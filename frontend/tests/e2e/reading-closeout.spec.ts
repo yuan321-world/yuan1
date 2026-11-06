@@ -1,0 +1,28 @@
+import {test,expect} from '@playwright/test'
+import {mockIdentity} from './identity-fixtures'
+const week=(day:number)=>({today:`2026-10-${day}`,weekStart:day===19?'2026-10-19':'2026-10-12',days:Array.from({length:7},(_,i)=>({date:`2026-10-${(day===19?19:12)+i}`,checked:false})),todayChecked:false,totalDays:0,qualifiedArticles:0,completedReadings:0,completedAttempts:0})
+test('statistics automatically follow Shanghai midnight and returning focus without writing records',async({page})=>{
+ await page.clock.install({time:new Date('2026-10-18T15:59:55Z')});await mockIdentity(page);let calls=0;const writes:string[]=[]
+ page.on('request',r=>{if(r.url().includes('/api/v1/reading/')&&r.method()!=='GET')writes.push(r.url())})
+ await page.route('**/api/v1/reading/checkins/week',r=>r.fulfill({json:week(++calls===1?18:19)}));await page.goto('/stats');await expect(page.locator('[aria-current="date"] strong')).toHaveText('18');await page.clock.fastForward(31000);await expect(page.locator('[aria-current="date"] strong')).toHaveText('19');const count=calls;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await page.clock.fastForward(200);await expect.poll(()=>calls).toBe(count+1);expect(writes).toEqual([])
+})
+test('a failed visibility refresh shows local retry instead of claiming fresh statistics',async({page})=>{
+ await mockIdentity(page);let fail=false,calls=0
+ await page.route('**/api/v1/reading/checkins/week',r=>{calls++;return fail?r.fulfill({status:503,json:{code:'SERVICE_UNAVAILABLE',message:'统计刷新失败'}}):r.fulfill({json:week(18)})});await page.goto('/stats');await expect(page.locator('.checkin-day')).toHaveCount(7);fail=true;await page.evaluate(()=>{document.dispatchEvent(new Event('visibilitychange'));window.dispatchEvent(new Event('focus'))});await expect(page.getByRole('alert')).toContainText('统计刷新失败');expect(calls).toBe(2);fail=false;await page.getByRole('button',{name:'重试统计',exact:true}).click();await expect(page.locator('.checkin-day')).toHaveCount(7)
+})
+test('background statistics refresh keeps the displayed week while the new response is pending',async({page})=>{
+ await mockIdentity(page);let calls=0,release:(()=>void)|undefined
+ await page.route('**/api/v1/reading/checkins/week',async r=>{if(++calls>1)await new Promise<void>(resolve=>release=resolve);await r.fulfill({json:week(18)})});await page.goto('/stats');await expect(page.locator('.checkin-day')).toHaveCount(7);await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect.poll(()=>calls).toBe(2);await expect(page.locator('.checkin-day')).toHaveCount(7,{timeout:500});release?.();await expect(page.locator('.checkin-day')).toHaveCount(7)
+})
+const version={id:'10',articleId:'9',versionNo:1,title:'Small steps',titleZh:'小步积累',summary:'Learn.',difficulty:'B1',category:{id:'1',code:'STUDY',name:'学习'},wordCount:6,estimatedMinutes:1,author:'Lingua Loop',sourceType:'ORIGINAL',usageNote:'原创',content:{schemaVersion:1,paragraphs:[{key:'p0001',sentences:[{key:'p0001-s0001',text:'Small steps help us learn every day.'}]}]}}
+test('article checkin conditions reload when returning from another page',async({page})=>{
+ await mockIdentity(page);let completed=false
+ await page.route('**/api/v1/reading/articles/9/start',r=>r.fulfill({json:{version,created:false,progress:{id:'1',articleId:'9',articleVersionId:'10',sentenceKey:'p0001-s0001',offset:0,status:'READING',lockVersion:0}}}));await page.route('**/api/v1/reading/articles/9/versions/10/checkin',r=>r.fulfill({json:{readCompleted:completed,practiceCompleted:completed,hasQuiz:true,articleQualified:completed,qualifiedDate:completed?'2026-10-18':null,todayChecked:completed}}));await page.goto('/reading/9');await expect(page.locator('.reading-checkin-card')).toContainText('阅读待完成');completed=true;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('.reading-checkin-card')).toContainText('今日已打卡');await expect(page.getByRole('button',{name:'本篇生词',exact:true})).toBeVisible()
+})
+test('article management exposes additional links targeting the existing content version',async({page})=>{
+ if(page.viewportSize()!.width>600)await page.setViewportSize({width:720,height:900})
+ await mockIdentity(page,false,true);const article={id:'9',status:'PUBLISHED',draftVersionId:'11',publishedVersionId:'10',lockVersion:2,draft:{...version,title:'The Question at the Back of the Classroom'}};await page.route('**/api/v1/admin/articles/categories',r=>r.fulfill({json:[version.category]}));await page.route('**/api/v1/admin/articles?*',r=>r.fulfill({json:{items:[article],total:1,page:1,pageSize:20}}));await page.goto('/admin/articles');const row=page.locator('.admin-article-row');await expect(row.getByRole('link',{name:'管理题目',exact:true})).toHaveAttribute('href','/admin/articles/9/quiz?version=10');await expect(row.getByRole('link',{name:'写作素材',exact:true})).toHaveAttribute('href','/admin/articles/9/writing?version=10');await expect(row.getByRole('link',{name:'编辑草稿',exact:true})).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
+})
+test('homepage and standalone practice distinguish available article practice',async({page})=>{
+ await mockIdentity(page);await page.goto('/');await expect(page.locator('.approved-home')).toContainText('文章配套练习已开放');await page.goto('/practice');await expect(page.getByRole('main')).toContainText('文章配套练习已开放');await expect(page.getByRole('main')).toContainText('独立专项训练')
+})

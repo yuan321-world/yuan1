@@ -27,7 +27,7 @@ public class IdentityService {
         if (admin) mapper.role(user.id(), "ADMIN");
         return dto(user);
     }
-    public UserDto dto(IdentityUser user) { return new UserDto(Long.toString(user.id()), user.username(), user.displayName(), mapper.roles(user.id())); }
+    public UserDto dto(IdentityUser user) { return new UserDto(Long.toString(user.id()), user.username(), user.displayName(), mapper.roles(user.id()), user.email(), user.email() != null && user.emailVerifiedAt() != null); }
     public IdentityUser current(SessionPrincipal principal) {
         var user = mapper.byId(principal.userId());
         if (user == null || !user.enabled() || user.securityVersion() != principal.securityVersion())

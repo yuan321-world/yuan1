@@ -7,8 +7,7 @@ const entries = [
   ['背单词', '/vocabulary', '背单词'],
   ['外刊精读', '/reading', '外刊精读'],
   ['专项练习', '/practice', '专项练习'],
-  ['学习统计', '/stats', '学习统计'],
-  ['账户', '/account', '账户设置'],
+  ['留言墙', '/wall', '留言墙'],
 ] as const
 
 test('authenticated learner entries remain reachable with Mock USER identity', async ({ page }, info) => {
@@ -20,6 +19,10 @@ test('authenticated learner entries remain reachable with Mock USER identity', a
     await expect(page.getByRole('heading', { name: heading, exact: true })).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   }
+  await page.getByRole('button', { name: '用户菜单', exact: true }).click()
+  await page.getByRole('region', { name: '账户菜单' }).getByRole('link', { name: '账户设置' }).click()
+  await expect(page).toHaveURL('/account')
+  await expect(page.getByRole('heading', { name: '账户设置', exact: true })).toBeVisible()
   await expect(page.getByRole('link', { name: '管理端', exact: true })).toHaveCount(0)
 })
 

@@ -1,0 +1,22 @@
+# Generate stable, ignored local configuration with scripts/initialize-auth.ps1.
+# This template contains no credentials. Production must use Secure cookies,
+# a separate eh:prod:auth:vN namespace and explicitly allowed HTTPS origins.
+spring:
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6380
+      password: ${ENGLISH_HERO_REDIS_PASSWORD:}
+      connect-timeout: 2s
+      timeout: 2s
+english-hero:
+  auth:
+    namespace: eh:dev:auth:v1
+    issuer: lingua-loop
+    audience: lingua-loop-web
+    kid: local-dev-v1
+    private-key: ${ENGLISH_HERO_AUTH_PRIVATE_KEY:}
+    public-key: ${ENGLISH_HERO_AUTH_PUBLIC_KEY:}
+    hmac-secret: ${ENGLISH_HERO_AUTH_HMAC_SECRET:}
+    allowed-origins: http://127.0.0.1:4174,http://127.0.0.1:5173
+    secure: false

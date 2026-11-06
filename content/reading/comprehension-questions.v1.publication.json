@@ -1,0 +1,118 @@
+{
+  "recordedAt": "2026-10-18T20:24:32+08:00",
+  "reviewedContent": "comprehension-questions.v1.draft.json",
+  "reviewedContentSha256": "4a16cc47de1975b38cd852cbf49c9e1f57e5516731c50ce263f485e175139e92",
+  "note": "用户已确认每篇1题；通过现有管理API录入，保持原文章发布状态。公开文章2篇的题目已发布，8篇未公开文章的题目仅存草稿。本文件为发布记录，不是自动加载配置。",
+  "articles": [
+    {
+      "sourceIndex": 1,
+      "title": "A Notebook That Makes Room for Tomorrow",
+      "articleId": "1",
+      "versionId": "1",
+      "action": "SAVE_DRAFT",
+      "quizId": "1",
+      "quizStatus": "DRAFT",
+      "quizLockVersion": 1,
+      "publishedQuizVersionId": null
+    },
+    {
+      "sourceIndex": 2,
+      "title": "The Question at the Back of the Classroom",
+      "articleId": "2",
+      "versionId": "2",
+      "action": "SAVE_DRAFT",
+      "quizId": "2",
+      "quizStatus": "DRAFT",
+      "quizLockVersion": 1,
+      "publishedQuizVersionId": null
+    },
+    {
+      "sourceIndex": 3,
+      "title": "Saturday at the Repair Table",
+      "articleId": "3",
+      "versionId": "3",
+      "action": "SAVE_DRAFT",
+      "quizId": "3",
+      "quizStatus": "DRAFT",
+      "quizLockVersion": 1,
+      "publishedQuizVersionId": null
+    },
+    {
+      "sourceIndex": 4,
+      "title": "A Different Route Home",
+      "articleId": "4",
+      "versionId": "4",
+      "action": "SAVE_DRAFT",
+      "quizId": "4",
+      "quizStatus": "DRAFT",
+      "quizLockVersion": 1,
+      "publishedQuizVersionId": null
+    },
+    {
+      "sourceIndex": 5,
+      "title": "Before You Press Allow",
+      "articleId": "5",
+      "versionId": "5",
+      "action": "SAVE_DRAFT",
+      "quizId": "5",
+      "quizStatus": "DRAFT",
+      "quizLockVersion": 1,
+      "publishedQuizVersionId": null
+    },
+    {
+      "sourceIndex": 6,
+      "title": "Choosing a Journey, Not Just a Vehicle",
+      "articleId": "6",
+      "versionId": "6",
+      "action": "SAVE_DRAFT",
+      "quizId": "6",
+      "quizStatus": "DRAFT",
+      "quizLockVersion": 1,
+      "publishedQuizVersionId": null
+    },
+    {
+      "sourceIndex": 7,
+      "title": "The Recipe with Three Different Endings",
+      "articleId": "7",
+      "versionId": "7",
+      "action": "SAVE_DRAFT",
+      "quizId": "7",
+      "quizStatus": "DRAFT",
+      "quizLockVersion": 1,
+      "publishedQuizVersionId": null
+    },
+    {
+      "sourceIndex": 8,
+      "title": "A Library Card and an Empty Chair",
+      "articleId": "8",
+      "versionId": "8",
+      "action": "SAVE_DRAFT",
+      "quizId": "8",
+      "quizStatus": "DRAFT",
+      "quizLockVersion": 1,
+      "publishedQuizVersionId": null
+    },
+    {
+      "sourceIndex": 9,
+      "title": "The Note That Helped the Next Shift",
+      "articleId": "9",
+      "versionId": "9",
+      "action": "PUBLISH_QUIZ",
+      "quizId": "9",
+      "quizStatus": "PUBLISHED",
+      "quizLockVersion": 2,
+      "publishedQuizVersionId": "1"
+    },
+    {
+      "sourceIndex": 10,
+      "title": "A Meeting with Time to Think",
+      "articleId": "10",
+      "versionId": "10",
+      "action": "PUBLISH_QUIZ",
+      "quizId": "10",
+      "quizStatus": "PUBLISHED",
+      "quizLockVersion": 2,
+      "publishedQuizVersionId": "2"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "setId": "5",
+  "articleId": "15",
+  "articleVersionId": "16",
+  "audioAssetId": "1",
+  "status": "PUBLISHED",
+  "revision": 2,
+  "questionCount": 25,
+  "groups": 8,
+  "reviewedQuestionCount": 25,
+  "sourceReviewed": true,
+  "audioReviewed": true,
+  "publicReadingCount": 4,
+  "publicListeningCount": 0,
+  "existingFullAdminSetsUnchanged": 4,
+  "idempotentReplay": true,
+  "range206": true,
+  "scope": "LOCAL_PERSONAL_ONLY",
+  "officialAnswer": false,
+  "checkedOn": "2026-10-22",
+  "examCode": "CET4",
+  "readingType": "LISTENING",
+  "year": 2024,
+  "month": 6,
+  "paperNo": 1,
+  "paperNumberBasis": "SOURCE_LOCAL_LABEL_NOT_UNIVERSAL",
+  "publicationPermission": "NOT_ESTABLISHED",
+  "audioDurationSeconds": 1409.864,
+  "sources": [
+    {
+      "file": "nju.html",
+      "url": "https://eol.nju.edu.cn/cet4/papers/202406-1.html",
+      "bytes": 76733,
+      "sha256": "93cf412f77aab8f48c42f4808bc8e466959ebb643c2b778b0f24778308491a31"
+    },
+    {
+      "file": "eudic.html",
+      "url": "https://dict.eudic.net/Examination/cetexam?mediaid=ac5d35e3-b123-11ef-810c-005056866eda",
+      "bytes": 109851,
+      "sha256": "fb4af9098c43aec994d11baecac3f64719ecdd43dae23cb4523dc2d620d337af"
+    },
+    {
+      "file": "xdf.html",
+      "url": "https://cet4-6.xdf.cn/202406/13800971.html",
+      "bytes": 68791,
+      "sha256": "9a14ef71e36f84c69c98e8a94fca5f604da3de1d30c1173f21f0dd395a5ed063"
+    },
+    {
+      "file": "cet4-202406-1.mp3",
+      "url": "https://eol.nju.edu.cn/cet4/papers/2024%E5%B9%B406%E6%9C%88%E5%A4%A7%E5%AD%A6%E8%8B%B1%E8%AF%AD%E5%9B%9B%E7%BA%A7%E5%90%AC%E5%8A%9B%EF%BC%88%E7%AC%AC1%E5%A5%97%EF%BC%89.mp3",
+      "bytes": 22562096,
+      "sha256": "3138dd4a84c4d9cf6de184efd41f7a5bd4a91d1aec518ccaf5944bdecda8e649"
+    }
+  ],
+  "transcriptUrl": "https://cet4-6.xdf.cn/202406/13800971.html",
+  "referenceAnswerUrl": "https://dict.eudic.net/Examination/cetexam?mediaid=ac5d35e3-b123-11ef-810c-005056866eda",
+  "rejectedInferredAnswerPdf": true,
+  "referenceAnswerKey": "BACDDDDBDACCBDABCBCABDADC",
+  "unresolved": [
+    "This turn did not perform new full human word-for-word audio review; previously confirmed unchanged audio retained."
+  ],
+  "contentCache": ".tool-cache/practice-listening-source/",
+  "notes": "v2 published under user approval to complete proofreading and publish. Audio unchanged, no new AUDIO confirmation; old frozen version and other4sets unchanged.",
+  "audioReviewBasis": "INHERITED_EXISTING_USER_CONFIRMED_V1_UNCHANGED_AUDIO",
+  "questionReviewBasis": "AGENT_TEXT_SOURCE_COMPARISON",
+  "transcriptRevision": "AI_ASSISTED_TEXT_CLEANUP_NOT_OFFICIAL_VERBATIM",
+  "bodySha256": "856d15560aad561cba05f88d44a7e4b990eda81fa37e9bef6f212781ac6f31d4",
+  "concreteExplanations": 25,
+  "previousPublishedRevisionPreserved": 1,
+  "nameSpellingSource": "https://globalcoalitiononaging.com/wp-content/uploads/2019/04/merr9555_EarlyAdulthoodStudy_v05a_pages.pdf"
+}

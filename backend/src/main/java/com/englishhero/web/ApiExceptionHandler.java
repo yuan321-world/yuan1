@@ -15,7 +15,10 @@ public class ApiExceptionHandler {
     public record IdentityError(String code, String message, String traceId, java.util.Map<String, String> fieldErrors) {}
     @ExceptionHandler(com.englishhero.identity.IdentityException.class)
     public ResponseEntity<?> identity(com.englishhero.identity.IdentityException exception, HttpServletRequest request) {
-        return ResponseEntity.status(exception.status).header("Cache-Control", "no-store").body(new IdentityError(exception.code, exception.getMessage(),
+        var builder = ResponseEntity.status(exception.status).header("Cache-Control", "no-store");
+        if (exception instanceof com.englishhero.identity.email.RateLimitException limited)
+            builder.header("Retry-After", Long.toString(limited.retryAfter()));
+        return builder.body(new IdentityError(exception.code, exception.getMessage(),
             (String) request.getAttribute(RequestTraceFilter.TRACE_ATTRIBUTE), exception.fieldErrors));
     }
     @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)

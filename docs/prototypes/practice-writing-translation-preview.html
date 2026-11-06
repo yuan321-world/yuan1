@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>写作与翻译 · Lingua Loop 原型</title>
+<style>
+:root{--ink:#19191c;--muted:#77727e;--line:#e4dfe8;--paper:#fff;--bg:#f7f6f9;--pink:#f7e6ee;--accent:#a63459;--radius:16px;font-size:14px;font-family:Inter,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg);font-synthesis:none}
+*{box-sizing:border-box}body{margin:0}button,textarea{font:inherit;color:inherit}button{cursor:pointer}button:disabled{cursor:default;opacity:.45}button,a,textarea,summary{outline-offset:5px}button:focus-visible,a:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent)}[hidden]{display:none!important}button{border:1px solid var(--line);border-radius:11px;background:#fff;padding:9px 14px;min-height:38px}button:hover:not(:disabled){border-color:#c7b9c5}.primary{background:var(--ink);color:#fff;border-color:var(--ink)}.text-button{border:0;background:none;padding:8px;color:var(--muted)}.site-header{max-width:760px;margin:14px auto 0;padding:9px 15px;background:#ffffffed;border:1px solid var(--line);border-radius:40px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 5px 22px #241c2c06}.brand{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:750;text-decoration:none;color:inherit;white-space:nowrap}.logo{display:grid;place-items:center;width:28px;height:28px;background:var(--ink);color:white;border-radius:10px}.nav-title{font-size:12px;background:var(--pink);color:var(--accent);padding:8px 13px;border-radius:25px}.prototype{font-size:12px;color:var(--muted)}main{max-width:1180px;margin:24px auto 44px;padding:0 24px}.breadcrumb{font-size:12px;color:var(--muted);margin:0 0 12px}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:16px}h1{font-size:24px;letter-spacing:-.5px;margin:0 0 6px}h2{font-size:20px;line-height:1.5;margin:0}h3{font-size:14px;margin:0 0 14px}.subtitle{margin:0;color:var(--muted);line-height:1.65;font-size:13px}.mode-tabs{display:flex;gap:6px;border:1px solid var(--line);border-radius:30px;padding:4px;background:#fff;flex-shrink:0}.mode-tabs button{border:0;border-radius:25px;min-width:76px;padding:7px 15px}.mode-tabs [aria-selected=true]{background:var(--ink);color:#fff}.scope-note{font-size:12px;line-height:1.8;color:var(--muted);margin:0 0 14px}.workspace{display:flex;flex-direction:column;gap:16px}.workspace>.panel{width:100%}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;min-width:0}.prompt{border-left:3px solid #d99ab1;padding:16px 20px}.prompt-top{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:10px}.prompt-labels{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.tag{font-size:12px;color:var(--accent);background:var(--pink);padding:6px 10px;border-radius:7px}.subtle{font-size:12px;color:var(--muted)}.prompt h2{font-size:15px;margin:0}.english{font-family:Georgia,"Times New Roman",serif;font-size:16px;line-height:1.75;overflow-wrap:anywhere}.chinese{font-size:15px;line-height:1.9;letter-spacing:.1px;overflow-wrap:anywhere}.prompt-copy{margin:0 0 12px}.requirements{border-top:1px solid var(--line);padding-top:10px}.requirements summary{cursor:pointer;font-size:12px;color:var(--muted)}.requirements[open] summary{margin-bottom:12px}.requirements ul{padding-left:18px;margin:0;color:#625b69;line-height:1.9;font-size:13px}.requirements li+li{margin-top:5px}.hint-box{font-size:12px;line-height:1.9;margin:12px 0 0;color:var(--muted)}.editor-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.editor-top h2,.editor-top h2 label{font-size:16px;font-weight:650}.editor-word-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;font-size:12px;color:var(--muted)}.save-status{font-size:12px;color:var(--muted);line-height:1.7}.editor-surface{border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#fefeff}.editor-surface:focus-within{border-color:#cf9db2;box-shadow:0 0 0 3px #f7e6ee80}textarea{display:block;resize:vertical;width:100%;min-height:280px;max-height:680px;padding:16px;border:0;outline:none!important;background:transparent;font-family:Georgia,"Times New Roman",serif;font-size:16px;line-height:1.75;letter-spacing:0}textarea::placeholder{color:#aaa3af}textarea[readonly]{background:#faf9fc}.editor-meta{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid var(--line);padding:8px 12px;font-size:11px;line-height:1.8;color:var(--muted)}.word-count{font-variant-numeric:tabular-nums}.word-count strong{font-size:16px;color:var(--ink)}.word-count.warning,.word-count.warning strong{color:var(--accent)}.editor-actions{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:16px;flex-wrap:wrap}.action-group{display:flex;gap:10px;flex-wrap:wrap}.editor-footer{font-size:12px;color:var(--muted);line-height:1.7;margin:12px 0 0}.notice{border:1px solid #dfc4d2;background:#fdf3f7;border-radius:12px;padding:14px 17px;margin:0 0 18px;font-size:13px;line-height:1.8}.notice button{margin-left:6px;min-height:32px;padding:4px 10px;font-size:12px}.result-note{display:flex;align-items:start;justify-content:space-between;gap:12px}.result-note p{margin:0}.reference-panel{margin-top:26px}.reference-heading{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:20px}.reference-panel .english{white-space:pre-wrap;margin:0}.reference-notes{margin-top:22px;border-top:1px solid var(--line);padding-top:18px;color:#625b69;font-size:13px;line-height:1.9}.reference-notes p{margin:0}.reference-notes p+p{margin-top:8px}.page-footer{font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:24px;margin-top:26px}dialog{width:min(450px,calc(100vw - 32px));border:1px solid var(--line);border-radius:18px;padding:27px;box-shadow:0 22px 70px #221a2e26}dialog::backdrop{background:#211b2c50}dialog p{font-size:14px;line-height:1.9;color:#625b69;white-space:pre-line}dialog .action-group{justify-content:flex-end;margin-top:25px}.counter-note{overflow-wrap:anywhere}.submitted-badge{font-size:12px;color:var(--accent)}@media(max-width:850px){main{padding:0 22px;margin-top:24px}.workspace{gap:18px}.panel{padding:20px}.site-header{margin:14px 22px 0}textarea{padding:16px;min-height:260px}.heading{align-items:start}.prototype{display:none}}@media(max-width:650px){main{padding:0 16px;margin-top:20px}.site-header{margin:13px 16px 0;padding:10px 13px}.brand{font-size:15px}.nav-title{font-size:12px;padding:8px 12px}.heading{flex-direction:column;gap:16px}h1{font-size:24px}.workspace{gap:18px}.mode-tabs{width:100%}.mode-tabs button{flex:1}.panel{padding:18px 16px}.prompt-copy{font-size:16px}.requirements{padding-top:16px}.hint-box{margin-top:14px}.prompt-top{margin-bottom:17px}textarea{min-height:240px;font-size:16px}.editor-top{align-items:start}.editor-meta{align-items:start;gap:8px}.editor-word-meta{gap:4px;align-items:flex-end;flex-direction:column}.counter-note{max-width:160px;text-align:right}.editor-actions{gap:13px}.editor-actions button,.mode-tabs button{min-height:44px}.editor-actions>.primary{width:100%;order:-1}.editor-actions>.action-group{justify-content:space-between;width:100%}.result-note,.reference-heading{align-items:start;flex-direction:column}.reference-panel{margin-top:18px}.scope-note{margin-bottom:18px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="site-header"><a class="brand" href="#writing"><span class="logo">L</span>Lingua Loop</a><span class="nav-title">专项练习</span><span class="prototype">独立原型</span></header>
+<main>
+ <p class="breadcrumb">大学英语 / 四级 / <span id="breadcrumb-mode">写作</span></p>
+ <div class="heading"><div><h1 id="page-title">写作练习</h1><p class="subtitle" id="page-subtitle">把想法写清楚，再对照参考表达。</p></div><div class="mode-tabs" role="tablist" aria-label="练习类型"><button id="writing-tab" role="tab" aria-selected="true" aria-controls="practice-content" data-mode="writing">写作</button><button id="translation-tab" role="tab" aria-selected="false" aria-controls="practice-content" data-mode="translation" tabindex="-1">翻译</button></div></div>
+ <p class="scope-note">原创演示题，非四六级真题。草稿和本地提交仅保存在此浏览器，不计入正式学习记录。</p>
+ <div id="storage-warning" class="notice" role="alert" hidden>本地保存失败，内容仍在当前页面。请先复制备份，关闭页面可能丢失。<button id="retry-save">重试保存</button></div>
+ <div id="result-note" class="notice result-note" hidden><p><strong>本次已提交</strong><br><span id="submitted-time"></span> · 可对照参考内容自行检查，本次不评分。</p><span class="submitted-badge">参考已解锁</span></div>
+ <section id="practice-content" role="tabpanel" aria-labelledby="writing-tab">
+ <div class="workspace">
+  <section class="panel prompt" aria-label="练习题目"><div class="prompt-top"><h2 id="prompt-title"></h2><div class="prompt-labels"><span class="tag">原创演示</span><span class="subtle" id="prompt-meta"></span></div></div><p class="prompt-copy" id="prompt-text"></p><details class="requirements"><summary id="requirement-title">写作要求与提示</summary><ul id="requirements"></ul><p class="hint-box" id="prompt-hint"></p></details></section>
+  <section class="panel editor"><div class="editor-top"><h2><label for="answer" id="answer-label">我的作文</label></h2><div class="editor-word-meta"><span class="word-count" id="word-count"><strong>0</strong> 词</span><span class="counter-note" id="counter-note"></span></div></div><div class="editor-surface"><textarea id="answer" lang="en" maxlength="20000" spellcheck="true" placeholder="Write your answer here…" aria-describedby="word-count counter-note"></textarea><div class="editor-meta"><span class="save-status" id="save-status" role="status" aria-live="polite">尚未填写</span><span>仅在此浏览器保存</span></div></div><div class="editor-actions"><div class="action-group"><button id="save-draft">保存草稿</button><button id="clear-answer" class="text-button">清空作答</button></div><button id="submit-answer" class="primary" disabled>提交并查看参考</button><button id="edit-again" class="primary" hidden>继续修改</button></div><p class="editor-footer" id="editor-footer">输入后自动保存。提交后才能查看参考范文。</p></section>
+ </div>
+ <section id="reference-panel" class="panel reference-panel" aria-labelledby="reference-title" hidden><div class="reference-heading"><h2 id="reference-title">参考范文</h2><span class="subtle">一种表达思路，不是唯一答案</span></div><p id="reference-text" class="english" lang="en"></p><div class="reference-notes"><h3>对照检查</h3><div id="reference-notes"></div></div></section>
+ </section>
+ <footer class="page-footer">Lingua Loop · 一点积累，每天循环。</footer>
+</main>
+<dialog id="confirm-dialog" aria-labelledby="dialog-title"><h2 id="dialog-title"></h2><p id="dialog-text"></p><div class="action-group"><button id="dialog-cancel">返回修改</button><button id="dialog-confirm" class="primary">确认提交</button></div></dialog>
+<script>
+'use strict';
+const exercises={
+ writing:{label:'写作',title:'写作练习',subtitle:'把想法写清楚，再对照参考表达。',promptTitle:'A better place to study',meta:'建议 30 分钟 · 120–180 词',prompt:'Your university is collecting suggestions on how to improve shared study spaces. Write an essay proposing one practical change. Explain why it is needed and how students would benefit. You should write at least 120 words but no more than 180 words.',requirements:['提出一项具体、可实行的学习空间改善建议。','说明问题、给出理由，并解释对学生的帮助。','用英文完成，建议 120–180 词。'],hint:'先明确一个建议，再用具体例子支撑。无需面面俱到。',answerLabel:'我的作文',placeholder:'Start with the change you would like to make…',referenceTitle:'参考范文',reference:'Shared study spaces play an important role in university life. However, it is sometimes difficult to concentrate when group discussions take place beside students who are reading quietly. I suggest dividing our main study room into a quiet area and a discussion area.\n\nThis change would be practical because it would not require a new building or expensive equipment. Clear signs and a simple seating plan could help students choose the right place. Small groups could exchange ideas without worrying about disturbing others, while individual learners could enjoy a calmer environment.\n\nTo make the plan work, the university should invite students to help design the layout and review it after a month. Their feedback would show whether any adjustments are needed. A thoughtful arrangement of the space we already have could make studying more comfortable and productive for everyone.',notes:['结构：提出问题与建议，再解释可行性和收益，最后给出落实办法。','检查理由是否具体，段落之间是否连贯；可以使用不同于范文的建议。','参考文为本原型原创示例，不是官方范文，也不用于自动评分。']},
+ translation:{label:'翻译',title:'翻译练习',subtitle:'先完整表达意思，再打磨句子。',promptTitle:'社区里的步行活动',meta:'建议 15 分钟 · 汉译英',prompt:'近年来，越来越多的社区开始组织周末步行活动。居民们一起探索附近的街道、公园和历史建筑。这些活动不仅鼓励人们锻炼身体，也为邻里交流创造了机会。为了让更多人参与，一些社区提供不同长度的路线，并邀请志愿者介绍沿途的故事。对许多居民来说，步行已经成为了解家乡和结识朋友的一种简单方式。',requirements:['将上方中文材料完整译成英文。','注意逻辑关系和时态，避免遗漏或增加原文信息。','不设固定词数；以意思完整、表达自然为主。'],hint:'可以先梳理“活动内容—作用—组织方式—意义”，再调整英语句序。',answerLabel:'我的译文',placeholder:'Translate the passage into English…',referenceTitle:'参考译文',reference:'In recent years, more and more communities have begun organizing weekend walks. Residents explore nearby streets, parks and historic buildings together. These activities not only encourage people to exercise, but also create opportunities for neighbors to get to know one another. To encourage wider participation, some communities offer routes of different lengths and invite volunteers to share stories about places along the way. For many residents, walking has become a simple way to learn about their hometown and make new friends.',notes:['完整性：是否保留活动时间、地点、作用和组织方式等信息。','表达：“不仅……也……”和“为了……”的逻辑是否清楚；不必逐字照译。','参考译文为本原型原创示例，其他准确、自然的表达同样可以。']}
+};
+const $=id=>document.getElementById(id),key='lingua-loop:subjective-prototype:v1';
+const blank=()=>({text:'',submitted:false,submittedAt:null});
+let states={writing:blank(),translation:blank()},mode=location.hash==='#translation'?'translation':'writing',timer=null,dirty=false,storageFailed=false,dialogAction=null;
+function countWords(text){return (text.match(/[A-Za-z]+(?:['’‐‑-][A-Za-z]+)*/g)||[]).length}
+function persist(){
+ clearTimeout(timer);
+ try{localStorage.setItem(key,JSON.stringify(states));dirty=false;storageFailed=false;$('storage-warning').hidden=true;$('save-status').textContent=states[mode].text?'已保存到此浏览器':'空白草稿已保存';return true}
+ catch(e){dirty=true;storageFailed=true;$('storage-warning').hidden=false;$('save-status').textContent='保存失败，请复制备份';return false}
+}
+function load(){
+ try{
+  const raw=localStorage.getItem(key);if(!raw)return;
+  const saved=JSON.parse(raw);
+  for(const name of ['writing','translation']){
+   const item=saved?.[name];
+   if(item&&typeof item.text==='string'&&item.text.length<=20000){const date=typeof item.submittedAt==='string'&&!Number.isNaN(Date.parse(item.submittedAt))?item.submittedAt:null;states[name]={text:item.text,submitted:item.submitted===true&&!!date&&countWords(item.text)>0,submittedAt:date}}
+  }
+ }catch(e){storageFailed=true;$('storage-warning').hidden=false}
+}
+function updateCount(){
+ const n=countWords(states[mode].text),writing=mode==='writing',outside=writing&&(n<120||n>180);
+ $('word-count').innerHTML='<strong>'+n+'</strong> 词';$('word-count').classList.toggle('warning',n>0&&outside);
+ $('counter-note').textContent=writing?(n<120?'建议 120–180 词':n>180?'超过建议词数，可精简表达':'符合建议词数'):'词数仅供参考，不设固定限制';
+ $('submit-answer').disabled=n===0||states[mode].submitted;
+}
+function render(){
+ const data=exercises[mode],state=states[mode];
+ document.title=data.title+' · Lingua Loop 原型';
+ $('breadcrumb-mode').textContent=data.label;$('page-title').textContent=data.title;$('page-subtitle').textContent=data.subtitle;
+ document.querySelectorAll('[data-mode]').forEach(btn=>{const active=btn.dataset.mode===mode;btn.setAttribute('aria-selected',String(active));btn.tabIndex=active?0:-1});
+ $('practice-content').setAttribute('aria-labelledby',mode+'-tab');
+ $('prompt-meta').textContent=data.meta;$('prompt-title').textContent=data.promptTitle;$('prompt-text').textContent=data.prompt;$('prompt-text').className='prompt-copy '+(mode==='writing'?'english':'chinese');
+ $('requirement-title').textContent=data.label+'要求与提示';$('requirements').replaceChildren(...data.requirements.map(text=>{const li=document.createElement('li');li.textContent=text;return li}));
+ $('prompt-hint').textContent=data.hint;$('answer-label').textContent=data.answerLabel;$('answer').value=state.text;$('answer').placeholder=data.placeholder;$('answer').readOnly=state.submitted;
+ $('save-status').textContent=storageFailed?'保存失败，请复制备份':dirty?'有未保存内容':state.text?'已恢复此浏览器保存的内容':'尚未填写';
+ $('result-note').hidden=!state.submitted;$('submitted-time').textContent=state.submittedAt?'本地提交于 '+new Date(state.submittedAt).toLocaleString('zh-CN',{hour12:false}):'';
+ $('submit-answer').hidden=state.submitted;$('edit-again').hidden=!state.submitted;$('save-draft').hidden=state.submitted;$('clear-answer').hidden=state.submitted;
+ $('editor-footer').textContent=state.submitted?'可继续修改后再次提交；继续修改会收起参考内容。':'输入后自动保存。提交后才能查看'+data.referenceTitle+'。';
+ $('reference-panel').hidden=!state.submitted;$('reference-title').textContent=data.referenceTitle;
+ // Reference content is inserted only after the local submission.
+ $('reference-text').textContent=state.submitted?data.reference:'';
+ $('reference-notes').replaceChildren(...(state.submitted?data.notes:[]).map(text=>{const p=document.createElement('p');p.textContent=text;return p}));
+ updateCount();
+}
+function selectMode(next){
+ if(!exercises[next]||next===mode)return;
+ if(dirty)persist();mode=next;history.replaceState(null,'','#'+mode);render();
+}
+function ask(title,text,confirmLabel,action){
+ dialogAction=action;$('dialog-title').textContent=title;$('dialog-text').textContent=text;$('dialog-confirm').textContent=confirmLabel;$('confirm-dialog').showModal();$('dialog-cancel').focus();
+}
+load();render();
+document.querySelectorAll('[data-mode]').forEach(btn=>{
+ btn.addEventListener('click',()=>selectMode(btn.dataset.mode));
+ btn.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();const next=mode==='writing'?'translation':'writing';selectMode(next);$(next+'-tab').focus()}});
+});
+document.querySelector('.brand').addEventListener('click',event=>{event.preventDefault();selectMode('writing')});
+window.addEventListener('hashchange',()=>selectMode(location.hash==='#translation'?'translation':'writing'));
+$('answer').addEventListener('input',()=>{
+ if(states[mode].submitted)return;
+ states[mode].text=$('answer').value;dirty=true;$('save-status').textContent='正在保存…';updateCount();clearTimeout(timer);timer=setTimeout(persist,400);
+});
+$('save-draft').addEventListener('click',persist);$('retry-save').addEventListener('click',persist);
+$('clear-answer').addEventListener('click',()=>ask('清空当前作答？','只清空这道'+exercises[mode].label+'的内容，另一类草稿会保留。','确认清空',()=>{states[mode]=blank();persist();render();$('answer').focus()}));
+$('submit-answer').addEventListener('click',()=>{
+ if(countWords(states[mode].text)===0)return;
+ const n=countWords(states[mode].text),outside=mode==='writing'&&(n<120||n>180);
+ ask('提交这次'+exercises[mode].label+'？',(outside?'当前 '+n+' 词，不在建议的 120–180 词范围内。仍可提交查看参考。\n\n':'')+'提交后展示'+exercises[mode].referenceTitle+'，不生成分数。作答仅保存在此浏览器。','确认提交',()=>{states[mode].submitted=true;states[mode].submittedAt=new Date().toISOString();dirty=true;persist();render()});
+});
+$('edit-again').addEventListener('click',()=>{states[mode].submitted=false;states[mode].submittedAt=null;dirty=true;persist();render();$('answer').focus()});
+$('dialog-cancel').addEventListener('click',()=>{dialogAction=null;$('confirm-dialog').close()});
+$('confirm-dialog').addEventListener('cancel',()=>{dialogAction=null});
+$('dialog-confirm').addEventListener('click',()=>{const action=dialogAction;dialogAction=null;$('confirm-dialog').close();if(action)action()});
+window.addEventListener('beforeunload',event=>{if(dirty&&!persist()){event.preventDefault();event.returnValue=''}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&dirty)persist()});
+</script>
+</body>
+</html>

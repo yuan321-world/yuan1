@@ -1,9 +1,9 @@
 :root {
-  --bg:#f7f7f8; --surface:#fff; --surface-2:#fafafb; --surface-3:#f1f1f3;
-  --line:#e9e9ec; --line-strong:#d7d7dd;
-  --ink:#16171a; --ink-soft:#43464c; --muted:#6f747c;
-  --accent:#c0324f; --accent-dark:#9d2740; --accent-soft:#f8e5ea;
-  --accent-blur:rgba(224,122,152,.16);
+  --bg:#f5f5ed; --surface:#faf8ef; --surface-2:#f4f2e8; --surface-3:#eef1e7;
+  --line:#dce2d3; --line-strong:#ccd5c4;
+  --ink:#273227; --ink-soft:#42543d; --muted:#606b5e;
+  --accent:#48623c; --accent-dark:#354e2d; --accent-soft:#e8efdf;
+  --accent-blur:transparent;
   --ok:#128a55; --ok-soft:#e3f4ea; --warn:#9a6a12; --warn-soft:#fbf0d8;
   --r-sm:8px; --r-md:12px; --r-lg:20px; --r-pill:999px;
   --shadow-sm:0 1px 2px rgba(20,21,24,.04),0 6px 16px rgba(20,21,24,.04);

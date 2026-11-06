@@ -1,0 +1,11 @@
+<script setup lang="ts">
+import {ref,onMounted,computed} from 'vue'
+import {parseMatchBody} from '@/practice/match-material'
+import {bodyText} from '@/api/admin-articles'
+import type {ArticleVersion} from '@/api/admin-articles'
+import type {PracticeQuestionInput} from '@/api/practice'
+const props=defineProps<{article:ArticleVersion;questions:PracticeQuestionInput[];title:string;readingType?:string;wordBank?:string[]}>();const emit=defineEmits<{close:[]}>(),dialog=ref<HTMLDialogElement>(),answers=ref(false)
+const paragraphs=computed(()=>parseMatchBody(bodyText(props.article)).paragraphs)
+onMounted(()=>dialog.value?.showModal())
+</script>
+<template><dialog ref="dialog" class="practice-preview-dialog practice-page" @cancel.prevent="emit('close')"><header class="practice-actions"><h2>{{title}}</h2><button aria-label="关闭预览" @click="emit('close')">关闭</button></header><p class="practice-hint">管理员预览 · 正式学员交卷前不可查看答案解析</p><button @click="answers=!answers">{{answers?'隐藏答案解析':'管理员查看答案解析'}}</button><div class="practice-preview-columns"><article><h3>{{article.title}}</h3><p v-for="p in article.content.paragraphs" :key="p.key" lang="en">{{p.sentences.map(s=>s.text).join(' ')}}</p></article><section><div v-if="readingType==='CLOZE'" class="practice-notice"><strong>共享词库</strong><p>{{wordBank?.map((word,i)=>String.fromCharCode(65+i)+'. '+word).join(' · ')}}</p></div><article v-for="(q,i) in questions" :key="q.key" class="practice-preview-question"><h3>{{q.type==='CLOZE'?'第 '+q.stem+' 空':(q.type==='MATCH'?36+i:i+1)+'. '+(q.stem||'题干待填写')}}</h3><label v-for="(option,n) in q.options" :key="n" class="practice-preview-option"><input type="radio" :name="'preview-'+q.key">{{'ABCD'[n]}}. {{option||'选项待填写'}}</label><div v-if="q.type==='MATCH'" class="practice-question-nav"><label v-for="p in paragraphs" :key="p.letter" class="practice-preview-option"><input type="radio" :name="'preview-'+q.key">{{p.letter}} 段</label></div><p v-if="answers" class="practice-explanation">正确答案：{{q.correctOption?(q.correctOption+(q.type==='MATCH'?' 段':q.type==='CLOZE'?' · '+(wordBank?.['ABCDEFGHIJKLMNO'.indexOf(q.correctOption)]||'词语待填写'):'')):'未选择'}}<br>{{q.explanation||'缺解析'}}</p></article></section></div></dialog></template>

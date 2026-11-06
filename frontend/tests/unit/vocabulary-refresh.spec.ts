@@ -1,0 +1,6 @@
+import {afterEach,expect,it,vi} from 'vitest'
+import {mount} from '@vue/test-utils'
+import {defineComponent,h} from 'vue'
+import {useVocabularyRefresh} from '../../src/vocabulary/useVocabularyRefresh'
+afterEach(()=>{vi.useRealTimers();vi.restoreAllMocks()})
+it('coalesces return events and refreshes Shanghai midnight and a newly due time only once',async()=>{vi.useFakeTimers();vi.setSystemTime(new Date('2026-11-02T15:59:30Z'));vi.spyOn(document,'visibilityState','get').mockReturnValue('visible');let enabled=true;let due:string|null='2026-11-02T16:01:00Z';const refresh=vi.fn(async()=>true);const w=mount(defineComponent({setup(){useVocabularyRefresh(refresh,()=>enabled,()=>due);return()=>h('div')}}));window.dispatchEvent(new Event('focus'));document.dispatchEvent(new Event('visibilitychange'));await vi.advanceTimersByTimeAsync(100);expect(refresh).toHaveBeenCalledTimes(1);enabled=false;await vi.advanceTimersByTimeAsync(30000);expect(refresh).toHaveBeenCalledTimes(1);enabled=true;await vi.advanceTimersByTimeAsync(30000);expect(refresh).toHaveBeenCalledTimes(2);await vi.advanceTimersByTimeAsync(30000);expect(refresh).toHaveBeenCalledTimes(3);await vi.advanceTimersByTimeAsync(60000);expect(refresh).toHaveBeenCalledTimes(3);w.unmount();await vi.advanceTimersByTimeAsync(60000);expect(vi.getTimerCount()).toBe(0)})

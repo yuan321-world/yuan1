@@ -23,6 +23,11 @@ async function logout() {
       <p class="admin-caption">数据管理后台</p>
       <nav class="admin-menu" aria-label="管理导航">
         <RouterLink class="admin-menu-link" to="/admin">数据管理</RouterLink>
+        <RouterLink class="admin-menu-link" to="/admin/articles">文章管理</RouterLink>
+        <RouterLink class="admin-menu-link" to="/admin/practice">专项题组</RouterLink>
+        <RouterLink class="admin-menu-link" to="/admin/practice/papers">整卷管理</RouterLink>
+        <RouterLink class="admin-menu-link" to="/admin/wall">留言管理</RouterLink>
+        <RouterLink class="admin-menu-link" to="/admin/users">用户管理</RouterLink>
         <RouterLink class="admin-menu-link" to="/admin/account">账户设置</RouterLink>
         <button class="admin-menu-link text-button" :disabled="busy" @click="logout">{{ busy ? '正在退出…' : '退出登录' }}</button>
       </nav>
@@ -30,7 +35,7 @@ async function logout() {
     </aside>
     <main id="main-content" class="admin-content" tabindex="-1">
       <div class="admin-topline">Lingua Loop / 管理端</div>
-      <RouterView />
+      <RouterView :key="auth.user?.id ?? 'anonymous'" />
     </main>
   </div>
 </template>

@@ -1,12 +1,21 @@
 server:
   port: 8080
+english-hero:
+  practice:
+    ai:
+      enabled: false
+      api-key: ${DEEPSEEK_API_KEY:}
 spring:
+  servlet:
+    multipart:
+      max-file-size: 80MB
+      max-request-size: 81MB
   application:
     name: english-hero
   profiles:
     default: local
   config:
-    import: optional:file:./config/application-local.yml
+    import: optional:file:./config/application-local.yml,optional:file:./config/application-mail.yml,optional:file:./config/application-auth.yml,optional:file:./config/application-ai.yml,optional:file:./config/application-translation.yml
   datasource:
     url: ${ENGLISH_HERO_DB_URL:jdbc:mysql://127.0.0.1:3306/english_hero_dev?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true&connectTimeout=3000&socketTimeout=3000}
     username: ${ENGLISH_HERO_DB_USERNAME:english_hero_dev}
@@ -25,10 +34,6 @@ spring:
     time-zone: UTC
     deserialization:
       fail-on-unknown-properties: true
-  session:
-    timeout: 2h
-    jdbc:
-      initialize-schema: never
 springdoc:
   api-docs:
     enabled: false

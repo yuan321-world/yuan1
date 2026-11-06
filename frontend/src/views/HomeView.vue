@@ -1,26 +1,62 @@
 <script setup lang="ts">
-import SystemStatusBadge from '@/components/SystemStatusBadge.vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 import DailyQuote from '@/components/DailyQuote.vue'
-const modules = [
-  { glyph: 'Aa', name: '背单词', state: '学习与复习尚未开放' },
-  { glyph: '×', name: '错词本', state: '还没有学习记录' },
-  { glyph: '▣', name: '笔记本', state: '生词收藏尚未开放' },
-  { glyph: '▤', name: '外刊精读', state: '文章阅读尚未开放' },
-  { glyph: '◎', name: '分题型专练', state: '阅读训练尚未开放' },
-  { glyph: '✎', name: '留言墙', state: '暂未开放' },
+import FeatureIcon from '@/components/FeatureIcon.vue'
+import { RouterLink } from 'vue-router'
+import { readingRecommendation, type ArticleSummary } from '@/api/reading'
+const auth = useAuthStore()
+const recommended = ref<ArticleSummary | null>(null), recommendationError = ref('')
+let recommendationController: AbortController | undefined, generation = 0
+async function loadRecommendation() {
+  if (!auth.user) { generation++; recommendationController?.abort(); recommended.value = null; recommendationError.value = ''; return }
+  recommendationController?.abort(); recommendationController = new AbortController(); const current = ++generation
+  try { const result = await readingRecommendation(recommendationController.signal); if (current === generation) { recommended.value = result.article; recommendationError.value = '' } }
+  catch (e) { if (current === generation && !(e instanceof DOMException && e.name === 'AbortError')) recommendationError.value = '今日推荐暂不可用，可以先浏览文章列表。' }
+}
+const coreModules = [
+  { icon: 'vocabulary' as const, name: '背单词', state: '积累新词，循环复习', availability: '进入学习与复习 →', to: '/vocabulary' },
+  { icon: 'reading' as const, name: '外刊精读', state: '在语境中理解与积累', availability: '进入阅读 →', to: '/reading' },
+  { icon: 'practice' as const, name: '专项练习', state: '按题型练习，整卷检验', availability: '进入专项练习 →', to: '/practice' },
 ]
+const auxiliaryModules = [
+  { icon: 'mistakes' as const, name: '错词本', state: '还没有学习记录', to: null },
+  { icon: 'notes' as const, name: '笔记本', state: '收藏生词，回到原文', to: '/notebook' },
+  { icon: 'wall' as const, name: '留言墙', state: '分享心得，互相鼓励', to: '/wall' },
+]
+function currentDay() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date())
+}
+const today = ref(currentDay())
+function refreshDay() { const date = currentDay(); if (today.value !== date) { today.value = date; void loadRecommendation() } }
+watch(() => auth.user?.id, () => { void loadRecommendation() })
+let timer: ReturnType<typeof setInterval>
+onMounted(() => { void loadRecommendation(); timer = setInterval(refreshDay, 60000); document.addEventListener('visibilitychange', refreshDay) })
+onBeforeUnmount(() => { generation++; recommendationController?.abort(); clearInterval(timer); document.removeEventListener('visibilitychange', refreshDay) })
 </script>
 <template>
-<section class="approved-home">
-  <div class="home-brand"><h1>Lingua Loop</h1><p>智能英语学习平台<br><span>背单词、外刊精读、四六级刷题，三个模块共用一个生词队列</span></p></div>
-  <DailyQuote />
-  <div class="home-actions"><button class="button-primary" disabled>开始今天的复习</button><RouterLink class="button-secondary" to="/reading">读今天的文章</RouterLink></div>
-  <p class="home-status">学习记录将在账号与学习功能开放后显示</p>
-  <div class="home-modules"><div v-for="module in modules" :key="module.name" class="module-tile"><span class="module-glyph" aria-hidden="true">{{ module.glyph }}</span><h2>{{ module.name }}</h2><p>{{ module.state }}</p></div></div>
-  <div class="home-records">
-    <section class="today-plan"><h2>今日计划</h2><p>学习与复习开放后，在这里查看每天的任务。</p><span class="record-empty">暂无学习任务</span></section>
-    <section class="week-checkin"><h2>本周打卡</h2><p>完成学习后，记录每一天的积累。</p><div class="week-days" aria-label="暂无打卡记录"><span v-for="day in ['一','二','三','四','五','六','日']" :key="day">{{ day }}<b>·</b></span></div></section>
-  </div>
-  <aside class="connection-panel home-connection"><h2>开发连接状态</h2><SystemStatusBadge /></aside>
-</section>
+  <section class="approved-home">
+    <div class="home-brand">
+      <h1>Lingua Loop</h1>
+      <p>让每一次积累，都成为进步的起点。</p>
+      <span>单词积累 · 外刊阅读 · 专项练习</span>
+    </div>
+    <DailyQuote />
+    <div class="home-actions"><RouterLink class="button-primary" to="/vocabulary">开始今天的复习</RouterLink><RouterLink class="button-secondary" :to="recommended ? `/reading/${recommended.id}` : '/reading'">读今天的文章</RouterLink></div>
+    <p v-if="recommendationError" class="home-reading-notice" role="status">{{ recommendationError }}</p>
+    <div class="home-modules">
+      <div class="core-modules" role="group" aria-label="核心学习模块">
+        <component :is="module.to ? RouterLink : 'div'" v-for="module in coreModules" :key="module.name" :to="module.to ?? undefined" class="module-tile core-module" :class="{ 'module-link': module.to }">
+          <span class="module-glyph"><FeatureIcon :name="module.icon" /></span>
+          <h2>{{ module.name }}</h2><p>{{ module.state }}</p><span class="module-availability">{{ module.availability }}</span>
+        </component>
+      </div>
+      <div class="auxiliary-modules" role="group" aria-label="辅助学习模块">
+        <component :is="module.to ? RouterLink : 'div'" v-for="module in auxiliaryModules" :key="module.name" :to="module.to ?? undefined" class="module-tile auxiliary-module" :class="{ 'module-link': module.to }">
+          <span class="module-glyph"><FeatureIcon :name="module.icon" /></span><div><h2>{{ module.name }}</h2><p>{{ module.state }}</p></div>
+        </component>
+      </div>
+    </div>
+
+  </section>
 </template>

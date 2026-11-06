@@ -1,0 +1,22 @@
+# Copy this file to the ignored application-mail.yml; application.yml already imports it optionally.
+# Keep a stable random HMAC secret of at least 32 UTF-8 bytes across application restarts.
+spring:
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: ${ENGLISH_HERO_SMTP_USERNAME:}
+    password: ${ENGLISH_HERO_SMTP_AUTH_CODE:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+english-hero:
+  email:
+    enabled: true
+    from: ${ENGLISH_HERO_SMTP_USERNAME:}
+    hmac-secret: ${ENGLISH_HERO_EMAIL_HMAC_SECRET:}

@@ -19,7 +19,7 @@ test('admin lands in data management and keeps account settings within admin lay
   await page.route('**/api/v1/auth/csrf', route => route.fulfill({ json: { token: 'mock-csrf', headerName: 'X-CSRF-TOKEN' } }))
   await page.route('**/api/v1/auth/logout', route => route.fulfill({ status: 204 }))
   await page.getByRole('button', { name: '退出登录', exact: true }).click()
-  await expect(page).toHaveURL(/\/login$/)
+  await expect(page).toHaveURL(/\/$/)
 })
 test('ordinary user cannot open the admin screen', async ({ page }) => {
   await mockIdentity(page)

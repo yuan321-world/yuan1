@@ -4,5 +4,5 @@ springdoc:
   swagger-ui:
     enabled: false
 english-hero:
-  session:
+  auth:
     secure: true

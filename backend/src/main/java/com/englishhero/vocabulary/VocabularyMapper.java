@@ -1,0 +1,40 @@
+package com.englishhero.vocabulary;
+import java.util.*;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import com.englishhero.dictionary.DictionaryMapper;
+import static com.englishhero.vocabulary.VocabularyDtos.*;
+@Repository
+public class VocabularyMapper {
+    private final JdbcTemplate jdbc;private final DictionaryMapper dictionary;
+    public VocabularyMapper(JdbcTemplate jdbc,DictionaryMapper dictionary){this.jdbc=jdbc;this.dictionary=dictionary;}
+    public JdbcTemplate jdbc(){return jdbc;}
+    public LearningState learning(long actor,long entry){return jdbc.query("SELECT * FROM vocabulary_learning_word WHERE user_id=? AND entry_id=?",(r,n)->new LearningState(r.getString("id"),r.getBoolean("personal_enrolled"),r.getBoolean("active"),r.getInt("stage"),r.getTimestamp("due_at")==null?null:r.getTimestamp("due_at").toInstant(),r.getBoolean("proficient")),actor,entry).stream().findFirst().orElse(null);}
+    public List<CollectionOrigin> origins(long word){return jdbc.query("SELECT * FROM user_word_learning_origin WHERE word_id=? ORDER BY created_at DESC,id DESC",(r,n)->new CollectionOrigin(r.getString("id"),r.getString("source_kind"),r.getString("title"),r.getString("session_id"),r.getTimestamp("created_at").toInstant()),word);}
+    public long matchingCount(long actor,String query,String status){
+        String where=switch(status){case "UNJOINED"->"(lw.id IS NULL OR (lw.personal_enrolled=FALSE AND lw.stage=0))";case "LEARNING"->"lw.id IS NOT NULL AND (lw.personal_enrolled=TRUE OR lw.stage>0)";case "PROFICIENT"->"lw.proficient=TRUE";case "DIFFICULT"->"COALESCE(lw.difficulty_override,COALESCE((SELECT SUM(failed) FROM ranked WHERE wid=lw.id AND rn<=5),0)>=3)=TRUE";case "DUE"->"lw.active=TRUE AND lw.proficient=FALSE AND lw.stage>0 AND lw.due_at<=UTC_TIMESTAMP(6)";default->"TRUE";};
+        return jdbc.queryForObject((status.equals("DIFFICULT")?WordDifficultyService.ATTEMPTS:"")+"SELECT COUNT(*) FROM user_word w JOIN dictionary_entry d ON d.id=w.entry_id LEFT JOIN vocabulary_learning_word lw ON lw.user_id=w.user_id AND lw.entry_id=w.entry_id WHERE w.user_id=? AND w.active=TRUE AND "+where+" AND (?='' OR LOCATE(LOWER(?),LOWER(CONCAT(d.lemma,' ',CAST(d.senses AS CHAR))))>0)",Long.class,status.equals("DIFFICULT")?new Object[]{actor,actor,query,query}:new Object[]{actor,query,query});
+    }
+    public List<Long> matching(long actor,String query,String status,int page,int size){
+        String where=switch(status){case "UNJOINED"->"(lw.id IS NULL OR (lw.personal_enrolled=FALSE AND lw.stage=0))";case "LEARNING"->"lw.id IS NOT NULL AND (lw.personal_enrolled=TRUE OR lw.stage>0)";case "PROFICIENT"->"lw.proficient=TRUE";case "DIFFICULT"->"COALESCE(lw.difficulty_override,COALESCE((SELECT SUM(failed) FROM ranked WHERE wid=lw.id AND rn<=5),0)>=3)=TRUE";case "DUE"->"lw.active=TRUE AND lw.proficient=FALSE AND lw.stage>0 AND lw.due_at<=UTC_TIMESTAMP(6)";default->"TRUE";};
+        return jdbc.queryForList((status.equals("DIFFICULT")?WordDifficultyService.ATTEMPTS:"")+"SELECT w.id FROM user_word w JOIN dictionary_entry d ON d.id=w.entry_id LEFT JOIN vocabulary_learning_word lw ON lw.user_id=w.user_id AND lw.entry_id=w.entry_id WHERE w.user_id=? AND w.active=TRUE AND "+where+" AND (?='' OR LOCATE(LOWER(?),LOWER(CONCAT(d.lemma,' ',CAST(d.senses AS CHAR))))>0) ORDER BY w.updated_at DESC,w.id DESC LIMIT ? OFFSET ?",Long.class,status.equals("DIFFICULT")?new Object[]{actor,actor,query,query,size,(page-1)*size}:new Object[]{actor,query,query,size,(page-1)*size});
+    }
+    // Serialize writes of this user's collection, including absent rows on first collection.
+    public void lockOwner(long actor){jdbc.queryForObject("SELECT id FROM identity_user WHERE id=? FOR UPDATE",Long.class,actor);}
+    public WordDto word(long actor,long id){return word(actor,id,false);}
+    public WordDto wordCurrent(long actor,long id){return word(actor,id,true);}
+    private WordDto word(long actor,long id,boolean current){return jdbc.query("SELECT * FROM user_word WHERE user_id=? AND id=?"+(current?" FOR UPDATE":""),(r,n)->{var entry=dictionary.entry(r.getLong("entry_id"));return new WordDto(r.getString("id"),entry.entryId(),entry.lemma(),entry.phonetic(),entry.senses(),entry.sourceNote(),r.getBoolean("active"),r.getTimestamp("created_at").toInstant(),r.getTimestamp("updated_at").toInstant(),learning(actor,r.getLong("entry_id")));},actor,id).stream().findFirst().orElse(null);}
+    public Long wordId(long actor,long entry){return wordId(actor,entry,false);}
+    public Long wordIdCurrent(long actor,long entry){return wordId(actor,entry,true);}
+    private Long wordId(long actor,long entry,boolean current){return jdbc.queryForList("SELECT id FROM user_word WHERE user_id=? AND entry_id=?"+(current?" FOR UPDATE":""),Long.class,actor,entry).stream().findFirst().orElse(null);}
+    public void create(long actor,long entry){jdbc.update("INSERT INTO user_word(user_id,entry_id) VALUES(?,?)",actor,entry);}
+    public void active(long actor,long word,boolean value){jdbc.update("UPDATE user_word SET active=?,updated_at=UTC_TIMESTAMP(6) WHERE user_id=? AND id=?",value,actor,word);}
+    public void source(long word,long article,long version,String sentence,int start,int end,String surface,String text){jdbc.update("INSERT INTO user_word_source(word_id,article_id,article_version_id,sentence_key,start_offset,end_offset,surface_form,sentence_snapshot) VALUES(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id",word,article,version,sentence,start,end,surface,text);}
+    public List<WordDto> list(long actor,int page,int size){return jdbc.queryForList("SELECT id FROM user_word WHERE user_id=? AND active=TRUE ORDER BY updated_at DESC,id DESC LIMIT ? OFFSET ?",Long.class,actor,size,(page-1)*size).stream().map(id->word(actor,id)).toList();}
+    public long count(long actor){return jdbc.queryForObject("SELECT COUNT(*) FROM user_word WHERE user_id=? AND active=TRUE",Long.class,actor);}
+    public List<SourceDto> sources(long word,int page,int size){return jdbc.query("SELECT s.*,v.title FROM user_word_source s JOIN reading_article_version v ON v.id=s.article_version_id AND v.article_id=s.article_id WHERE s.word_id=? ORDER BY s.created_at DESC,s.id DESC LIMIT ? OFFSET ?",(r,n)->new SourceDto(r.getString("id"),r.getString("article_id"),r.getString("article_version_id"),r.getString("title"),r.getString("sentence_key"),r.getInt("start_offset"),r.getInt("end_offset"),r.getString("surface_form"),r.getString("sentence_snapshot"),r.getTimestamp("created_at").toInstant()),word,size,(page-1)*size);}
+    public long sourceCount(long word){return jdbc.queryForObject("SELECT COUNT(*) FROM user_word_source WHERE word_id=?",Long.class,word);}
+    public List<WordDto> forVersion(long actor,long version,int page,int size){return jdbc.queryForList("SELECT w.id FROM user_word w WHERE w.user_id=? AND w.active=TRUE AND EXISTS(SELECT 1 FROM user_word_source s WHERE s.word_id=w.id AND s.article_version_id=?) ORDER BY w.updated_at DESC,w.id DESC LIMIT ? OFFSET ?",Long.class,actor,version,size,(page-1)*size).stream().map(id->word(actor,id)).toList();}
+    public long versionCount(long actor,long version){return jdbc.queryForObject("SELECT COUNT(*) FROM user_word w WHERE w.user_id=? AND w.active=TRUE AND EXISTS(SELECT 1 FROM user_word_source s WHERE s.word_id=w.id AND s.article_version_id=?)",Long.class,actor,version);}
+    public SourceDto versionSource(long word,long version){return jdbc.query("SELECT s.*,v.title FROM user_word_source s JOIN reading_article_version v ON v.id=s.article_version_id WHERE s.word_id=? AND s.article_version_id=? ORDER BY s.id LIMIT 1",(r,n)->new SourceDto(r.getString("id"),r.getString("article_id"),r.getString("article_version_id"),r.getString("title"),r.getString("sentence_key"),r.getInt("start_offset"),r.getInt("end_offset"),r.getString("surface_form"),r.getString("sentence_snapshot"),r.getTimestamp("created_at").toInstant()),word,version).stream().findFirst().orElse(null);}
+}

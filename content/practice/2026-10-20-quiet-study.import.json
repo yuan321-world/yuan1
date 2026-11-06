@@ -1,0 +1,91 @@
+{
+  "examCode": "CET4",
+  "readingType": "DETAILED",
+  "metadata": {
+    "title": "Making Room for Quiet on Campus · Original Practice 01",
+    "titleZh": "校园安静自习空间 · 原创练习01",
+    "sourceKind": "ORIGINAL",
+    "topic": "education",
+    "year": null,
+    "month": null,
+    "paperNo": null,
+    "sourceName": "Lingua Loop · AI辅助原创",
+    "sourceUrl": null,
+    "usageNote": "AI辅助原创四级仔细阅读练习，一篇虚构校园材料配5题。非真题，无真实考试年份或套次；材料情节不代表真实研究结论。答案与解析经本轮自动及文本自查，仍待人工逐题校对。"
+  },
+  "questions": [
+    {
+      "key": "quiet-study-q1",
+      "type": "DETAIL",
+      "stem": "Why did the committee change its original plan for the library?",
+      "options": [
+        "The library could not afford to provide more quiet signs.",
+        "Some students needed places where they could discuss their work.",
+        "The courtyard already had enough seats for all library users.",
+        "Most students preferred studying in the cafe to using the library."
+      ],
+      "correctOption": "B",
+      "explanation": "答案：B。第2段说明，部分学生认为出声讨论难题是学习的重要部分，因此委员会没有到处限制交谈，而是另设安静房间。原文依据：Some students explained that discussing a difficult problem aloud was an important part of their work. A的标牌经费问题未提及；C把庭院旁的闲置房间偷换为庭院已有充足座位；D把部分空间的描述扩大为多数学生的偏好。",
+      "sortOrder": 0
+    },
+    {
+      "key": "quiet-study-q2",
+      "type": "VOCABULARY",
+      "stem": "The word \"modest\" in paragraph 4 most nearly means _____.",
+      "options": [
+        "unexpected and difficult to explain",
+        "complete and unlikely to change",
+        "unsuccessful and not worth continuing",
+        "limited in scale rather than dramatic"
+      ],
+      "correctOption": "D",
+      "explanation": "答案：D。modest在此修饰beginning，后接rather than proof of a dramatic improvement in learning，表示这是规模有限、尚不能夸大学习效果的开端。原文依据：The committee called this a modest beginning, rather than proof of a dramatic improvement in learning. A的意外或难以解释、B的彻底稳定、C的失败及不值得继续均不符合上下文；第5段建议继续开放也排除C。",
+      "sortOrder": 1
+    },
+    {
+      "key": "quiet-study-q3",
+      "type": "INFERENCE",
+      "stem": "What can be inferred from the committee's discussion of the trial results?",
+      "options": [
+        "The approaching exams had no influence on use of the room.",
+        "Students' comments were enough to prove that their memory improved.",
+        "Increased visits alone did not establish that learning had improved.",
+        "Wet weather was shown to be the main cause of the increase in visits."
+      ],
+      "correctOption": "C",
+      "explanation": "答案：C。第4段只报告到访次数和意见，未测试记忆效果，并提出临近考试、下雨等可能影响使用量的因素，因此无法仅凭到访增加就断定学习提高。原文依据：The trial had measured visits and collected opinions, not tested whether students remembered more of what they read. A把可能有影响说成完全无影响；B把主观意见当作记忆改善的证明；D把might所表达的可能原因升级为已证实的主要原因。",
+      "sortOrder": 2
+    },
+    {
+      "key": "quiet-study-q4",
+      "type": "ATTITUDE",
+      "stem": "What is the author's attitude towards providing quiet study spaces?",
+      "options": [
+        "Supportive, while recognising the value of other study settings.",
+        "Enthusiastic, because silence is the best condition for every student.",
+        "Doubtful, because quiet rooms cannot serve any useful purpose.",
+        "Indifferent, since arranging study spaces is of little importance."
+      ],
+      "correctOption": "A",
+      "explanation": "答案：A。全文呈现安静空间的价值，同时强调讨论及小组学习仍应得到支持，作者态度是支持而不绝对化。原文依据（第5段）：A campus could support independent reading without treating conversation as the enemy of learning. B把一种有用选择说成对所有人最佳；C否认安静空间作用；D声称空间安排不重要，均与全文不符。",
+      "sortOrder": 3
+    },
+    {
+      "key": "quiet-study-q5",
+      "type": "MAIN_IDEA",
+      "stem": "What is the main message of the passage?",
+      "options": [
+        "Universities should replace group-work areas with silent reading rooms.",
+        "Providing different study settings can meet different learning needs.",
+        "Expensive equipment is essential to the success of a new study space.",
+        "Counting visits is the best way to measure how much students learn."
+      ],
+      "correctOption": "B",
+      "explanation": "答案：B。第1段提出不同空间需求，第2—4段叙述试行和评价，第5段概括应为不同学习方式提供选择。原文依据：The aim was to make different kinds of study easier to arrange, not to declare one method best for everyone. A与保留group-work areas矛盾；C与no special equipment矛盾；D与第4段对到访量证据局限的说明矛盾。",
+      "sortOrder": 4
+    }
+  ],
+  "articleId": "11",
+  "articleVersionId": "11",
+  "requestId": "content-20261020-quiet-study-001"
+}

@@ -19,6 +19,8 @@ class SystemStatusControllerTest {
     @MockitoBean SystemStatusService service;
     @MockitoBean com.englishhero.identity.IdentityMapper identities;
     @MockitoBean com.englishhero.identity.IdentityService identityService;
+    @MockitoBean com.englishhero.identity.token.TokenAuthenticationService tokenService;
+    @MockitoBean com.englishhero.identity.token.AuthProperties authProperties;
 
 
     @Test void statusIsPublicAndMatchesContract() throws Exception {

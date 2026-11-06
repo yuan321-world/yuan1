@@ -1,0 +1,4582 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "1.1",
+  "sourceNote": "Lingua Loop 原创编辑释义；学习用途，非权威词典。音标暂缺，避免未经校对的标注。",
+  "entries": [
+    {
+      "lemma": "study",
+      "forms": [
+        "studies",
+        "studied",
+        "studying"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "学习；研究",
+          "definitionEn": "To spend time learning about a subject."
+        },
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "学习；研究活动",
+          "definitionEn": "The activity of learning or investigating a subject."
+        }
+      ]
+    },
+    {
+      "lemma": "progress",
+      "forms": [
+        "progresses",
+        "progressed",
+        "progressing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "进步；进展",
+          "definitionEn": "Movement toward a goal or a better situation."
+        },
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "进展；进步",
+          "definitionEn": "To move forward or become better over time."
+        }
+      ]
+    },
+    {
+      "lemma": "learn",
+      "forms": [
+        "learns",
+        "learned",
+        "learnt",
+        "learning"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "学习；学会",
+          "definitionEn": "To gain knowledge or a skill through experience or study."
+        }
+      ]
+    },
+    {
+      "lemma": "step",
+      "forms": [
+        "steps",
+        "stepped",
+        "stepping"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "一步；步骤",
+          "definitionEn": "A single movement of the foot, or one action in a process."
+        }
+      ]
+    },
+    {
+      "lemma": "small",
+      "forms": [
+        "smaller",
+        "smallest"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "小的；少量的",
+          "definitionEn": "Limited in size, amount, or degree."
+        }
+      ]
+    },
+    {
+      "lemma": "matter",
+      "forms": [
+        "matters",
+        "mattered",
+        "mattering"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "要紧；有影响",
+          "definitionEn": "To be important or make a difference."
+        },
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "事情；问题",
+          "definitionEn": "A subject or situation that needs attention."
+        }
+      ]
+    },
+    {
+      "lemma": "try",
+      "forms": [
+        "tries",
+        "tried",
+        "trying"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "尝试；努力",
+          "definitionEn": "To make an effort to do something."
+        }
+      ]
+    },
+    {
+      "lemma": "again",
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adv.",
+          "definitionZh": "再一次；又",
+          "definitionEn": "One more time, after an earlier time."
+        }
+      ]
+    },
+    {
+      "lemma": "change",
+      "forms": [
+        "changes",
+        "changed",
+        "changing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "改变；变化",
+          "definitionEn": "To become different or make something different."
+        }
+      ]
+    },
+    {
+      "lemma": "can't",
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "contraction",
+          "definitionZh": "cannot 的缩写；不能",
+          "definitionEn": "The short form of cannot."
+        }
+      ]
+    },
+    {
+      "lemma": "well-being",
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "身心健康；幸福安康",
+          "definitionEn": "The condition of feeling healthy, comfortable, and reasonably happy."
+        }
+      ]
+    },
+    {
+      "lemma": "learner",
+      "forms": [
+        "learners",
+        "learner's"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "学习者",
+          "definitionEn": "A person who is gaining knowledge or developing a skill."
+        }
+      ]
+    },
+    {
+      "lemma": "ability",
+      "phonetic": null,
+      "forms": [
+        "abilities"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "能力；才能",
+          "definitionEn": "The skill or power needed to do something."
+        }
+      ]
+    },
+    {
+      "lemma": "accept",
+      "phonetic": null,
+      "forms": [
+        "accepts",
+        "accepted",
+        "accepting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "接受；认可",
+          "definitionEn": "To agree to receive something or recognize it as true."
+        }
+      ]
+    },
+    {
+      "lemma": "access",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "使用或进入的机会",
+          "definitionEn": "The opportunity to enter a place or use something."
+        }
+      ]
+    },
+    {
+      "lemma": "achieve",
+      "phonetic": null,
+      "forms": [
+        "achieves",
+        "achieved",
+        "achieving"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "实现；达到",
+          "definitionEn": "To succeed in reaching a goal through effort."
+        }
+      ]
+    },
+    {
+      "lemma": "active",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "积极的；活跃的",
+          "definitionEn": "Taking part in activities rather than remaining still."
+        }
+      ]
+    },
+    {
+      "lemma": "adapt",
+      "phonetic": null,
+      "forms": [
+        "adapts",
+        "adapted",
+        "adapting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "适应；调整",
+          "definitionEn": "To change in order to suit new conditions."
+        }
+      ]
+    },
+    {
+      "lemma": "advantage",
+      "phonetic": null,
+      "forms": [
+        "advantages"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "优势；有利条件",
+          "definitionEn": "Something that helps a person or situation succeed."
+        }
+      ]
+    },
+    {
+      "lemma": "advice",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "建议；忠告",
+          "definitionEn": "An opinion about what someone should do."
+        }
+      ]
+    },
+    {
+      "lemma": "affect",
+      "phonetic": null,
+      "forms": [
+        "affects",
+        "affected",
+        "affecting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "影响",
+          "definitionEn": "To cause a change in someone or something."
+        }
+      ]
+    },
+    {
+      "lemma": "allow",
+      "phonetic": null,
+      "forms": [
+        "allows",
+        "allowed",
+        "allowing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "允许",
+          "definitionEn": "To give permission or make something possible."
+        }
+      ]
+    },
+    {
+      "lemma": "amount",
+      "phonetic": null,
+      "forms": [
+        "amounts"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "数量；总量",
+          "definitionEn": "How much of something there is."
+        }
+      ]
+    },
+    {
+      "lemma": "approach",
+      "phonetic": null,
+      "forms": [
+        "approaches"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "方法；处理方式",
+          "definitionEn": "A way of dealing with a task or problem."
+        }
+      ]
+    },
+    {
+      "lemma": "area",
+      "phonetic": null,
+      "forms": [
+        "areas"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "区域；领域",
+          "definitionEn": "A particular part of a place or subject."
+        }
+      ]
+    },
+    {
+      "lemma": "attention",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "注意力；关注",
+          "definitionEn": "The act of carefully looking, listening, or thinking."
+        }
+      ]
+    },
+    {
+      "lemma": "attitude",
+      "phonetic": null,
+      "forms": [
+        "attitudes"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "态度；看法",
+          "definitionEn": "The way someone thinks or feels about something."
+        }
+      ]
+    },
+    {
+      "lemma": "avoid",
+      "phonetic": null,
+      "forms": [
+        "avoids",
+        "avoided",
+        "avoiding"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "避免；避开",
+          "definitionEn": "To keep away from something or prevent it happening."
+        }
+      ]
+    },
+    {
+      "lemma": "balance",
+      "phonetic": null,
+      "forms": [
+        "balances"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "平衡；均衡",
+          "definitionEn": "A state in which different needs receive suitable attention."
+        }
+      ]
+    },
+    {
+      "lemma": "basic",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "基本的；基础的",
+          "definitionEn": "Forming the simplest or most necessary part of something."
+        }
+      ]
+    },
+    {
+      "lemma": "benefit",
+      "phonetic": null,
+      "forms": [
+        "benefits"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "益处；好处",
+          "definitionEn": "A helpful effect or useful advantage."
+        }
+      ]
+    },
+    {
+      "lemma": "build",
+      "phonetic": null,
+      "forms": [
+        "builds",
+        "built",
+        "building"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "建造；逐步建立",
+          "definitionEn": "To make something by putting parts or ideas together."
+        }
+      ]
+    },
+    {
+      "lemma": "challenge",
+      "phonetic": null,
+      "forms": [
+        "challenges"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "挑战；难题",
+          "definitionEn": "A difficult task that tests someone's ability."
+        }
+      ]
+    },
+    {
+      "lemma": "choice",
+      "phonetic": null,
+      "forms": [
+        "choices"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "选择；可选项",
+          "definitionEn": "An act of deciding between different possibilities."
+        }
+      ]
+    },
+    {
+      "lemma": "clear",
+      "phonetic": null,
+      "forms": [
+        "clearer",
+        "clearest"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "清楚的；明确的",
+          "definitionEn": "Easy to understand, see, or hear."
+        }
+      ]
+    },
+    {
+      "lemma": "collect",
+      "phonetic": null,
+      "forms": [
+        "collects",
+        "collected",
+        "collecting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "收集；聚集",
+          "definitionEn": "To bring separate things together for a purpose."
+        }
+      ]
+    },
+    {
+      "lemma": "common",
+      "phonetic": null,
+      "forms": [
+        "commoner",
+        "commonest"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "常见的；普遍的",
+          "definitionEn": "Found or happening often in many places."
+        }
+      ]
+    },
+    {
+      "lemma": "community",
+      "phonetic": null,
+      "forms": [
+        "communities"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "社区；群体",
+          "definitionEn": "People connected by a place or shared interests."
+        }
+      ]
+    },
+    {
+      "lemma": "compare",
+      "phonetic": null,
+      "forms": [
+        "compares",
+        "compared",
+        "comparing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "比较",
+          "definitionEn": "To examine things to see their similarities and differences."
+        }
+      ]
+    },
+    {
+      "lemma": "complete",
+      "phonetic": null,
+      "forms": [
+        "completes",
+        "completed",
+        "completing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "完成",
+          "definitionEn": "To finish all the parts of an activity."
+        }
+      ]
+    },
+    {
+      "lemma": "concentrate",
+      "phonetic": null,
+      "forms": [
+        "concentrates",
+        "concentrated",
+        "concentrating"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "集中注意力",
+          "definitionEn": "To give all your attention to a particular activity."
+        }
+      ]
+    },
+    {
+      "lemma": "confidence",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "信心；自信",
+          "definitionEn": "A belief that you can do something successfully."
+        }
+      ]
+    },
+    {
+      "lemma": "connect",
+      "phonetic": null,
+      "forms": [
+        "connects",
+        "connected",
+        "connecting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "连接；联系",
+          "definitionEn": "To join things or show a relationship between them."
+        }
+      ]
+    },
+    {
+      "lemma": "consider",
+      "phonetic": null,
+      "forms": [
+        "considers",
+        "considered",
+        "considering"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "考虑",
+          "definitionEn": "To think carefully about something before making a decision."
+        }
+      ]
+    },
+    {
+      "lemma": "consistent",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "始终如一的；稳定的",
+          "definitionEn": "Behaving or happening in a similar way over time."
+        }
+      ]
+    },
+    {
+      "lemma": "context",
+      "phonetic": null,
+      "forms": [
+        "contexts"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "语境；背景",
+          "definitionEn": "The surrounding words or situation that help explain something."
+        }
+      ]
+    },
+    {
+      "lemma": "continue",
+      "phonetic": null,
+      "forms": [
+        "continues",
+        "continued",
+        "continuing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "继续",
+          "definitionEn": "To keep doing something without stopping permanently."
+        }
+      ]
+    },
+    {
+      "lemma": "control",
+      "phonetic": null,
+      "forms": [
+        "controls"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "控制；掌控",
+          "definitionEn": "The power to manage how something happens."
+        }
+      ]
+    },
+    {
+      "lemma": "create",
+      "phonetic": null,
+      "forms": [
+        "creates",
+        "created",
+        "creating"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "创造；创建",
+          "definitionEn": "To make something new or bring it into existence."
+        }
+      ]
+    },
+    {
+      "lemma": "creative",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "有创造力的",
+          "definitionEn": "Able to produce new ideas or original work."
+        }
+      ]
+    },
+    {
+      "lemma": "curious",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "好奇的",
+          "definitionEn": "Wanting to know or understand more about something."
+        }
+      ]
+    },
+    {
+      "lemma": "daily",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "每日的；日常的",
+          "definitionEn": "Happening or used every day."
+        }
+      ]
+    },
+    {
+      "lemma": "decide",
+      "phonetic": null,
+      "forms": [
+        "decides",
+        "decided",
+        "deciding"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "决定",
+          "definitionEn": "To choose what to do after considering possibilities."
+        }
+      ]
+    },
+    {
+      "lemma": "decision",
+      "phonetic": null,
+      "forms": [
+        "decisions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "决定；选择",
+          "definitionEn": "A choice made after thinking about an issue."
+        }
+      ]
+    },
+    {
+      "lemma": "develop",
+      "phonetic": null,
+      "forms": [
+        "develops",
+        "developed",
+        "developing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "发展；培养",
+          "definitionEn": "To grow or gradually become more advanced."
+        }
+      ]
+    },
+    {
+      "lemma": "difference",
+      "phonetic": null,
+      "forms": [
+        "differences"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "差异；不同之处",
+          "definitionEn": "A way in which two things are not the same."
+        }
+      ]
+    },
+    {
+      "lemma": "difficult",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "困难的",
+          "definitionEn": "Requiring effort, skill, or careful thought."
+        }
+      ]
+    },
+    {
+      "lemma": "discover",
+      "phonetic": null,
+      "forms": [
+        "discovers",
+        "discovered",
+        "discovering"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "发现",
+          "definitionEn": "To find or learn something for the first time."
+        }
+      ]
+    },
+    {
+      "lemma": "discuss",
+      "phonetic": null,
+      "forms": [
+        "discusses",
+        "discussed",
+        "discussing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "讨论",
+          "definitionEn": "To talk about a subject and exchange ideas."
+        }
+      ]
+    },
+    {
+      "lemma": "effort",
+      "phonetic": null,
+      "forms": [
+        "efforts"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "努力",
+          "definitionEn": "Energy or work used to achieve something."
+        }
+      ]
+    },
+    {
+      "lemma": "encourage",
+      "phonetic": null,
+      "forms": [
+        "encourages",
+        "encouraged",
+        "encouraging"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "鼓励",
+          "definitionEn": "To give someone support, confidence, or hope."
+        }
+      ]
+    },
+    {
+      "lemma": "environment",
+      "phonetic": null,
+      "forms": [
+        "environments"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "环境",
+          "definitionEn": "The conditions and surroundings in which people live or work."
+        }
+      ]
+    },
+    {
+      "lemma": "equal",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "相等的；平等的",
+          "definitionEn": "Having the same value, amount, or rights."
+        }
+      ]
+    },
+    {
+      "lemma": "example",
+      "phonetic": null,
+      "forms": [
+        "examples"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "例子；示例",
+          "definitionEn": "Something used to explain or show a general idea."
+        }
+      ]
+    },
+    {
+      "lemma": "experience",
+      "phonetic": null,
+      "forms": [
+        "experiences"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "经历；经验",
+          "definitionEn": "Knowledge gained from doing or living through something."
+        }
+      ]
+    },
+    {
+      "lemma": "explain",
+      "phonetic": null,
+      "forms": [
+        "explains",
+        "explained",
+        "explaining"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "解释；说明",
+          "definitionEn": "To make an idea or process easier to understand."
+        }
+      ]
+    },
+    {
+      "lemma": "express",
+      "phonetic": null,
+      "forms": [
+        "expresses",
+        "expressed",
+        "expressing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "表达",
+          "definitionEn": "To communicate a thought, feeling, or idea."
+        }
+      ]
+    },
+    {
+      "lemma": "failure",
+      "phonetic": null,
+      "forms": [
+        "failures"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "失败；未成功",
+          "definitionEn": "A situation in which an intended result is not achieved."
+        }
+      ]
+    },
+    {
+      "lemma": "familiar",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "熟悉的",
+          "definitionEn": "Known or recognized from previous experience."
+        }
+      ]
+    },
+    {
+      "lemma": "feedback",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "反馈；意见",
+          "definitionEn": "Information about how well something worked."
+        }
+      ]
+    },
+    {
+      "lemma": "flexible",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "灵活的；可调整的",
+          "definitionEn": "Able to change to suit different needs or situations."
+        }
+      ]
+    },
+    {
+      "lemma": "focus",
+      "phonetic": null,
+      "forms": [
+        "focuses"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "注意力的中心；重点",
+          "definitionEn": "The main thing receiving attention or interest."
+        }
+      ]
+    },
+    {
+      "lemma": "follow",
+      "phonetic": null,
+      "forms": [
+        "follows",
+        "followed",
+        "following"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "遵循；跟随",
+          "definitionEn": "To go after someone or act according to instructions."
+        }
+      ]
+    },
+    {
+      "lemma": "future",
+      "phonetic": null,
+      "forms": [
+        "futures"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "将来；未来",
+          "definitionEn": "The time that has not happened yet."
+        }
+      ]
+    },
+    {
+      "lemma": "goal",
+      "phonetic": null,
+      "forms": [
+        "goals"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "目标",
+          "definitionEn": "Something a person hopes to achieve."
+        }
+      ]
+    },
+    {
+      "lemma": "gradual",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "逐渐的",
+          "definitionEn": "Happening slowly through a series of small changes."
+        }
+      ]
+    },
+    {
+      "lemma": "habit",
+      "phonetic": null,
+      "forms": [
+        "habits"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "习惯",
+          "definitionEn": "Something a person does regularly, often without thinking."
+        }
+      ]
+    },
+    {
+      "lemma": "healthy",
+      "phonetic": null,
+      "forms": [
+        "healthier",
+        "healthiest"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "健康的",
+          "definitionEn": "In good physical or mental condition."
+        }
+      ]
+    },
+    {
+      "lemma": "help",
+      "phonetic": null,
+      "forms": [
+        "helps",
+        "helped",
+        "helping"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "帮助",
+          "definitionEn": "To make a task easier for someone."
+        }
+      ]
+    },
+    {
+      "lemma": "idea",
+      "phonetic": null,
+      "forms": [
+        "ideas"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "想法；主意",
+          "definitionEn": "A thought, plan, or suggestion."
+        }
+      ]
+    },
+    {
+      "lemma": "imagine",
+      "phonetic": null,
+      "forms": [
+        "imagines",
+        "imagined",
+        "imagining"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "想象",
+          "definitionEn": "To form a picture or idea in your mind."
+        }
+      ]
+    },
+    {
+      "lemma": "improve",
+      "phonetic": null,
+      "forms": [
+        "improves",
+        "improved",
+        "improving"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "改善；提高",
+          "definitionEn": "To become better or make something better."
+        }
+      ]
+    },
+    {
+      "lemma": "include",
+      "phonetic": null,
+      "forms": [
+        "includes",
+        "included",
+        "including"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "包括",
+          "definitionEn": "To have something as one part of a whole."
+        }
+      ]
+    },
+    {
+      "lemma": "independent",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "独立的；自主的",
+          "definitionEn": "Able to act or make decisions without depending on others."
+        }
+      ]
+    },
+    {
+      "lemma": "information",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "信息；资料",
+          "definitionEn": "Facts or details about a subject."
+        }
+      ]
+    },
+    {
+      "lemma": "interest",
+      "phonetic": null,
+      "forms": [
+        "interests"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "兴趣；关注",
+          "definitionEn": "A desire to learn about or take part in something."
+        }
+      ]
+    },
+    {
+      "lemma": "interrupt",
+      "phonetic": null,
+      "forms": [
+        "interrupts",
+        "interrupted",
+        "interrupting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "打断",
+          "definitionEn": "To stop an activity or speaker for a short time."
+        }
+      ]
+    },
+    {
+      "lemma": "knowledge",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "知识",
+          "definitionEn": "Information and understanding gained through learning or experience."
+        }
+      ]
+    },
+    {
+      "lemma": "language",
+      "phonetic": null,
+      "forms": [
+        "languages"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "语言",
+          "definitionEn": "A system of words used by people to communicate."
+        }
+      ]
+    },
+    {
+      "lemma": "listen",
+      "phonetic": null,
+      "forms": [
+        "listens",
+        "listened",
+        "listening"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "听；倾听",
+          "definitionEn": "To pay attention to sounds or what someone says."
+        }
+      ]
+    },
+    {
+      "lemma": "local",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "本地的；当地的",
+          "definitionEn": "Connected with a particular nearby area."
+        }
+      ]
+    },
+    {
+      "lemma": "memory",
+      "phonetic": null,
+      "forms": [
+        "memories"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "记忆；记忆力",
+          "definitionEn": "The ability to keep and recall information."
+        }
+      ]
+    },
+    {
+      "lemma": "method",
+      "phonetic": null,
+      "forms": [
+        "methods"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "方法；方式",
+          "definitionEn": "A particular way of doing something."
+        }
+      ]
+    },
+    {
+      "lemma": "mistake",
+      "phonetic": null,
+      "forms": [
+        "mistakes"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "错误",
+          "definitionEn": "Something incorrect that results from an action or judgment."
+        }
+      ]
+    },
+    {
+      "lemma": "notice",
+      "phonetic": null,
+      "forms": [
+        "notices",
+        "noticed",
+        "noticing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "注意到",
+          "definitionEn": "To become aware of something by seeing or hearing it."
+        }
+      ]
+    },
+    {
+      "lemma": "opportunity",
+      "phonetic": null,
+      "forms": [
+        "opportunities"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "机会",
+          "definitionEn": "A situation that makes it possible to do something."
+        }
+      ]
+    },
+    {
+      "lemma": "organize",
+      "phonetic": null,
+      "forms": [
+        "organizes",
+        "organized",
+        "organizing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "组织；安排",
+          "definitionEn": "To arrange things or activities in a useful order."
+        }
+      ]
+    },
+    {
+      "lemma": "patient",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "耐心的",
+          "definitionEn": "Able to wait or keep working without becoming upset."
+        }
+      ]
+    },
+    {
+      "lemma": "pattern",
+      "phonetic": null,
+      "forms": [
+        "patterns"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "模式；规律",
+          "definitionEn": "A repeated arrangement or way in which something happens."
+        }
+      ]
+    },
+    {
+      "lemma": "personal",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "个人的",
+          "definitionEn": "Related to one particular person."
+        }
+      ]
+    },
+    {
+      "lemma": "plan",
+      "phonetic": null,
+      "forms": [
+        "plans"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "计划",
+          "definitionEn": "An arrangement describing what someone intends to do."
+        }
+      ]
+    },
+    {
+      "lemma": "positive",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "积极的；乐观的",
+          "definitionEn": "Showing hope or confidence in a useful result."
+        }
+      ]
+    },
+    {
+      "lemma": "practice",
+      "phonetic": null,
+      "forms": [
+        "practices"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "练习；实践",
+          "definitionEn": "Repeated activity intended to develop a skill."
+        }
+      ]
+    },
+    {
+      "lemma": "prepare",
+      "phonetic": null,
+      "forms": [
+        "prepares",
+        "prepared",
+        "preparing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "准备",
+          "definitionEn": "To make yourself or something ready for an activity."
+        }
+      ]
+    },
+    {
+      "lemma": "problem",
+      "phonetic": null,
+      "forms": [
+        "problems"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "问题；难题",
+          "definitionEn": "A situation that causes difficulty and needs a solution."
+        }
+      ]
+    },
+    {
+      "lemma": "process",
+      "phonetic": null,
+      "forms": [
+        "processes"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "过程；流程",
+          "definitionEn": "A series of actions that produces a result."
+        }
+      ]
+    },
+    {
+      "lemma": "purpose",
+      "phonetic": null,
+      "forms": [
+        "purposes"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "目的；用途",
+          "definitionEn": "The reason something is done or exists."
+        }
+      ]
+    },
+    {
+      "lemma": "question",
+      "phonetic": null,
+      "forms": [
+        "questions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "问题；疑问",
+          "definitionEn": "Something asked in order to get information."
+        }
+      ]
+    },
+    {
+      "lemma": "realize",
+      "phonetic": null,
+      "forms": [
+        "realizes",
+        "realized",
+        "realizing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "意识到；认识到",
+          "definitionEn": "To become aware of a fact or situation."
+        }
+      ]
+    },
+    {
+      "lemma": "reason",
+      "phonetic": null,
+      "forms": [
+        "reasons"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "原因；理由",
+          "definitionEn": "An explanation for why something happens."
+        }
+      ]
+    },
+    {
+      "lemma": "record",
+      "phonetic": null,
+      "forms": [
+        "records"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "记录",
+          "definitionEn": "Information kept so it can be checked later."
+        }
+      ]
+    },
+    {
+      "lemma": "reflect",
+      "phonetic": null,
+      "forms": [
+        "reflects",
+        "reflected",
+        "reflecting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "认真思考；反思",
+          "definitionEn": "To think carefully about an experience or idea."
+        }
+      ]
+    },
+    {
+      "lemma": "regular",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "定期的；有规律的",
+          "definitionEn": "Happening at similar intervals or in a steady pattern."
+        }
+      ]
+    },
+    {
+      "lemma": "relationship",
+      "phonetic": null,
+      "forms": [
+        "relationships"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "关系；联系",
+          "definitionEn": "The way people or things are connected."
+        }
+      ]
+    },
+    {
+      "lemma": "remember",
+      "phonetic": null,
+      "forms": [
+        "remembers",
+        "remembered",
+        "remembering"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "记住；想起",
+          "definitionEn": "To keep information in your mind or bring it back."
+        }
+      ]
+    },
+    {
+      "lemma": "repeat",
+      "phonetic": null,
+      "forms": [
+        "repeats",
+        "repeated",
+        "repeating"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "重复",
+          "definitionEn": "To say or do something again."
+        }
+      ]
+    },
+    {
+      "lemma": "require",
+      "phonetic": null,
+      "forms": [
+        "requires",
+        "required",
+        "requiring"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "需要；要求",
+          "definitionEn": "To need something or make it necessary."
+        }
+      ]
+    },
+    {
+      "lemma": "resource",
+      "phonetic": null,
+      "forms": [
+        "resources"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "资源",
+          "definitionEn": "Something available to help people meet a need."
+        }
+      ]
+    },
+    {
+      "lemma": "responsibility",
+      "phonetic": null,
+      "forms": [
+        "responsibilities"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "责任",
+          "definitionEn": "A duty to take care of something or act properly."
+        }
+      ]
+    },
+    {
+      "lemma": "result",
+      "phonetic": null,
+      "forms": [
+        "results"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "结果",
+          "definitionEn": "Something that happens because of an action."
+        }
+      ]
+    },
+    {
+      "lemma": "review",
+      "phonetic": null,
+      "forms": [
+        "reviews",
+        "reviewed",
+        "reviewing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "复习；回顾",
+          "definitionEn": "To examine something again to understand or improve it."
+        },
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "复习；回顾；审查",
+          "definitionEn": "A look at something again to remember it or judge how well it worked."
+        }
+      ]
+    },
+    {
+      "lemma": "routine",
+      "phonetic": null,
+      "forms": [
+        "routines"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "日常惯例",
+          "definitionEn": "A usual order or set of activities."
+        }
+      ]
+    },
+    {
+      "lemma": "safe",
+      "phonetic": null,
+      "forms": [
+        "safer",
+        "safest"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "安全的",
+          "definitionEn": "Protected from danger or unlikely to cause harm."
+        }
+      ]
+    },
+    {
+      "lemma": "schedule",
+      "phonetic": null,
+      "forms": [
+        "schedules"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "日程；时间安排",
+          "definitionEn": "A plan showing when activities will happen."
+        }
+      ]
+    },
+    {
+      "lemma": "search",
+      "phonetic": null,
+      "forms": [
+        "searches",
+        "searched",
+        "searching"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "搜索；寻找",
+          "definitionEn": "To look carefully for someone or something."
+        }
+      ]
+    },
+    {
+      "lemma": "select",
+      "phonetic": null,
+      "forms": [
+        "selects",
+        "selected",
+        "selecting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "选择；挑选",
+          "definitionEn": "To choose something from a set of possibilities."
+        }
+      ]
+    },
+    {
+      "lemma": "share",
+      "phonetic": null,
+      "forms": [
+        "shares",
+        "shared",
+        "sharing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "分享；共同使用",
+          "definitionEn": "To let others use or experience something with you."
+        }
+      ]
+    },
+    {
+      "lemma": "simple",
+      "phonetic": null,
+      "forms": [
+        "simpler",
+        "simplest"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "简单的",
+          "definitionEn": "Easy to understand or do."
+        }
+      ]
+    },
+    {
+      "lemma": "skill",
+      "phonetic": null,
+      "forms": [
+        "skills"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "技能",
+          "definitionEn": "An ability developed through learning and practice."
+        }
+      ]
+    },
+    {
+      "lemma": "solution",
+      "phonetic": null,
+      "forms": [
+        "solutions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "解决办法",
+          "definitionEn": "A way to deal successfully with a problem."
+        }
+      ]
+    },
+    {
+      "lemma": "source",
+      "phonetic": null,
+      "forms": [
+        "sources"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "来源；出处",
+          "definitionEn": "The person, place, or thing from which something comes."
+        }
+      ]
+    },
+    {
+      "lemma": "space",
+      "phonetic": null,
+      "forms": [
+        "spaces"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "空间；场地",
+          "definitionEn": "An available area that can be used for something."
+        }
+      ]
+    },
+    {
+      "lemma": "specific",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "具体的；特定的",
+          "definitionEn": "Clearly identified rather than general."
+        }
+      ]
+    },
+    {
+      "lemma": "support",
+      "phonetic": null,
+      "forms": [
+        "supports",
+        "supported",
+        "supporting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "支持；帮助",
+          "definitionEn": "To help someone continue or succeed."
+        }
+      ]
+    },
+    {
+      "lemma": "task",
+      "phonetic": null,
+      "forms": [
+        "tasks"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "任务",
+          "definitionEn": "A piece of work that needs to be done."
+        }
+      ]
+    },
+    {
+      "lemma": "team",
+      "phonetic": null,
+      "forms": [
+        "teams"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "团队",
+          "definitionEn": "A group of people working toward a shared goal."
+        }
+      ]
+    },
+    {
+      "lemma": "technology",
+      "phonetic": null,
+      "forms": [
+        "technologies"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "技术；科技",
+          "definitionEn": "Practical tools and systems developed using knowledge."
+        }
+      ]
+    },
+    {
+      "lemma": "time",
+      "phonetic": null,
+      "forms": [
+        "times"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "时间",
+          "definitionEn": "What is measured in seconds, hours, and days."
+        }
+      ]
+    },
+    {
+      "lemma": "tool",
+      "phonetic": null,
+      "forms": [
+        "tools"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "工具",
+          "definitionEn": "Something used to help perform a task."
+        }
+      ]
+    },
+    {
+      "lemma": "tradition",
+      "phonetic": null,
+      "forms": [
+        "traditions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "传统",
+          "definitionEn": "A custom or belief passed from one generation to another."
+        }
+      ]
+    },
+    {
+      "lemma": "trust",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "信任",
+          "definitionEn": "Belief that someone or something is honest and reliable."
+        }
+      ]
+    },
+    {
+      "lemma": "understand",
+      "phonetic": null,
+      "forms": [
+        "understands",
+        "understood",
+        "understanding"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "理解；明白",
+          "definitionEn": "To know what something means or how it works."
+        }
+      ]
+    },
+    {
+      "lemma": "useful",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "有用的",
+          "definitionEn": "Able to help someone do or achieve something."
+        }
+      ]
+    },
+    {
+      "lemma": "value",
+      "phonetic": null,
+      "forms": [
+        "values"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "价值；重要性",
+          "definitionEn": "The usefulness or importance of something."
+        }
+      ]
+    },
+    {
+      "lemma": "variety",
+      "phonetic": null,
+      "forms": [
+        "varieties"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "多样性；不同种类",
+          "definitionEn": "A range of different things."
+        }
+      ]
+    },
+    {
+      "lemma": "verify",
+      "phonetic": null,
+      "forms": [
+        "verifies",
+        "verified",
+        "verifying"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "核实；验证",
+          "definitionEn": "To check that information is true or correct."
+        }
+      ]
+    },
+    {
+      "lemma": "volunteer",
+      "phonetic": null,
+      "forms": [
+        "volunteers"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "志愿者",
+          "definitionEn": "A person who chooses to help without being paid."
+        }
+      ]
+    },
+    {
+      "lemma": "waste",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "浪费；废弃物",
+          "definitionEn": "Material no longer wanted, or unnecessary use of resources."
+        }
+      ]
+    },
+    {
+      "lemma": "work",
+      "phonetic": null,
+      "forms": [
+        "works"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "工作；劳动",
+          "definitionEn": "An activity done to achieve a purpose or earn money."
+        }
+      ]
+    },
+    {
+      "lemma": "accurate",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "准确的",
+          "definitionEn": "Correct and free from significant mistakes."
+        }
+      ]
+    },
+    {
+      "lemma": "action",
+      "phonetic": null,
+      "forms": [
+        "actions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "行动",
+          "definitionEn": "Something a person does to produce an effect."
+        }
+      ]
+    },
+    {
+      "lemma": "adult",
+      "phonetic": null,
+      "forms": [
+        "adults"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "成年人",
+          "definitionEn": "A person who has finished growing physically."
+        }
+      ]
+    },
+    {
+      "lemma": "agenda",
+      "phonetic": null,
+      "forms": [
+        "agendas"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "议程",
+          "definitionEn": "A list of topics to be discussed at a meeting."
+        }
+      ]
+    },
+    {
+      "lemma": "agree",
+      "phonetic": null,
+      "forms": [
+        "agrees",
+        "agreed",
+        "agreeing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "同意",
+          "definitionEn": "To have the same opinion or accept a suggestion."
+        }
+      ]
+    },
+    {
+      "lemma": "alternative",
+      "phonetic": null,
+      "forms": [
+        "alternatives"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "替代选择",
+          "definitionEn": "Another possibility that can be chosen instead."
+        }
+      ]
+    },
+    {
+      "lemma": "analyze",
+      "phonetic": null,
+      "forms": [
+        "analyzes",
+        "analyzed",
+        "analyzing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "分析",
+          "definitionEn": "To examine parts of something in order to understand it."
+        }
+      ]
+    },
+    {
+      "lemma": "announce",
+      "phonetic": null,
+      "forms": [
+        "announces",
+        "announced",
+        "announcing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "宣布；通知",
+          "definitionEn": "To make information known publicly or clearly."
+        }
+      ]
+    },
+    {
+      "lemma": "arrange",
+      "phonetic": null,
+      "forms": [
+        "arranges",
+        "arranged",
+        "arranging"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "安排；整理",
+          "definitionEn": "To put things in order or make plans."
+        }
+      ]
+    },
+    {
+      "lemma": "article",
+      "phonetic": null,
+      "forms": [
+        "articles"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "文章",
+          "definitionEn": "A piece of writing about a particular subject."
+        }
+      ]
+    },
+    {
+      "lemma": "ask",
+      "phonetic": null,
+      "forms": [
+        "asks",
+        "asked",
+        "asking"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "询问；请求",
+          "definitionEn": "To say something in order to get an answer or help."
+        }
+      ]
+    },
+    {
+      "lemma": "assume",
+      "phonetic": null,
+      "forms": [
+        "assumes",
+        "assumed",
+        "assuming"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "假定；认为",
+          "definitionEn": "To believe something without having full proof."
+        }
+      ]
+    },
+    {
+      "lemma": "background",
+      "phonetic": null,
+      "forms": [
+        "backgrounds"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "背景",
+          "definitionEn": "The events or conditions that help explain a situation."
+        }
+      ]
+    },
+    {
+      "lemma": "battery",
+      "phonetic": null,
+      "forms": [
+        "batteries"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "电池",
+          "definitionEn": "A device that stores energy and supplies electricity."
+        }
+      ]
+    },
+    {
+      "lemma": "belong",
+      "phonetic": null,
+      "forms": [
+        "belongs",
+        "belonged",
+        "belonging"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "属于；有归属感",
+          "definitionEn": "To be a member of a group or in the right place."
+        }
+      ]
+    },
+    {
+      "lemma": "borrow",
+      "phonetic": null,
+      "forms": [
+        "borrows",
+        "borrowed",
+        "borrowing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "借用；借入",
+          "definitionEn": "To use something temporarily and return it later."
+        }
+      ]
+    },
+    {
+      "lemma": "boundary",
+      "phonetic": null,
+      "forms": [
+        "boundaries"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "边界；界限",
+          "definitionEn": "A line or limit separating different areas or activities."
+        }
+      ]
+    },
+    {
+      "lemma": "budget",
+      "phonetic": null,
+      "forms": [
+        "budgets"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "预算",
+          "definitionEn": "A plan for how much money can be spent."
+        }
+      ]
+    },
+    {
+      "lemma": "care",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "照料；用心",
+          "definitionEn": "Attention given to keeping someone or something well."
+        }
+      ]
+    },
+    {
+      "lemma": "celebrate",
+      "phonetic": null,
+      "forms": [
+        "celebrates",
+        "celebrated",
+        "celebrating"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "庆祝",
+          "definitionEn": "To mark an important event with a special activity."
+        }
+      ]
+    },
+    {
+      "lemma": "charge",
+      "phonetic": null,
+      "forms": [
+        "charges",
+        "charged",
+        "charging"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "给电池充电",
+          "definitionEn": "To put electrical energy into a battery."
+        }
+      ]
+    },
+    {
+      "lemma": "check",
+      "phonetic": null,
+      "forms": [
+        "checks",
+        "checked",
+        "checking"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "检查；核对",
+          "definitionEn": "To examine something to see whether it is correct."
+        }
+      ]
+    },
+    {
+      "lemma": "clarify",
+      "phonetic": null,
+      "forms": [
+        "clarifies",
+        "clarified",
+        "clarifying"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "澄清；说明清楚",
+          "definitionEn": "To make something easier to understand."
+        }
+      ]
+    },
+    {
+      "lemma": "climate",
+      "phonetic": null,
+      "forms": [
+        "climates"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "气候",
+          "definitionEn": "The usual weather conditions in a particular area."
+        }
+      ]
+    },
+    {
+      "lemma": "close",
+      "phonetic": null,
+      "forms": [
+        "closes",
+        "closed",
+        "closing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "关闭",
+          "definitionEn": "To move something so it is no longer open."
+        }
+      ]
+    },
+    {
+      "lemma": "cooperate",
+      "phonetic": null,
+      "forms": [
+        "cooperates",
+        "cooperated",
+        "cooperating"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "合作",
+          "definitionEn": "To work together toward a shared result."
+        }
+      ]
+    },
+    {
+      "lemma": "cost",
+      "phonetic": null,
+      "forms": [
+        "costs"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "成本；费用",
+          "definitionEn": "The money, effort, or resources needed for something."
+        }
+      ]
+    },
+    {
+      "lemma": "culture",
+      "phonetic": null,
+      "forms": [
+        "cultures"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "文化",
+          "definitionEn": "The shared ways of living, thinking, and creating in a group."
+        }
+      ]
+    },
+    {
+      "lemma": "customer",
+      "phonetic": null,
+      "forms": [
+        "customers"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "顾客；客户",
+          "definitionEn": "A person or organization that buys goods or services."
+        }
+      ]
+    },
+    {
+      "lemma": "data",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "数据；资料",
+          "definitionEn": "Facts collected for examination or use."
+        }
+      ]
+    },
+    {
+      "lemma": "deadline",
+      "phonetic": null,
+      "forms": [
+        "deadlines"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "截止日期",
+          "definitionEn": "The latest time by which a task should be finished."
+        }
+      ]
+    },
+    {
+      "lemma": "detail",
+      "phonetic": null,
+      "forms": [
+        "details"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "细节",
+          "definitionEn": "A small part of a larger subject or situation."
+        }
+      ]
+    },
+    {
+      "lemma": "device",
+      "phonetic": null,
+      "forms": [
+        "devices"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "设备；装置",
+          "definitionEn": "A tool made for a particular purpose."
+        }
+      ]
+    },
+    {
+      "lemma": "digital",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "数字的；电子的",
+          "definitionEn": "Using electronic systems to store or process information."
+        }
+      ]
+    },
+    {
+      "lemma": "direction",
+      "phonetic": null,
+      "forms": [
+        "directions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "方向；指导",
+          "definitionEn": "The way something moves or the guidance it receives."
+        }
+      ]
+    },
+    {
+      "lemma": "disagree",
+      "phonetic": null,
+      "forms": [
+        "disagrees",
+        "disagreed",
+        "disagreeing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "不同意",
+          "definitionEn": "To have a different opinion from someone."
+        }
+      ]
+    },
+    {
+      "lemma": "distance",
+      "phonetic": null,
+      "forms": [
+        "distances"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "距离",
+          "definitionEn": "The amount of space between two places or things."
+        }
+      ]
+    },
+    {
+      "lemma": "document",
+      "phonetic": null,
+      "forms": [
+        "documents"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "文件；文档",
+          "definitionEn": "A written or electronic record containing information."
+        }
+      ]
+    },
+    {
+      "lemma": "efficient",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "高效的",
+          "definitionEn": "Producing a useful result without wasting resources."
+        }
+      ]
+    },
+    {
+      "lemma": "electric",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "电动的；用电的",
+          "definitionEn": "Working by means of electricity."
+        }
+      ]
+    },
+    {
+      "lemma": "energy",
+      "phonetic": null,
+      "forms": [
+        "energies"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "能量；精力",
+          "definitionEn": "The power needed to do work or keep active."
+        }
+      ]
+    },
+    {
+      "lemma": "equipment",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "设备；器材",
+          "definitionEn": "The tools needed for a particular activity."
+        }
+      ]
+    },
+    {
+      "lemma": "evidence",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "证据；依据",
+          "definitionEn": "Facts or observations that support a conclusion."
+        }
+      ]
+    },
+    {
+      "lemma": "exchange",
+      "phonetic": null,
+      "forms": [
+        "exchanges",
+        "exchanged",
+        "exchanging"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "交换；交流",
+          "definitionEn": "To give something and receive something else in return."
+        }
+      ]
+    },
+    {
+      "lemma": "expect",
+      "phonetic": null,
+      "forms": [
+        "expects",
+        "expected",
+        "expecting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "预期；期待",
+          "definitionEn": "To believe that something is likely to happen."
+        }
+      ]
+    },
+    {
+      "lemma": "experiment",
+      "phonetic": null,
+      "forms": [
+        "experiments"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "实验；尝试",
+          "definitionEn": "A planned test used to learn what happens."
+        }
+      ]
+    },
+    {
+      "lemma": "fair",
+      "phonetic": null,
+      "forms": [
+        "fairer",
+        "fairest"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "公平的",
+          "definitionEn": "Treating people reasonably and without improper advantage."
+        }
+      ]
+    },
+    {
+      "lemma": "festival",
+      "phonetic": null,
+      "forms": [
+        "festivals"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "节庆；节日活动",
+          "definitionEn": "A special period of events celebrating a tradition or subject."
+        }
+      ]
+    },
+    {
+      "lemma": "file",
+      "phonetic": null,
+      "forms": [
+        "files"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "文件",
+          "definitionEn": "A collection of information stored together under a name."
+        }
+      ]
+    },
+    {
+      "lemma": "food",
+      "phonetic": null,
+      "forms": [
+        "foods"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "食物",
+          "definitionEn": "Things people or animals eat to stay alive."
+        }
+      ]
+    },
+    {
+      "lemma": "friend",
+      "phonetic": null,
+      "forms": [
+        "friends"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "朋友",
+          "definitionEn": "Someone you know well and enjoy spending time with."
+        }
+      ]
+    },
+    {
+      "lemma": "garden",
+      "phonetic": null,
+      "forms": [
+        "gardens"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "花园；菜园",
+          "definitionEn": "An area where plants are grown."
+        }
+      ]
+    },
+    {
+      "lemma": "generation",
+      "phonetic": null,
+      "forms": [
+        "generations"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "一代人",
+          "definitionEn": "People born and living at roughly the same time."
+        }
+      ]
+    },
+    {
+      "lemma": "handle",
+      "phonetic": null,
+      "forms": [
+        "handles",
+        "handled",
+        "handling"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "处理；应对",
+          "definitionEn": "To deal with a task or situation."
+        }
+      ]
+    },
+    {
+      "lemma": "history",
+      "phonetic": null,
+      "forms": [
+        "histories"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "历史；过往记录",
+          "definitionEn": "Events from the past and accounts of those events."
+        }
+      ]
+    },
+    {
+      "lemma": "identity",
+      "phonetic": null,
+      "forms": [
+        "identities"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "身份；认同",
+          "definitionEn": "The qualities and connections that make someone who they are."
+        }
+      ]
+    },
+    {
+      "lemma": "ingredient",
+      "phonetic": null,
+      "forms": [
+        "ingredients"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "原料；食材",
+          "definitionEn": "One of the foods used to make a dish."
+        }
+      ]
+    },
+    {
+      "lemma": "instruction",
+      "phonetic": null,
+      "forms": [
+        "instructions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "说明；指令",
+          "definitionEn": "Information explaining how to do something."
+        }
+      ]
+    },
+    {
+      "lemma": "invite",
+      "phonetic": null,
+      "forms": [
+        "invites",
+        "invited",
+        "inviting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "邀请",
+          "definitionEn": "To ask someone to join an activity or visit."
+        }
+      ]
+    },
+    {
+      "lemma": "journey",
+      "phonetic": null,
+      "forms": [
+        "journeys"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "旅程",
+          "definitionEn": "An act of travelling from one place to another."
+        }
+      ]
+    },
+    {
+      "lemma": "library",
+      "phonetic": null,
+      "forms": [
+        "libraries"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "图书馆",
+          "definitionEn": "A place where books and other materials can be used or borrowed."
+        }
+      ]
+    },
+    {
+      "lemma": "limit",
+      "phonetic": null,
+      "forms": [
+        "limits"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "限度；限制",
+          "definitionEn": "The point beyond which something cannot or should not go."
+        }
+      ]
+    },
+    {
+      "lemma": "maintain",
+      "phonetic": null,
+      "forms": [
+        "maintains",
+        "maintained",
+        "maintaining"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "维护；保持",
+          "definitionEn": "To keep something working or in a suitable condition."
+        }
+      ]
+    },
+    {
+      "lemma": "manage",
+      "phonetic": null,
+      "forms": [
+        "manages",
+        "managed",
+        "managing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "管理；设法完成",
+          "definitionEn": "To organize an activity or deal with a situation successfully."
+        }
+      ]
+    },
+    {
+      "lemma": "material",
+      "phonetic": null,
+      "forms": [
+        "materials"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "材料",
+          "definitionEn": "A substance or information used to make or study something."
+        }
+      ]
+    },
+    {
+      "lemma": "meeting",
+      "phonetic": null,
+      "forms": [
+        "meetings"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "会议；会面",
+          "definitionEn": "An occasion when people gather to discuss or do something."
+        }
+      ]
+    },
+    {
+      "lemma": "message",
+      "phonetic": null,
+      "forms": [
+        "messages"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "消息；信息",
+          "definitionEn": "Information sent or communicated to someone."
+        }
+      ]
+    },
+    {
+      "lemma": "modern",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "现代的",
+          "definitionEn": "Related to the present or recent times."
+        }
+      ]
+    },
+    {
+      "lemma": "neighborhood",
+      "phonetic": null,
+      "forms": [
+        "neighborhoods"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "社区；街区",
+          "definitionEn": "The area around where people live."
+        }
+      ]
+    },
+    {
+      "lemma": "network",
+      "phonetic": null,
+      "forms": [
+        "networks"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "网络；联系网",
+          "definitionEn": "A connected system of people or devices."
+        }
+      ]
+    },
+    {
+      "lemma": "object",
+      "phonetic": null,
+      "forms": [
+        "objects"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "物品；物体",
+          "definitionEn": "A thing that can be seen or touched."
+        }
+      ]
+    },
+    {
+      "lemma": "observe",
+      "phonetic": null,
+      "forms": [
+        "observes",
+        "observed",
+        "observing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "观察",
+          "definitionEn": "To watch carefully in order to learn something."
+        }
+      ]
+    },
+    {
+      "lemma": "offer",
+      "phonetic": null,
+      "forms": [
+        "offers",
+        "offered",
+        "offering"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "提供；提议",
+          "definitionEn": "To make something available for someone to accept."
+        }
+      ]
+    },
+    {
+      "lemma": "online",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "在线的",
+          "definitionEn": "Connected to or available through the internet."
+        }
+      ]
+    },
+    {
+      "lemma": "permission",
+      "phonetic": null,
+      "forms": [
+        "permissions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "许可；允许",
+          "definitionEn": "Approval that allows someone to do something."
+        }
+      ]
+    },
+    {
+      "lemma": "place",
+      "phonetic": null,
+      "forms": [
+        "places"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "地方；位置",
+          "definitionEn": "A particular location or area."
+        }
+      ]
+    },
+    {
+      "lemma": "policy",
+      "phonetic": null,
+      "forms": [
+        "policies"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "政策；规则",
+          "definitionEn": "An agreed rule or plan used to guide decisions."
+        }
+      ]
+    },
+    {
+      "lemma": "privacy",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "隐私",
+          "definitionEn": "The ability to control access to personal information or life."
+        }
+      ]
+    },
+    {
+      "lemma": "public",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "公共的；公众的",
+          "definitionEn": "Available to or connected with people in general."
+        }
+      ]
+    },
+    {
+      "lemma": "quality",
+      "phonetic": null,
+      "forms": [
+        "qualities"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "质量；品质",
+          "definitionEn": "How good or useful something is."
+        }
+      ]
+    },
+    {
+      "lemma": "quiet",
+      "phonetic": null,
+      "forms": [
+        "quieter",
+        "quietest"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "安静的",
+          "definitionEn": "Making little noise or free from busy activity."
+        }
+      ]
+    },
+    {
+      "lemma": "range",
+      "phonetic": null,
+      "forms": [
+        "ranges"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "范围；一系列",
+          "definitionEn": "The limits or variety within which something exists."
+        }
+      ]
+    },
+    {
+      "lemma": "read",
+      "phonetic": null,
+      "forms": [
+        "reads",
+        "reading"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "阅读",
+          "definitionEn": "To understand written words by looking at them."
+        }
+      ]
+    },
+    {
+      "lemma": "realistic",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "切合实际的",
+          "definitionEn": "Based on what is possible in real conditions."
+        }
+      ]
+    },
+    {
+      "lemma": "recall",
+      "phonetic": null,
+      "forms": [
+        "recalls",
+        "recalled",
+        "recalling"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "回想；回忆起",
+          "definitionEn": "To bring something back into your memory."
+        }
+      ]
+    },
+    {
+      "lemma": "receive",
+      "phonetic": null,
+      "forms": [
+        "receives",
+        "received",
+        "receiving"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "收到；接收",
+          "definitionEn": "To get something that is given or sent."
+        }
+      ]
+    },
+    {
+      "lemma": "recipe",
+      "phonetic": null,
+      "forms": [
+        "recipes"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "食谱；做法",
+          "definitionEn": "Instructions for preparing a particular dish."
+        }
+      ]
+    },
+    {
+      "lemma": "recognize",
+      "phonetic": null,
+      "forms": [
+        "recognizes",
+        "recognized",
+        "recognizing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "认出；意识到",
+          "definitionEn": "To identify something known before or accept its importance."
+        }
+      ]
+    },
+    {
+      "lemma": "reduce",
+      "phonetic": null,
+      "forms": [
+        "reduces",
+        "reduced",
+        "reducing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "减少；降低",
+          "definitionEn": "To make something smaller in amount or degree."
+        }
+      ]
+    },
+    {
+      "lemma": "reliable",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "可靠的",
+          "definitionEn": "Able to be trusted to work or behave as expected."
+        }
+      ]
+    },
+    {
+      "lemma": "repair",
+      "phonetic": null,
+      "forms": [
+        "repairs",
+        "repaired",
+        "repairing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "修理；修复",
+          "definitionEn": "To make something work again after damage."
+        },
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "修理；修补工作",
+          "definitionEn": "Work done to make a damaged object function properly again."
+        }
+      ]
+    },
+    {
+      "lemma": "replace",
+      "phonetic": null,
+      "forms": [
+        "replaces",
+        "replaced",
+        "replacing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "替换；取代",
+          "definitionEn": "To put something new in the place of something else."
+        }
+      ]
+    },
+    {
+      "lemma": "report",
+      "phonetic": null,
+      "forms": [
+        "reports"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "报告",
+          "definitionEn": "An account describing facts or findings about a subject."
+        }
+      ]
+    },
+    {
+      "lemma": "request",
+      "phonetic": null,
+      "forms": [
+        "requests"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "请求",
+          "definitionEn": "An act of asking for something politely or formally."
+        }
+      ]
+    },
+    {
+      "lemma": "respect",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "尊重",
+          "definitionEn": "Careful regard for someone's feelings, rights, or value."
+        }
+      ]
+    },
+    {
+      "lemma": "respond",
+      "phonetic": null,
+      "forms": [
+        "responds",
+        "responded",
+        "responding"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "回应",
+          "definitionEn": "To say or do something as an answer."
+        }
+      ]
+    },
+    {
+      "lemma": "return",
+      "phonetic": null,
+      "forms": [
+        "returns",
+        "returned",
+        "returning"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "返回；归还",
+          "definitionEn": "To go back or give something back."
+        }
+      ]
+    },
+    {
+      "lemma": "reuse",
+      "phonetic": null,
+      "forms": [
+        "reuses",
+        "reused",
+        "reusing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "重复使用",
+          "definitionEn": "To use something again rather than throw it away."
+        }
+      ]
+    },
+    {
+      "lemma": "rise",
+      "phonetic": null,
+      "forms": [
+        "rises",
+        "rose",
+        "risen",
+        "rising"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "上升；增加",
+          "definitionEn": "To move upward or become greater."
+        }
+      ]
+    },
+    {
+      "lemma": "risk",
+      "phonetic": null,
+      "forms": [
+        "risks"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "风险",
+          "definitionEn": "The possibility that something harmful might happen."
+        }
+      ]
+    },
+    {
+      "lemma": "route",
+      "phonetic": null,
+      "forms": [
+        "routes"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "路线",
+          "definitionEn": "A way taken to get from one place to another."
+        }
+      ]
+    },
+    {
+      "lemma": "rule",
+      "phonetic": null,
+      "forms": [
+        "rules"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "规则",
+          "definitionEn": "A statement explaining what is allowed or expected."
+        }
+      ]
+    },
+    {
+      "lemma": "screen",
+      "phonetic": null,
+      "forms": [
+        "screens"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "屏幕",
+          "definitionEn": "A surface on which a device displays information."
+        }
+      ]
+    },
+    {
+      "lemma": "secure",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "安全的；有保护的",
+          "definitionEn": "Protected against unauthorized access, loss, or harm."
+        }
+      ]
+    },
+    {
+      "lemma": "sentence",
+      "phonetic": null,
+      "forms": [
+        "sentences"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "句子",
+          "definitionEn": "A group of words expressing a complete thought."
+        }
+      ]
+    },
+    {
+      "lemma": "service",
+      "phonetic": null,
+      "forms": [
+        "services"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "服务",
+          "definitionEn": "Work or help provided to meet someone's needs."
+        }
+      ]
+    },
+    {
+      "lemma": "setting",
+      "phonetic": null,
+      "forms": [
+        "settings"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "设置；环境",
+          "definitionEn": "A device option or the surroundings of an event."
+        }
+      ]
+    },
+    {
+      "lemma": "shared",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "共享的；共同的",
+          "definitionEn": "Used or experienced by more than one person."
+        }
+      ]
+    },
+    {
+      "lemma": "signal",
+      "phonetic": null,
+      "forms": [
+        "signals"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "信号；提示",
+          "definitionEn": "A sign that communicates information or prompts action."
+        }
+      ]
+    },
+    {
+      "lemma": "similar",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "相似的",
+          "definitionEn": "Having some of the same features."
+        }
+      ]
+    },
+    {
+      "lemma": "social",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "社交的；社会的",
+          "definitionEn": "Related to people meeting or living together."
+        }
+      ]
+    },
+    {
+      "lemma": "spend",
+      "phonetic": null,
+      "forms": [
+        "spends",
+        "spent",
+        "spending"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "花费；度过",
+          "definitionEn": "To use money, time, or effort for something."
+        }
+      ]
+    },
+    {
+      "lemma": "store",
+      "phonetic": null,
+      "forms": [
+        "stores",
+        "stored",
+        "storing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "储存；保存",
+          "definitionEn": "To keep something so it can be used later."
+        }
+      ]
+    },
+    {
+      "lemma": "strategy",
+      "phonetic": null,
+      "forms": [
+        "strategies"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "策略",
+          "definitionEn": "A planned way to achieve a goal."
+        }
+      ]
+    },
+    {
+      "lemma": "strength",
+      "phonetic": null,
+      "forms": [
+        "strengths"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "优势；力量",
+          "definitionEn": "A useful ability or the power to do something."
+        }
+      ]
+    },
+    {
+      "lemma": "suggest",
+      "phonetic": null,
+      "forms": [
+        "suggests",
+        "suggested",
+        "suggesting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "建议；提出",
+          "definitionEn": "To offer an idea for someone to consider."
+        }
+      ]
+    },
+    {
+      "lemma": "summary",
+      "phonetic": null,
+      "forms": [
+        "summaries"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "摘要；概述",
+          "definitionEn": "A short account of the main points."
+        }
+      ]
+    },
+    {
+      "lemma": "surface",
+      "phonetic": null,
+      "forms": [
+        "surfaces"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "表面",
+          "definitionEn": "The outer or top part of something."
+        }
+      ]
+    },
+    {
+      "lemma": "system",
+      "phonetic": null,
+      "forms": [
+        "systems"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "系统",
+          "definitionEn": "A set of connected parts working together."
+        }
+      ]
+    },
+    {
+      "lemma": "temporary",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "临时的",
+          "definitionEn": "Lasting for only a limited time."
+        }
+      ]
+    },
+    {
+      "lemma": "thought",
+      "phonetic": null,
+      "forms": [
+        "thoughts"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "想法；思考",
+          "definitionEn": "An idea or the act of using the mind."
+        }
+      ]
+    },
+    {
+      "lemma": "topic",
+      "phonetic": null,
+      "forms": [
+        "topics"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "话题；主题",
+          "definitionEn": "A subject being discussed, studied, or written about."
+        }
+      ]
+    },
+    {
+      "lemma": "transport",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "交通运输",
+          "definitionEn": "A means of moving people or goods between places."
+        }
+      ]
+    },
+    {
+      "lemma": "travel",
+      "phonetic": null,
+      "forms": [
+        "travels",
+        "traveled",
+        "travelled",
+        "traveling",
+        "travelling"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "旅行；出行",
+          "definitionEn": "To go from one place to another."
+        }
+      ]
+    },
+    {
+      "lemma": "update",
+      "phonetic": null,
+      "forms": [
+        "updates",
+        "updated",
+        "updating"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "更新；提供最新情况",
+          "definitionEn": "To change something or add recent information."
+        }
+      ]
+    },
+    {
+      "lemma": "user",
+      "phonetic": null,
+      "forms": [
+        "users"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "使用者；用户",
+          "definitionEn": "A person who uses a service, device, or system."
+        }
+      ]
+    },
+    {
+      "lemma": "version",
+      "phonetic": null,
+      "forms": [
+        "versions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "版本",
+          "definitionEn": "A particular form of something that may change over time."
+        }
+      ]
+    },
+    {
+      "lemma": "visit",
+      "phonetic": null,
+      "forms": [
+        "visits",
+        "visited",
+        "visiting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "拜访；访问",
+          "definitionEn": "To go to a place or person for a period of time."
+        }
+      ]
+    },
+    {
+      "lemma": "voice",
+      "phonetic": null,
+      "forms": [
+        "voices"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "声音；表达意见的权利",
+          "definitionEn": "The sound a person makes when speaking, or their expressed view."
+        }
+      ]
+    },
+    {
+      "lemma": "walk",
+      "phonetic": null,
+      "forms": [
+        "walks",
+        "walked",
+        "walking"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "步行；散步",
+          "definitionEn": "To move on foot at an ordinary speed."
+        }
+      ]
+    },
+    {
+      "lemma": "week",
+      "phonetic": null,
+      "forms": [
+        "weeks"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "周；星期",
+          "definitionEn": "A period of seven days."
+        }
+      ]
+    },
+    {
+      "lemma": "welcome",
+      "phonetic": null,
+      "forms": [
+        "welcomes",
+        "welcomed",
+        "welcoming"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "欢迎；乐于接受",
+          "definitionEn": "To greet someone warmly or receive something gladly."
+        }
+      ]
+    },
+    {
+      "lemma": "whole",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "完整的；全部的",
+          "definitionEn": "Containing all parts rather than only some."
+        }
+      ]
+    },
+    {
+      "lemma": "workplace",
+      "phonetic": null,
+      "forms": [
+        "workplaces"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "工作场所",
+          "definitionEn": "The place where a person does their job."
+        }
+      ]
+    },
+    {
+      "lemma": "write",
+      "phonetic": null,
+      "forms": [
+        "writes",
+        "wrote",
+        "written",
+        "writing"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "写；撰写",
+          "definitionEn": "To produce words or symbols on paper or a screen."
+        }
+      ]
+    },
+    {
+      "lemma": "young",
+      "phonetic": null,
+      "forms": [
+        "younger",
+        "youngest"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "年轻的",
+          "definitionEn": "Having lived or existed for a relatively short time."
+        }
+      ]
+    },
+    {
+      "lemma": "appliance",
+      "phonetic": null,
+      "forms": [
+        "appliances"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "家用电器",
+          "definitionEn": "A device used for a household task."
+        }
+      ]
+    },
+    {
+      "lemma": "appointment",
+      "phonetic": null,
+      "forms": [
+        "appointments"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "预约；约定时间",
+          "definitionEn": "An arrangement to meet someone at a particular time."
+        }
+      ]
+    },
+    {
+      "lemma": "aware",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "意识到的；知晓的",
+          "definitionEn": "Knowing that something exists or is happening."
+        }
+      ]
+    },
+    {
+      "lemma": "campus",
+      "phonetic": null,
+      "forms": [
+        "campuses"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "校园",
+          "definitionEn": "The land and buildings of a school or university."
+        }
+      ]
+    },
+    {
+      "lemma": "colleague",
+      "phonetic": null,
+      "forms": [
+        "colleagues"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "同事",
+          "definitionEn": "Someone who works with you in the same organization."
+        }
+      ]
+    },
+    {
+      "lemma": "contribution",
+      "phonetic": null,
+      "forms": [
+        "contributions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "贡献；所提供的部分",
+          "definitionEn": "Something given or done to help a shared activity."
+        }
+      ]
+    },
+    {
+      "lemma": "conversation",
+      "phonetic": null,
+      "forms": [
+        "conversations"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "交谈；对话",
+          "definitionEn": "An exchange of spoken ideas between people."
+        }
+      ]
+    },
+    {
+      "lemma": "distraction",
+      "phonetic": null,
+      "forms": [
+        "distractions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "分心的事物",
+          "definitionEn": "Something that takes attention away from an activity."
+        }
+      ]
+    },
+    {
+      "lemma": "emotion",
+      "phonetic": null,
+      "forms": [
+        "emotions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "情绪；情感",
+          "definitionEn": "A strong feeling such as joy, fear, or sadness."
+        }
+      ]
+    },
+    {
+      "lemma": "essential",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "必不可少的",
+          "definitionEn": "Necessary for a particular purpose."
+        }
+      ]
+    },
+    {
+      "lemma": "expectation",
+      "phonetic": null,
+      "forms": [
+        "expectations"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "预期；期望",
+          "definitionEn": "A belief about what should or will happen."
+        }
+      ]
+    },
+    {
+      "lemma": "handoff",
+      "phonetic": null,
+      "forms": [
+        "handoffs"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "工作交接",
+          "definitionEn": "The transfer of a task or responsibility to another person."
+        }
+      ]
+    },
+    {
+      "lemma": "highlight",
+      "phonetic": null,
+      "forms": [
+        "highlights",
+        "highlighted",
+        "highlighting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "突出；标记重点",
+          "definitionEn": "To draw attention to something important."
+        }
+      ]
+    },
+    {
+      "lemma": "involve",
+      "phonetic": null,
+      "forms": [
+        "involves",
+        "involved",
+        "involving"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "包含；使参与",
+          "definitionEn": "To include someone or something as part of an activity."
+        }
+      ]
+    },
+    {
+      "lemma": "label",
+      "phonetic": null,
+      "forms": [
+        "labels"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "标签；标记",
+          "definitionEn": "A short description attached to identify something."
+        }
+      ]
+    },
+    {
+      "lemma": "manual",
+      "phonetic": null,
+      "forms": [
+        "manuals"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "使用手册",
+          "definitionEn": "A book or document explaining how something works."
+        }
+      ]
+    },
+    {
+      "lemma": "participate",
+      "phonetic": null,
+      "forms": [
+        "participates",
+        "participated",
+        "participating"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "参加；参与",
+          "definitionEn": "To take part in an activity."
+        }
+      ]
+    },
+    {
+      "lemma": "perspective",
+      "phonetic": null,
+      "forms": [
+        "perspectives"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "看法；视角",
+          "definitionEn": "A particular way of understanding a subject."
+        }
+      ]
+    },
+    {
+      "lemma": "priority",
+      "phonetic": null,
+      "forms": [
+        "priorities"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "优先事项",
+          "definitionEn": "Something considered more important than other things."
+        }
+      ]
+    },
+    {
+      "lemma": "proof",
+      "phonetic": null,
+      "forms": [
+        "proofs"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "证据；证明",
+          "definitionEn": "Information showing that a claim is true."
+        }
+      ]
+    },
+    {
+      "lemma": "recover",
+      "phonetic": null,
+      "forms": [
+        "recovers",
+        "recovered",
+        "recovering"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "恢复；找回",
+          "definitionEn": "To return to a better state or get something back."
+        }
+      ]
+    },
+    {
+      "lemma": "reminder",
+      "phonetic": null,
+      "forms": [
+        "reminders"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "提醒；提示",
+          "definitionEn": "Something that helps a person remember a task or fact."
+        }
+      ]
+    },
+    {
+      "lemma": "reserve",
+      "phonetic": null,
+      "forms": [
+        "reserves",
+        "reserved",
+        "reserving"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "预订；留出",
+          "definitionEn": "To arrange for future use or keep something available."
+        }
+      ]
+    },
+    {
+      "lemma": "role",
+      "phonetic": null,
+      "forms": [
+        "roles"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "职责；角色",
+          "definitionEn": "The part a person plays in an activity or group."
+        }
+      ]
+    },
+    {
+      "lemma": "safety",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "安全",
+          "definitionEn": "The condition of being protected from harm."
+        }
+      ]
+    },
+    {
+      "lemma": "separate",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "分开的；独立的",
+          "definitionEn": "Not joined together or treated as one."
+        }
+      ]
+    },
+    {
+      "lemma": "session",
+      "phonetic": null,
+      "forms": [
+        "sessions"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "n.",
+          "definitionZh": "一段活动时间",
+          "definitionEn": "A period of time used for a particular activity."
+        }
+      ]
+    },
+    {
+      "lemma": "sort",
+      "phonetic": null,
+      "forms": [
+        "sorts",
+        "sorted",
+        "sorting"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "分类；整理",
+          "definitionEn": "To arrange items into groups or an order."
+        }
+      ]
+    },
+    {
+      "lemma": "strengthen",
+      "phonetic": null,
+      "forms": [
+        "strengthens",
+        "strengthened",
+        "strengthening"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "加强；巩固",
+          "definitionEn": "To make something stronger or more effective."
+        }
+      ]
+    },
+    {
+      "lemma": "successful",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "成功的",
+          "definitionEn": "Achieving the intended result."
+        }
+      ]
+    },
+    {
+      "lemma": "translate",
+      "phonetic": null,
+      "forms": [
+        "translates",
+        "translated",
+        "translating"
+      ],
+      "senses": [
+        {
+          "partOfSpeech": "v.",
+          "definitionZh": "翻译",
+          "definitionEn": "To express words in another language."
+        }
+      ]
+    },
+    {
+      "lemma": "uncertain",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "不确定的",
+          "definitionEn": "Not fully known, decided, or confident."
+        }
+      ]
+    },
+    {
+      "lemma": "visible",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "可见的；明显的",
+          "definitionEn": "Able to be seen or noticed."
+        }
+      ]
+    },
+    {
+      "lemma": "worthwhile",
+      "phonetic": null,
+      "forms": [],
+      "senses": [
+        {
+          "partOfSpeech": "adj.",
+          "definitionZh": "值得的",
+          "definitionEn": "Useful or valuable enough to justify the effort."
+        }
+      ]
+    }
+  ]
+}

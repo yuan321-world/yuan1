@@ -1,0 +1,39 @@
+package com.englishhero.vocabulary.phrase;
+import java.util.*;
+import java.time.*;
+import java.sql.Timestamp;
+import java.net.http.HttpClient;
+import org.junit.jupiter.api.Test;
+import tools.jackson.databind.JsonNode;
+import static org.assertj.core.api.Assertions.*;
+class PhraseScheduleIT extends PhraseHttpITSupport {
+ @org.springframework.beans.factory.annotation.Autowired java.time.Clock clock;
+ static final String ROOT="/vocabulary/phrases";
+ JsonNode post(HttpClient c,String path,Object body)throws Exception {var r=call(c,"POST",ROOT+path,body);assertThat(r.statusCode()).as(r.body()).isEqualTo(200);return json.readTree(r.body());}
+ String collect(HttpClient c)throws Exception {String id=post(c,"",Map.of("text","look forward to","meaningZh","期待")).get("id").asText();assertThat(call(c,"PUT",ROOT+"/"+id+"/learning",Map.of("enrolled",true)).statusCode()).isEqualTo(200);return id;}
+ JsonNode start(HttpClient c)throws Exception {return post(c,"/practice",Map.of("requestId",UUID.randomUUID().toString(),"mode","WRITE"));}
+ Map<String,Object> command(JsonNode r,String action){return new LinkedHashMap<>(Map.of("requestId",UUID.randomUUID().toString(),"expectedVersion",r.get("version").asInt(),"action",action));}
+ JsonNode apply(HttpClient c,JsonNode round,String action)throws Exception {var in=command(round,action);if(action.equals("PASS"))in.put("answer","look forward to");return post(c,"/practice/"+round.get("id").asText()+"/commands",in);}
+ JsonNode finish(HttpClient c,JsonNode round)throws Exception {return apply(c,apply(c,round,"PASS"),"NEXT");}
+ @Test void completionSchedulesNextDayOnlyDueIsAllocatedAndExemptRestorePreservesDue()throws Exception {
+  var a=actor(false);String id=collect(a);Instant before=clock.instant();finish(a,start(a));Instant after=clock.instant();var row=jdbc.queryForMap("SELECT stage,due_at,rule_version FROM vocabulary_phrase WHERE id=?",id);assertThat(((Number)row.get("stage")).intValue()).isEqualTo(1);Instant due=jdbc.queryForObject("SELECT due_at FROM vocabulary_phrase WHERE id=?",(rs,n)->rs.getTimestamp(1).toInstant(),id);assertThat(due).isBetween(before.plus(Duration.ofDays(1)).minusMillis(1),after.plus(Duration.ofDays(1)).plusMillis(1));assertThat(row.get("rule_version")).isEqualTo(PhraseSchedule.RULE);
+  assertThat(call(a,"POST",ROOT+"/practice",Map.of("requestId",UUID.randomUUID().toString(),"mode","WRITE")).statusCode()).isEqualTo(400);assertThat(json.readTree(call(a,"GET",ROOT,null).body()).get("stats").get("available").asInt()).isZero();
+  call(a,"PUT",ROOT+"/"+id+"/learning",Map.of("exempt",true));call(a,"PUT",ROOT+"/"+id+"/learning",Map.of("exempt",false));assertThat(jdbc.queryForObject("SELECT due_at FROM vocabulary_phrase WHERE id=?",Timestamp.class,id).toInstant()).isEqualTo(due);
+  jdbc.update("UPDATE vocabulary_phrase SET due_at=DATE_SUB(UTC_TIMESTAMP(6),INTERVAL 1 DAY) WHERE id=?",id);before=clock.instant();finish(a,start(a));after=clock.instant();assertThat(jdbc.queryForObject("SELECT stage FROM vocabulary_phrase WHERE id=?",Integer.class,id)).isEqualTo(2);assertThat(jdbc.queryForObject("SELECT due_at FROM vocabulary_phrase WHERE id=?",Timestamp.class,id).toInstant()).isBetween(before.plus(Duration.ofDays(3)).minusMillis(1),after.plus(Duration.ofDays(3)).plusMillis(1));
+ }
+ @Test void auxiliaryAndIncorrectCommandsAreDurableIdempotentAndFailureRoundResetsStageOnce()throws Exception {
+  var a=actor(false);String id=collect(a);jdbc.update("UPDATE vocabulary_phrase SET stage=7,due_at=DATE_SUB(UTC_TIMESTAMP(6),INTERVAL 1 DAY) WHERE id=?",id);var s=start(a);String roundId=s.get("id").asText(),path="/practice/"+roundId+"/commands";var hint=command(s,"HINT");s=post(a,path,hint);assertThat(post(a,path,hint)).isEqualTo(s);
+  assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM vocabulary_phrase_event WHERE phrase_id=? AND action='HINT'",Integer.class,id)).isEqualTo(1);assertThat(jdbc.queryForObject("SELECT stage FROM vocabulary_phrase WHERE id=?",Integer.class,id)).isEqualTo(7);
+  s=apply(a,s,"PASS");assertThat(s.get("items").get(0).get("passed").asBoolean()).isFalse();s=apply(a,s,"NEXT");var wrong=command(s,"PASS");wrong.put("answer","wrong phrase");s=post(a,path,wrong);assertThat(post(a,path,wrong)).isEqualTo(s);assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM vocabulary_phrase_event WHERE phrase_id=? AND action='ERROR'",Integer.class,id)).isEqualTo(1);s=apply(a,s,"NEXT");Instant before=clock.instant();s=finish(a,s);assertThat(s.get("status").asText()).isEqualTo("COMPLETED");assertThat(jdbc.queryForObject("SELECT stage FROM vocabulary_phrase WHERE id=?",Integer.class,id)).isEqualTo(1);assertThat(jdbc.queryForObject("SELECT due_at FROM vocabulary_phrase WHERE id=?",Timestamp.class,id).toInstant()).isBetween(before.plus(Duration.ofDays(1)),clock.instant().plus(Duration.ofDays(1)).plusMillis(1));
+  assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM vocabulary_phrase_event WHERE phrase_id=? AND independent=TRUE",Integer.class,id)).isZero();assertThat(jdbc.queryForObject("SELECT independent_passes FROM vocabulary_phrase WHERE id=?",Integer.class,id)).isZero();assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM vocabulary_phrase_event e JOIN vocabulary_phrase_command c ON c.user_id=e.user_id AND c.request_id=e.request_id WHERE e.phrase_id=?",Integer.class,id)).isEqualTo(4);assertThat(jdbc.queryForObject("SELECT JSON_UNQUOTE(JSON_EXTRACT(evidence_json,'$.command.action')) FROM vocabulary_phrase_event WHERE phrase_id=? AND action='ERROR'",String.class,id)).isEqualTo("PASS");
+ }
+ @Test void preScheduleSavedItemsWithoutRuleResumeAndCompletedHistoryIsUntouched()throws Exception {
+  var a=actor(false);String id=collect(a);jdbc.update("UPDATE vocabulary_phrase SET independent_passes=7 WHERE id=?",id);var s=start(a);String roundId=s.get("id").asText();long owner=jdbc.queryForObject("SELECT user_id FROM vocabulary_phrase WHERE id=?",Long.class,id);jdbc.update("UPDATE vocabulary_phrase_round SET state_json=JSON_REMOVE(state_json,'$.items[0].ruleVersion') WHERE id=?",roundId);
+  String old=jdbc.queryForObject("SELECT state_json FROM vocabulary_phrase_round WHERE id=?",String.class,roundId);jdbc.update("INSERT INTO vocabulary_phrase_round(user_id,status,state_json) VALUES(?,'COMPLETED',?)",owner,old);long history=jdbc.queryForObject("SELECT LAST_INSERT_ID()",Long.class);String historyBefore=jdbc.queryForObject("SELECT state_json FROM vocabulary_phrase_round WHERE id=?",String.class,history);
+  s=json.readTree(call(a,"GET",ROOT+"/practice",null).body());assertThat(s.get("items").get(0).get("ruleVersion").isNull()).isTrue();s=apply(a,s,"SAVE");s=apply(a,s,"RESUME");finish(a,s);assertThat(jdbc.queryForObject("SELECT independent_passes FROM vocabulary_phrase WHERE id=?",Integer.class,id)).isEqualTo(8);assertThat(jdbc.queryForObject("SELECT stage FROM vocabulary_phrase WHERE id=?",Integer.class,id)).isEqualTo(1);assertThat(jdbc.queryForObject("SELECT state_json FROM vocabulary_phrase_round WHERE id=?",String.class,history)).isEqualTo(historyBefore);
+ }
+
+ @Test void recognitionSelfReportSchedulesCompletionWithoutIndependentWritingCredit()throws Exception {
+  var a=actor(false);String id=collect(a);var s=post(a,"/practice",Map.of("requestId",UUID.randomUUID().toString(),"mode","RECOGNIZE"));s=apply(a,s,"REVEAL");var input=command(s,"PASS");input.put("known",true);s=post(a,"/practice/"+s.get("id").asText()+"/commands",input);s=apply(a,s,"NEXT");assertThat(s.get("status").asText()).isEqualTo("COMPLETED");assertThat(jdbc.queryForObject("SELECT stage FROM vocabulary_phrase WHERE id=?",Integer.class,id)).isEqualTo(1);assertThat(jdbc.queryForObject("SELECT independent_passes FROM vocabulary_phrase WHERE id=?",Integer.class,id)).isZero();assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM vocabulary_phrase_event WHERE phrase_id=? AND correct=TRUE AND independent=FALSE",Integer.class,id)).isEqualTo(1);
+ }
+}

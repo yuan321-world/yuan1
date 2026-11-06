@@ -1,22 +1,19 @@
 <script setup lang="ts">
 import AppNavigation from '@/components/AppNavigation.vue'
-import AuthBrandPanel from '@/components/AuthBrandPanel.vue'
-import { computed } from 'vue'
+import WritingLoginContinuation from '@/components/reading/WritingLoginContinuation.vue'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+const auth = useAuthStore()
 const route = useRoute()
-const authPage = computed(() => route.path === '/login' || route.path === '/register')
 </script>
 <template>
-  <div :class="{ 'auth-layout': authPage }">
+  <div>
   <a class="skip-link" href="#main-content">跳到主要内容</a>
-  <header v-if="authPage" class="auth-header">
-    <RouterLink class="brand" to="/" aria-label="Lingua Loop 首页"><span class="brand-mark" aria-hidden="true">L</span>Lingua Loop</RouterLink>
-  </header>
-  <AppNavigation v-else />
-  <main id="main-content" :class="authPage ? 'auth-main' : 'page-content'" tabindex="-1">
-    <AuthBrandPanel v-if="authPage" />
-    <RouterView />
-    <footer v-if="!authPage" class="site-footer"><span>Lingua Loop · 一点积累，每天循环。</span><span>工程基础预览</span></footer>
+  <AppNavigation />
+  <main id="main-content" :class="['page-content', { 'home-content': route.path === '/', 'wall-content': route.path === '/wall', 'reading-content': route.path.startsWith('/reading/'), 'practice-study-content': route.path.startsWith('/practice') }]" tabindex="-1">
+    <RouterView :key="auth.user?.id ?? 'anonymous'" />
+    <WritingLoginContinuation />
+    <footer class="site-footer"><span>Lingua Loop · 一点积累，每天循环。</span></footer>
   </main>
   </div>
 </template>

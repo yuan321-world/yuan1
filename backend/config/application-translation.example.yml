@@ -1,0 +1,7 @@
+english-hero:
+  reading:
+    translation:
+      baidu:
+        app-id: ""
+        secret-key: ""
+        monthly-character-limit: 1000000

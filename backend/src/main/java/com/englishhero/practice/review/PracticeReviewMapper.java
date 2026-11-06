@@ -1,0 +1,14 @@
+package com.englishhero.practice.review;
+import java.time.*;import java.util.*;import org.springframework.jdbc.core.*;import org.springframework.jdbc.support.GeneratedKeyHolder;import org.springframework.stereotype.Repository;
+import tools.jackson.databind.ObjectMapper;import static com.englishhero.practice.review.PracticeReviewDtos.*;
+@Repository
+public class PracticeReviewMapper {
+ final JdbcTemplate jdbc;final ObjectMapper json;
+ public PracticeReviewMapper(JdbcTemplate jdbc,ObjectMapper json){this.jdbc=jdbc;this.json=json;}
+ public JdbcTemplate jdbc(){return jdbc;} public ObjectMapper json(){return json;} public RowMapper<Job> jobs(){return jobs;}
+ public record Job(long id,long user,String scope,Source source,String status,String lease,String model,LocalDate day,long reserve,Instant created,Instant leaseUntil){}
+ final RowMapper<Job> jobs=this::mapJob; private Job mapJob(java.sql.ResultSet r,int n)throws java.sql.SQLException{return new Job(r.getLong("id"),r.getLong("user_id"),r.getString("scope_hash"),json.readValue(r.getString("source_json"),Source.class),r.getString("status"),r.getString("lease_token"),r.getString("model"),r.getDate("budget_day").toLocalDate(),r.getLong("reserved_microusd"),r.getTimestamp("created_at").toInstant(),r.getTimestamp("lease_until")==null?null:r.getTimestamp("lease_until").toInstant());}
+ public static String budgetStatus(String status,Long settled,Long input,Long output){if("QUEUED".equals(status)||"RUNNING".equals(status))return "RESERVED";if(settled!=null&&settled==0)return "RELEASED";return PracticeReviewBudget.knownUsage(input,output)?"SETTLED":"UNKNOWN";}
+ public long insert(String sql,Object...args){var key=new GeneratedKeyHolder();jdbc.update(c->{var p=c.prepareStatement(sql,java.sql.Statement.RETURN_GENERATED_KEYS);for(int i=0;i<args.length;i++)p.setObject(i+1,args[i]);return p;},key);return Objects.requireNonNull(key.getKey()).longValue();}
+ public ReviewDto dto(long user,long id){return jdbc.query("SELECT * FROM practice_subjective_review WHERE user_id=? AND id=?",(r,n)->{var s=json.readValue(r.getString("source_json"),Source.class);return new ReviewDto(r.getString("id"),s.sourceType(),s.attemptId(),s.slot(),r.getString("status"),r.getString("error_code"),r.getTimestamp("created_at").toInstant(),r.getTimestamp("completed_at")==null?null:r.getTimestamp("completed_at").toInstant(),r.getString("model"),r.getString("prompt_version"),r.getString("rubric_version"),s.text(),r.getString("result_json")==null?null:json.readValue(r.getString("result_json"),Result.class),budgetStatus(r.getString("status"),(Long)r.getObject("settled_microusd"),(Long)r.getObject("input_tokens"),(Long)r.getObject("output_tokens")),(((Long)r.getObject("settled_microusd")==null?r.getLong("reserved_microusd"):r.getLong("settled_microusd"))*20+2)/3);},user,id).stream().findFirst().orElseThrow(()->new com.englishhero.web.BusinessException(404,"PRACTICE_REVIEW_NOT_FOUND","批改记录不存在"));}
+}

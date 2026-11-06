@@ -6,14 +6,16 @@ export class ApiError extends Error {
   readonly code?: string
   readonly publicMessage?: string
   readonly fieldErrors?: Record<string, string>
+  readonly retryAfterSeconds?: number
 
-  constructor(status: number, payload?: { code?: string; message?: string; fieldErrors?: Record<string, string> }) {
+  constructor(status: number, payload?: { code?: string; message?: string; fieldErrors?: Record<string, string> }, retryAfterSeconds?: number) {
     super(`Request failed with HTTP status ${status}`)
     this.name = 'ApiError'
     this.status = status
     this.code = payload?.code
     this.publicMessage = payload?.message
     this.fieldErrors = payload?.fieldErrors
+    this.retryAfterSeconds = retryAfterSeconds
   }
 }
 
@@ -106,7 +108,9 @@ export async function requestJson<T>(path: string, options: RequestInit = {}): P
           }
         }
       } catch { if (controller.signal.aborted) throw controller.signal.reason }
-      throw new ApiError(response.status, payload)
+      const retryAfter = response.headers?.get('Retry-After')
+      const retryAfterSeconds = parseRetryAfter(retryAfter)
+      throw new ApiError(response.status, payload, retryAfterSeconds)
     }
     if (response.status === 204) return undefined as T
 
@@ -122,4 +126,11 @@ export async function requestJson<T>(path: string, options: RequestInit = {}): P
     callerSignal?.removeEventListener('abort', forwardCallerAbort)
     removeAbortListener()
   }
+}
+
+function parseRetryAfter(value: string | null): number | undefined {
+  if (!value) return undefined
+  if (/^\d+$/.test(value)) return Number(value)
+  const time = Date.parse(value)
+  return Number.isNaN(time) ? undefined : Math.max(0, Math.ceil((time - Date.now()) / 1000))
 }

@@ -10,38 +10,29 @@ test('mocked healthy response appears without browser errors', async ({ page }) 
   page.on('pageerror', error => errors.push(error.message))
   await page.route(statusPath, route => route.fulfill({ status: 200, json: ready }))
   await page.goto('/')
-  await expect(page.getByText(/连接正常/)).toBeVisible()
+  await expect(page.locator('.system-status-badge')).toHaveCount(0)
   await page.getByRole('link', { name: '读今天的文章' }).click()
   await expect(page.getByRole('heading', { name: '外刊精读', exact: true })).toBeVisible()
   expect(errors).toEqual([])
 })
 
-test('mocked backend failure can be retried', async ({ page }) => {
-  let unavailable = true
-  await page.route(statusPath, route => route.fulfill(unavailable
-    ? { status: 503, json: { status: 'DOWN', service: 'english-hero', database: 'DOWN' } }
-    : { status: 200, json: ready }))
+test('home does not request or display developer health diagnostics', async ({ page }) => {
+  let requests = 0
+  await page.route(statusPath, route => { requests++; return route.fulfill({ status: 503, json: { status: 'DOWN', service: 'english-hero', database: 'DOWN' } }) })
   await page.goto('/')
-  await expect(page.getByText('服务暂不可用，点击重试', { exact: true })).toBeVisible()
-  unavailable = false
-  await page.getByRole('button', { name: /重试/ }).click()
-  await expect(page.getByText(/连接正常/)).toBeVisible()
-})
-
-test('a 200 HTML fallback is displayed as unavailable', async ({ page }) => {
-  await page.route(statusPath, route => route.fulfill({ status: 200, contentType: 'text/html', body: '<html>fallback</html>' }))
-  await page.goto('/')
-  await expect(page.getByText('服务暂不可用，点击重试', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Lingua Loop', exact: true })).toBeVisible()
+  await expect(page.getByText('开发连接状态', { exact: true })).toHaveCount(0)
+  await expect(page.locator('.system-status-badge')).toHaveCount(0)
+  expect(requests).toBe(0)
 })
 
 test('real backend readiness travels through Vite to MySQL', async ({ page }) => {
   test.info().annotations.push({ type: 'scope', description: 'Real identity + database' })
-  test.skip(process.env.E2E_REAL_BACKEND !== '1', 'Requires configured dedicated dev database and running Java backend; this is not a mocked test.')
+  test.skip(process.env.E2E_REAL_BACKEND !== '1' || !process.env.E2E_MAILBOX_URL, 'Requires the dedicated dev database, running Java backend, and local SMTP test mailbox; this is not a mocked test.')
   await realAccount(page)
-  const responsePromise = page.waitForResponse(response => new URL(response.url()).pathname === '/api/v1/system/status')
   await page.goto('/')
-  const response = await responsePromise
+  const response = await page.request.get('/api/v1/system/status')
   expect(response.status()).toBe(200)
   expect(await response.json()).toEqual(ready)
-  await expect(page.getByText(/连接正常/)).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Lingua Loop', exact: true })).toBeVisible()
 })

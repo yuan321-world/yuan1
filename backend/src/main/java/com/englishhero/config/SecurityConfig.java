@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.*;
 import org.springframework.security.web.csrf.*;
 import org.springframework.security.web.authentication.session.*;
-import org.springframework.session.web.http.*;
+
 
 @Configuration
 public class SecurityConfig {
@@ -44,50 +44,58 @@ public class SecurityConfig {
         var provider = new DaoAuthenticationProvider(users); provider.setPasswordEncoder(encoder);
         return new ProviderManager(provider);
     }
-    @Bean SecurityContextRepository securityContextRepository() {
-        return new DelegatingSecurityContextRepository(new RequestAttributeSecurityContextRepository(), new HttpSessionSecurityContextRepository());
-    }
-    @Bean HttpSessionCsrfTokenRepository csrfRepository() { return new HttpSessionCsrfTokenRepository(); }
-    @Bean SessionAuthenticationStrategy loginStrategy(HttpSessionCsrfTokenRepository csrf) {
-        return new CompositeSessionAuthenticationStrategy(List.of(new ChangeSessionIdAuthenticationStrategy(), new CsrfAuthenticationStrategy(csrf)));
-    }
-    @Bean CookieSerializer cookieSerializer(@Value("${english-hero.session.secure:false}") boolean secure, Clock clock) {
-        var serializer = new DefaultCookieSerializer() {
-            @Override public void writeCookieValue(CookieValue value) {
-                if (value.getCookieMaxAge() != 0) {
-                    var session = value.getRequest().getSession(false);
-                    boolean remember = session != null && Boolean.TRUE.equals(session.getAttribute(IdentitySessionFilter.REMEMBER));
-                    Long login = session == null ? null : (Long) session.getAttribute(IdentitySessionFilter.LOGIN_TIME);
-                    value.setCookieMaxAge(remember && login != null ? (int) Math.max(0, Math.min(604800, 604800 - (clock.millis() - login) / 1000)) : -1);
-                }
-                super.writeCookieValue(value);
-            }
-        };
-        serializer.setCookieName("EH_SESSION"); serializer.setCookiePath("/"); serializer.setUseHttpOnlyCookie(true);
-        serializer.setSameSite("Lax"); serializer.setUseSecureCookie(secure);
-        return serializer;
+    @Bean CookieCsrfTokenRepository csrfRepository(com.englishhero.identity.token.AuthProperties props) {
+        var csrf = new CookieCsrfTokenRepository();
+        csrf.setCookieName("EH_CSRF"); csrf.setCookiePath("/api/v1"); csrf.setHeaderName("X-CSRF-TOKEN");
+        csrf.setCookieCustomizer(cookie -> cookie.httpOnly(true).secure(props.isSecure()).sameSite("Lax"));
+        return csrf;
     }
     @Bean
     SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            SecurityContextRepository contexts, HttpSessionCsrfTokenRepository csrf,
+            CookieCsrfTokenRepository csrf, com.englishhero.identity.token.TokenAuthenticationService tokens, com.englishhero.identity.token.AuthProperties props,
             IdentityService identities, Clock clock,
             @Value("${springdoc.api-docs.enabled:false}") boolean docsEnabled) throws Exception {
         http.authorizeHttpRequests(access -> {
             access.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/system/status", "/api/v1/auth/csrf").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/auth/register", "/api/v1/auth/login").permitAll();
+                .requestMatchers(HttpMethod.POST, "/api/v1/auth/refresh", "/api/v1/auth/logout", "/api/v1/auth/register", "/api/v1/auth/login", "/api/v1/auth/email-codes", "/api/v1/auth/password-reset").permitAll();
             if (docsEnabled) {
                 access.requestMatchers(HttpMethod.GET,
                     "/v3/api-docs", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
             }
             access.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,"/api/v1/wall/messages","/api/v1/wall/messages/*","/api/v1/wall/messages/*/comments").permitAll()
+                .requestMatchers("/api/v1/wall/**").authenticated()
+                .requestMatchers(HttpMethod.GET,"/api/v1/practice/catalog","/api/v1/practice/sets","/api/v1/practice/facets","/api/v1/practice/sets/*","/api/v1/practice/papers","/api/v1/practice/papers/*").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/v1/practice/audio/*").permitAll()
+                .requestMatchers(HttpMethod.HEAD,"/api/v1/practice/audio/*").permitAll()
+                .requestMatchers("/api/v1/practice/**").authenticated()
+                .requestMatchers("/api/v1/reading/selection-translations/**").authenticated()
+                .requestMatchers("/api/v1/reading/checkins/week","/api/v1/reading/articles/*/versions/*/checkin","/api/v1/reading/attempts/**","/api/v1/reading/quizzes/*/attempts","/api/v1/reading/articles/*/versions/*/practice","/api/v1/reading/articles/*/versions/*/practice/history").authenticated()
+                .requestMatchers(HttpMethod.GET,"/api/v1/dictionary/lookup","/api/v1/dictionary/phrase","/api/v1/dictionary/search").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/v1/reading/recommendation","/api/v1/reading/categories","/api/v1/reading/articles","/api/v1/reading/articles/*","/api/v1/reading/articles/*/versions/*").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/v1/reading/articles/*/versions/*/tools","/api/v1/reading/articles/*/versions/*/quiz").permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/v1/reading/articles/*/versions/*/quiz/guest-sessions","/api/v1/reading/quiz-guest/submit").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/v1/reading/articles/*/versions/*/writing-materials").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/v1/reading/articles/*/versions/*/words").authenticated()
+                .requestMatchers("/api/v1/reading/favorites","/api/v1/reading/favorites/states","/api/v1/reading/articles/*/favorite").authenticated()
+                .requestMatchers("/api/v1/vocabulary/words","/api/v1/vocabulary/words/*","/api/v1/vocabulary/learning/**","/api/v1/vocabulary/phrases","/api/v1/vocabulary/phrases/**").authenticated()
+                .requestMatchers("/api/v1/writing-materials/*/personal","/api/v1/writing-materials/*/favorite","/api/v1/writing-materials/*/imitation").authenticated()
+                .requestMatchers(HttpMethod.GET,"/api/v1/reading/articles/*/versions/*/writing-materials/states").authenticated()
+                .requestMatchers(HttpMethod.GET,"/api/v1/reading/categories","/api/v1/reading/articles","/api/v1/reading/articles/*/versions/*","/api/v1/reading/history").authenticated()
+                .requestMatchers(HttpMethod.PUT,"/api/v1/reading/progress/*").authenticated()
+                .requestMatchers(HttpMethod.POST,"/api/v1/reading/articles/*/start").authenticated()
                 .requestMatchers("/api/v1/auth/me", "/api/v1/auth/logout", "/api/v1/account/**").authenticated()
                 .anyRequest().denyAll();
         });
-        http.securityContext(context -> context.securityContextRepository(contexts).requireExplicitSave(true));
-        http.csrf(config -> config.csrfTokenRepository(csrf).csrfTokenRequestHandler(new XorCsrfTokenRequestAttributeHandler()));
-        http.addFilterAfter(new IdentitySessionFilter(identities, clock), SecurityContextHolderFilter.class);
+        http.sessionManagement(config -> config.sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.STATELESS)
+            .sessionAuthenticationStrategy(new NullAuthenticatedSessionStrategy()));
+        http.securityContext(context -> context.securityContextRepository(new NullSecurityContextRepository()));
+        http.csrf(config -> config.csrfTokenRepository(csrf).csrfTokenRequestHandler(new XorCsrfTokenRequestAttributeHandler())
+            .sessionAuthenticationStrategy(new NullAuthenticatedSessionStrategy()));
+        http.addFilterBefore(new com.englishhero.identity.token.AuthOriginFilter(props), CsrfFilter.class);
+        http.addFilterAfter(new com.englishhero.identity.token.JwtIdentityFilter(tokens), SecurityContextHolderFilter.class);
         http.exceptionHandling(errors -> errors
             .authenticationEntryPoint((request, response, error) -> IdentityErrors.write(response, request, 401, "UNAUTHENTICATED", "请先登录"))
             .accessDeniedHandler((request, response, error) -> IdentityErrors.write(response, request, 403,

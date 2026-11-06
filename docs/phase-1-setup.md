@@ -1,5 +1,8 @@
 # 阶段1本地使用与验收
 
+2026-10-16：认证已迁移JWT + Redis。本文保留阶段1初始设置的历史上下文；当前启动须先完成 [项目专用Redis及密钥配置](auth-jwt-redis-setup.md)，原Session专用运行方式不再适用。
+
+
 ## 启动
 
 项目已初始化，无需重新建工程。在项目根目录打开两个PowerShell终端：
@@ -19,7 +22,7 @@ java -jar target/english-hero-0.0.1.jar --server.address=127.0.0.1
 pnpm --dir frontend dev
 ```
 
-打开 http://127.0.0.1:5173/login 。先注册，再登录进入首页；新建普通账号仅有USER角色。当前用户看到真实空学习记录，学习功能仍按后续阶段开放。
+打开 http://127.0.0.1:5173/login 。新注册需填写邮箱并验证验证码，再使用用户名登录；新建普通账号仅有USER角色。已有账号不受影响，可先登录后在账户设置绑定邮箱。QQ邮件配置见 [邮件说明](email-setup.md)，邮件未启用时不能发送验证码，已有账号仍可登录。当前学习业务仍按后续阶段开放。
 
 公开注册禁止以admin开头的所有用户名（去首尾空白、不区分大小写），并保留root/system。管理员使用受控创建流程，允许admin前缀；普通用户不能通过注册取得管理员名称或权限。
 
@@ -47,8 +50,41 @@ java -jar target/english-hero-0.0.1.jar --server.address=127.0.0.1 --server.port
 
 backend目录：`mvnw.cmd -o verify -Pmysql-it`。测试配置必须指向127.0.0.1的english_hero_test；不使用开发库跑集成测试。frontend目录：`pnpm test:unit`、`pnpm typecheck`、`pnpm build`。
 
-浏览器Mock：`pnpm test:e2e`。真实流程需用 `java -jar target/english-hero-0.0.1.jar --spring.config.import=file:./config/application-test.yml` 启动测试后端，再设置 `E2E_REAL_BACKEND=1`、`E2E_PREVIEW=1`、`E2E_PORT=4174`运行浏览器测试。测试关闭trace/截图/视频。
+浏览器Mock：`pnpm test:e2e`。真实邮箱流程需要独立测试后端和SMTP收件器，见下节。没有 `E2E_REAL_BACKEND=1` 和 `E2E_MAILBOX_URL` 时，真实注册用例明确跳过，不视为通过。测试关闭trace/截图/视频。
 
 Windows进程回收停滞时，先手动运行 `pnpm preview --port 4174`，再设置 `E2E_EXTERNAL_SERVER=1`使用这个受控preview，默认严格端口检查保持。运行中的JAR在Windows可能被锁住，打包前先停止该后端；验证时可复制JAR到忽略目录单独运行。
 
 验收结果和未覆盖的部署环境见 [阶段1验收](acceptance/phase-1.md)。用户页面确认完成并批准后才开始阶段2。
+
+## 真实邮箱流程的自动浏览器测试
+
+仅使用已配置的english_hero_test，保留8080/4174开发体验服务。在根目录先加载workspace工具和Java21。三个独立终端执行：
+
+```powershell
+# 根目录终端一：只绑定回环地址的测试收件器，无QQ投递，无凭据日志
+node scripts/test-smtp-sink.cjs
+```
+
+```powershell
+# 根目录终端二：随机测试密钥留在当前进程环境，不输出或放命令行
+$env:ENGLISH_HERO_TEST_EMAIL_HMAC_SECRET = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
+Set-Location backend
+java -jar target/english-hero-0.0.1.jar --server.address=127.0.0.1 --server.port=8082 --spring.config.import=file:./config/application-test.yml,file:./config/application-mail-test.example.yml
+```
+
+```powershell
+# 根目录终端三：构建后启动独立预览，保持此终端运行
+pnpm --dir frontend build
+$env:E2E_API_TARGET = 'http://127.0.0.1:8082'
+pnpm --dir frontend preview --port 4175
+```
+
+另开已加载工具的根目录终端运行：
+
+```powershell
+$env:E2E_PREVIEW='1'; $env:E2E_EXTERNAL_SERVER='1'; $env:E2E_PORT='4175'
+$env:E2E_REAL_BACKEND='1'; $env:E2E_MAILBOX_URL='http://127.0.0.1:2526'
+pnpm --dir frontend exec playwright test --workers=1
+```
+
+收件器2526仅供测试Node进程读取验证码，应用生产代码没有验证码查询接口。测试账号用户名记录于忽略缓存，应按本轮具名记录清理，不清库。浏览器和API并行复跑时会共享测试库内IP限流预算，应串行运行或为测试注入独立时间窗口，不降低生产配额。验证后关闭本轮8082/4175/2525/2526进程。

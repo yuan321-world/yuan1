@@ -1,0 +1,104 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lingua Loop · 背单词界面原型</title>
+<style>
+:root{--bg:#f5f5ed;--paper:#fffef8;--ink:#273227;--muted:#606b5e;--line:#dce2d3;--green:#48623c;--soft:#e8efdf}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,"Microsoft YaHei",sans-serif}button,select,input{font:inherit}button{cursor:pointer;color:inherit;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:8px 14px}button:disabled{opacity:.55;cursor:default}button:focus-visible,summary:focus-visible{outline:2px solid var(--green);outline-offset:3px}[hidden]{display:none!important}.shell,main,footer{width:min(960px,calc(100% - 32px));margin-inline:auto}.shell{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-block:16px 22px;padding:9px 14px;border:1px solid var(--line);border-radius:22px;background:var(--paper)}.brand{font-weight:800}.brand b{display:inline-grid;place-items:center;background:var(--green);color:white;border-radius:8px;width:28px;height:28px;margin-right:7px}nav,.actions{display:flex;gap:6px;flex-wrap:wrap}.selected{background:var(--soft);color:#354e2d;font-weight:700}.hint{font-size:12px;color:var(--muted)}h1,h2,p{margin:0}h1{font-size:30px}h2{font-size:20px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.tabs{margin:12px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}.tabs button{border:0;background:transparent}.tabs .selected{background:var(--soft)}.stack{display:grid;gap:12px}.book,.resume,.plan{padding:12px 16px;border:1px solid var(--line);border-radius:16px}.book,.plan{background:var(--paper)}.resume{background:var(--soft)}.book button,.resume button,.plan button{flex-shrink:0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:16px;display:grid;gap:8px;align-content:start}.card.review{background:#f0f4e9}.number{font-size:32px;font-weight:750;letter-spacing:-.04em;font-variant-numeric:tabular-nums}.primary{background:var(--green);color:white;border-color:var(--green)}.card .row:last-child{margin-top:4px}.statistics{padding:12px 0;border-top:1px solid var(--line)}.summary-grid{display:grid;grid-template-columns:1.2fr 1fr;align-items:center;gap:20px;margin-top:8px}.chart,.metrics{display:grid;gap:6px;margin:0}.chart{grid-template-columns:repeat(7,minmax(0,1fr));text-align:center}.day{font-size:12px;color:var(--muted);display:grid;justify-items:center;align-content:end}.bar{width:min(18px,80%);background:#a6ba94;border-radius:3px;margin:3px}.metrics{grid-template-columns:repeat(3,1fr)}dt{font-size:12px;color:var(--muted)}dd{margin:0;font-size:22px;font-weight:700}summary{cursor:pointer;color:var(--green);font-size:13px}details{margin-top:8px}footer{padding-block:12px 20px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}dialog{border:1px solid var(--line);border-radius:20px;background:var(--paper);color:var(--ink);width:min(440px,calc(100% - 32px));padding:20px}dialog::backdrop{background:#26322555}dialog .stack{margin-top:12px}input[type=number],input[type=text],select{max-width:100%;border:1px solid var(--line);border-radius:8px;padding:6px;background:white;color:inherit}.sample{margin:12px 0}.sample h2[lang=en]{font:25px Georgia,serif}.variant{--bg:#f4f4f4;--paper:#fff;--ink:#222;--muted:#555;--line:#ddd;--green:#252525;--soft:#eee}.sample-tag{display:inline-block;background:#eee7d7;border-radius:8px;padding:3px 9px;font-size:12px;margin-bottom:8px}.variant .sample-tag{background:#eee}.spacer{margin-bottom:12px}@media(max-width:620px){.grid,.summary-grid{grid-template-columns:1fr}.summary-grid{gap:12px}.shell{margin-bottom:14px}.shell button{padding:6px 8px;font-size:12px}.brand b{display:none}.row{gap:8px}.card,.book,.resume,.plan{padding:12px}.hint{font-size:11px}h1{font-size:25px}.number{font-size:28px}.card button{white-space:nowrap}}
+/* Shared surfaces keep the green accent on controls and data. */
+.book,.resume,.plan{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0}
+.card.review{background:var(--paper)}
+.card .primary:disabled{background:var(--soft);border-color:var(--line);color:var(--muted);opacity:1}
+</style>
+<header class="shell"><span class="brand"><b>L</b>Lingua Loop</span><nav aria-label="模块预览"><button id="vocabNav" class="selected">背单词</button><button id="readNav">外刊精读</button></nav></header>
+<main>
+<section id="vocab">
+<div class="row"><div><p class="hint">交互原型 · 示例数据</p><h1>背单词</h1></div><button id="today">今日进度</button></div>
+<nav class="tabs" aria-label="词汇中心"><button data-tab="home" class="selected">今日学习</button><button data-tab="words">生词本</button><button data-tab="phrases">词组本</button></nav>
+<div id="home" class="stack">
+<section class="book row"><div><strong id="source"></strong><p id="sourceMeta" class="hint"></p></div><button id="changeSource">切换来源</button></section>
+<div class="grid"><section class="card"><div class="row"><h2>学新词</h2><div><strong id="newCount" class="number"></strong> <span class="hint">待学</span></div></div><div class="row"><span id="newGoal" class="hint"></span><button id="startNew" class="primary"></button></div></section>
+<section class="card review"><div class="row"><h2>复习</h2><div><strong id="dueCount" class="number"></strong> <span class="hint">到期</span></div></div><div class="row"><span id="dueNote" class="hint"></span><button id="startReview" class="primary">开始复习</button></div></section></div>
+<section class="plan row"><div><strong>学习计划</strong> <span id="planText" class="hint"></span></div><button id="editPlan">调整计划</button></section>
+<section class="statistics"><h2>这一周的积累</h2><div class="summary-grid"><div id="chart" class="chart" aria-label="本周每天学习词数"></div><dl class="metrics"><div><dt>累计学过</dt><dd id="learned"></dd></div><div><dt>复习通过</dt><dd id="reviewed"></dd></div><div><dt>连续学习</dt><dd>2 天</dd></div></dl></div><details><summary>更多学习记录</summary><p id="extraStats" class="hint"></p></details></section>
+</div>
+<section id="words" class="stack sample" hidden><h2>生词本</h2><div class="card"><strong lang="en">agenda</strong><p>议程；待办事项</p><p class="hint">收藏自外刊精读</p></div></section>
+<section id="phrases" class="stack sample" hidden><h2>词组本</h2><div class="card"><strong lang="en">look forward to</strong><p>期待</p><p class="hint">已加入词组练习</p></div></section>
+</section>
+<section id="reading" hidden><p class="hint">配色样例 · 外刊精读</p><div class="row"><h1>外刊精读</h1><button id="palette" aria-pressed="false">对比黑白配色</button></div><article class="card sample"><div><span class="sample-tag">每日精选</span><h2 lang="en">Build Social Bonds to Protect Health</h2></div><p>社会联结与健康</p><p class="hint">生活 · B2 · 约 6 分钟</p><div><button id="readArticle" class="primary">读这一篇</button></div></article><div class="card sample"><h2 lang="en">Creating Healthy Habits</h2><p>如何养成健康习惯</p></div></section>
+</main>
+<footer>Lingua Loop · 一点积累，每天循环。</footer>
+<dialog id="modal" aria-labelledby="modalTitle"><div class="row"><h2 id="modalTitle"></h2><button id="closeModal" aria-label="关闭">×</button></div><div id="body" class="stack"></div></dialog>
+<script>
+const $ = id => document.getElementById(id);
+const books = [{name:'大学英语四级·参考词表',meta:'ECDICT 参考词表',total:3846,learned:7,available:3838,due:0},{name:'我的阅读生词',meta:'个人阅读收藏',total:24,learned:9,available:15,due:4}];
+let book=0,newGoal=20,reviewGoal=50,scope='全部来源',auto=true;
+const newRounds=new Map([[0,{book:0,kind:'新学',mode:'看词',done:7,total:20}]]);
+let reviewRound=null;
+let reviews=3, added=0, independent=1, completed=1;
+function show(title,content){$('modalTitle').textContent=title;$('body').innerHTML=content;if(!$('modal').open)$('modal').showModal()}
+function close(){$('modal').close()}
+function render(){
+ const source=books[book];
+ $('source').textContent=source.name;
+ $('sourceMeta').textContent=source.meta+' · 共 '+source.total.toLocaleString()+' 词 · 已学 '+source.learned+' 词';
+ const savedNew=newRounds.get(book);
+ $('newCount').textContent=source.available.toLocaleString();
+ $('newGoal').textContent=reviewRound?'请先完成当前复习':savedNew?savedNew.mode+' · '+savedNew.done+'/'+savedNew.total:'每日目标 '+newGoal+' 词';
+ $('startNew').textContent=savedNew?'继续学习':'开始学习';
+ $('startNew').disabled=!!reviewRound||(!savedNew&&!source.available);
+ $('dueCount').textContent=source.due;
+ const savedReview=reviewRound;
+ $('startReview').textContent=savedReview?'继续复习':'开始复习';
+ $('startReview').disabled=!source.due&&!savedReview;
+ $('dueNote').textContent=savedReview?books[savedReview.book].name+' · '+savedReview.mode+' '+savedReview.done+'/'+savedReview.total:source.due?'复习目标 '+reviewGoal+' 词':'暂无到期词 · 明日 08:30';
+ $('planText').textContent='每日新词 '+newGoal+' · 复习目标 '+reviewGoal+' · '+scope;
+ $('chart').innerHTML=[4,6+added,0,0,0,0,0].map((n,i)=>'<div class="day"><strong>'+n+'</strong><div class="bar" style="height:'+Math.min(36,Math.max(2,n*5))+'px"></div><span>11-'+String(i+2).padStart(2,'0')+'</span></div>').join('');
+ $('learned').textContent=16+added;$('reviewed').textContent=reviews;
+ $('extraStats').textContent='独立默写通过 '+independent+' 次 · 已完成 '+completed+' 轮';
+}
+$('closeModal').onclick=close;
+$('today').onclick=()=>show('今日进度','<p>今日新词 '+(6+added)+' / '+newGoal+' · 今日复习 '+reviews+' / '+reviewGoal+'</p>');
+$('changeSource').onclick=()=>{
+ show('切换来源',books.map((item,index)=>'<button data-book="'+index+'" '+(book===index?'disabled':'')+'>'+item.name+' · '+item.total+' 词</button>').join(''));
+ document.querySelectorAll('[data-book]').forEach(button=>button.onclick=()=>{book=Number(button.dataset.book);close();render()});
+};
+$('editPlan').onclick=()=>{
+ show('调整学习计划','<label>每日新词 <input id="newInput" type="number" min="1" max="100" value="'+newGoal+'"></label><label>每日复习目标 <input id="reviewInput" type="number" min="1" max="500" value="'+reviewGoal+'"></label><label>复习范围 <select id="scopeInput"><option>全部来源</option><option>当前词书</option></select></label><label><input id="autoInput" type="checkbox" '+(auto?'checked':'')+'> 默写通过后自动下一词</label><button id="savePlan" class="primary">保存计划</button>');
+ $('scopeInput').value=scope;
+ $('savePlan').onclick=()=>{if(!$('newInput').reportValidity()||!$('reviewInput').reportValidity())return;newGoal=Number($('newInput').value)||20;reviewGoal=Number($('reviewInput').value)||50;scope=$('scopeInput').value;auto=$('autoInput').checked;close();render()};
+};
+function study(current){
+ const typing=current.mode==='跟打'||current.mode==='默写';
+ show(current.kind+current.mode,'<p class="hint">'+books[current.book].name+' · '+current.done+' / '+current.total+'</p><h2>'+(current.mode==='默写'?'积累':current.done%2?'accumulate':'build')+'</h2>'+(typing?'<label>英文拼写 <input id="typed" type="text" autocomplete="off"></label><p id="feedback" role="status" class="hint"></p>':'<p>积累；逐渐形成</p>')+'<div class="actions"><button id="next" class="primary">'+(typing?'检查拼写':'下一词')+'</button><button id="saveRound">退出并保存</button></div>');
+ $('saveRound').onclick=()=>{close();render()};
+ $('next').onclick=()=>{
+ const answer=current.mode==='默写'||current.done%2?'accumulate':'build';
+ if(typing&&$('typed').value.trim().toLowerCase()!==answer){$('feedback').textContent='再检查一下拼写';return}
+ if(current.kind==='新学'){added++;books[current.book].learned++;books[current.book].available--}else{reviews++;books[current.book].due--;if(current.mode==='默写')independent++}
+ current.done++;
+ if(current.done>=current.total){
+  if(current.kind==='复习')reviewRound=null;
+  else newRounds.delete(current.book);
+  completed++;render();show('本轮已完成','<p>本轮练习进度已更新。</p><button id="finish">返回首页</button>');$('finish').onclick=close;
+ }else{render();study(current)}
+ };
+}
+function start(kind){
+ if(kind==='新学'&&reviewRound)return;
+ const saved=kind==='复习'?reviewRound:newRounds.get(book);
+ if(saved){study(saved);return}
+ show('选择'+kind+'方式','<button id="look">看词模式</button><button id="type">'+(kind==='新学'?'跟打':'默写')+'模式</button>');
+ function choose(mode){
+  const current={book,kind,mode,done:0,total:Math.min(3,kind==='新学'?books[book].available:books[book].due)};
+  if(kind==='复习')reviewRound=current;
+  else newRounds.set(book,current);
+  render();study(current);
+ }
+ $('look').onclick=()=>choose('看词');$('type').onclick=()=>choose(kind==='新学'?'跟打':'默写');
+}
+$('startNew').onclick=()=>start('新学');$('startReview').onclick=()=>start('复习');
+document.querySelectorAll('[data-tab]').forEach(button=>button.onclick=()=>{for(const id of ['home','words','phrases'])$(id).hidden=id!==button.dataset.tab;document.querySelectorAll('[data-tab]').forEach(item=>item.classList.toggle('selected',item===button))});
+let grayscale=false;
+function moduleView(read){$('vocab').hidden=read;$('reading').hidden=!read;$('readNav').classList.toggle('selected',read);$('vocabNav').classList.toggle('selected',!read);document.body.classList.toggle('variant',read&&grayscale)}
+$('vocabNav').onclick=()=>moduleView(false);$('readNav').onclick=()=>moduleView(true);
+$('palette').onclick=()=>{grayscale=!grayscale;$('palette').textContent=grayscale?'切回暖白柔绿':'对比黑白配色';$('palette').setAttribute('aria-pressed',grayscale);moduleView(true)};
+$('readArticle').onclick=()=>show('社会联结与健康','<p>这里展示阅读模块标题、正文和按钮的配色。实际文章在正式外刊精读页面阅读。</p>');
+render();
+</script></html>

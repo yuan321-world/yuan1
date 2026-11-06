@@ -1,9 +1,11 @@
 # English Hero 技术栈与阶段交付方案
 
 日期：2026-10-13
-状态：阶段 0 工程实施中；真实数据库联调与页面确认待完成，业务功能尚未实现。
+状态：阶段0已于2026-10-14完成验收；阶段1认证及后续邮箱补强已实现。2026-10-15开始阶段2书面设计，见[阅读设计草案](2026-10-15-phase-2-reading.md)，待确认，业务尚未实施。早期环境与执行记录保留为历史，实时状态以docs/progress.md为准。
 
 ## 1. 目标与已知约束
+
+2026-10-15用户后续明确选择JWT + Redis，覆盖本文早期Cookie Session/暂不引入Redis的建议。目标架构以[认证迁移设计](2026-10-15-jwt-redis-auth.md)为后续细化入口，认证迁移已于2026-10-16通过本地验收并切换，见 [验收](../../acceptance/2026-10-15-jwt-redis-auth.md)。Vue/Java/MyBatis/MySQL及阶段0—6业务顺序保持，认证迁移在阶段2业务实现前完成。
 
 建设一个可以长期迭代的 Java 英语学习平台，复用现有 Lingua Loop 原型的视觉方向，打通阅读、查词、生词收藏、复习和考试专项训练。
 
@@ -38,7 +40,7 @@ V1 验收目标：用户登录后能够阅读文章、查询词义、收藏带�
 | 前端工具 | Node.js 24 LTS、pnpm 11.25.0 | 复用已验证的工具；精确依赖版本锁入 pnpm-lock.yaml；CI 使用 pnpm install --frozen-lockfile |
 | 后端 | Java 21、Spring Boot 4.0.8 基线、Spring MVC | 阻塞式常规 Web 应用；依赖版本由 Boot 管理，后续评估同系列补丁升级 |
 | 构建 | Maven Wrapper | 固定构建工具版本，统一开发与 CI 命令 |
-| 认证与授权 | Spring Security、Cookie Session、Spring Session JDBC | 会话持久化在 MySQL；服务端检查角色及资源归属 |
+| 认证与授权 | Spring Security、RS256 JWT、HttpOnly刷新Cookie、项目专用Redis | Access仅在内存；MySQL检查账号版本/角色，Redis检查登录family及期限 |
 | 数据库 | 部署目标 MySQL 8.4 系列；本地先复用已有 MySQL 8.0 服务 | utf8mb4，时间统一保存为 UTC；本地先核查服务端版本，公开部署前验证 8.4 迁移 |
 | 数据访问 | MyBatis-Plus 3.5.17 | 使用 mybatis-plus-spring-boot4-starter；复杂统计保留明确 SQL |
 | 数据迁移 | Flyway | Boot 4 使用 spring-boot-starter-flyway，并引入 org.flywaydb:flyway-mysql；表结构由版本化迁移维护 |
@@ -46,11 +48,11 @@ V1 验收目标：用户登录后能够阅读文章、查询词义、收藏带�
 | 验证 | Boot 测试框架、Vitest、Playwright | 测试鉴权、数据隔离、复习规则、判分及核心浏览器流程 |
 | 部署 | Docker Compose、Nginx | 部署阶段引入；阶段 0 原生运行 Java、Vue 和已有 MySQL，容器工具不作为前置条件 |
 
-版本说明：这是兼容基线，尚未安装或执行依赖联调。阶段 0 必须验证 Java、数据库驱动、MyBatis-Plus、Flyway、springdoc 和前端工具的组合，再把精确版本写入构建文件。不得使用 SNAPSHOT 或预览版本作为产品依赖。
+版本说明：方案编写时这是待联调的兼容基线；2026-10-14阶段0已完成依赖及真实数据库联调。后续仍需保持并验证 Java、数据库驱动、MyBatis-Plus、Flyway、springdoc 和前端工具的组合，再把精确版本写入构建文件。不得使用 SNAPSHOT 或预览版本作为产品依赖。
 
 2026-10-13 环境核查：JDK 21.0.12.1 已安装在 `C:\Java\jdk-21.0.12.1`，但当前默认 JAVA_HOME 为 JDK 17。临时指定 JDK 21 后 Maven 3.9.9 正常运行；Node.js 24.19.0、Git 2.47.1 和 Codex 自带 pnpm 11.25.0 已验证。MySQL80 服务运行且 127.0.0.1:3306 可连接；客户端版本 8.0.41，服务端版本及数据库账号尚未通过登录验证。npm 和可运行的 Docker 未发现，WSL 状态查询返回 E_ACCESSDENIED，不能据此判断 WSL 未安装。
 
-Cookie Session 是针对首版浏览器产品的推荐，替代原方案中默认的 JWT。前后端分离不要求 JWT；服务端会话便于退出和失效处理。保留 CSRF 防护，生产 Cookie 设置 HttpOnly、Secure 和合适的 SameSite。普通登录与“保持登录”的有效期分别明确，过期后回到登录页面。未来有移动客户端或第三方调用时再评估 token 方案。
+以下为被2026-10-16迁移覆盖的历史选择：Cookie Session 是针对首版浏览器产品的早期推荐，替代原方案中默认的 JWT。前后端分离不要求 JWT；服务端会话便于退出和失效处理。保留 CSRF 防护，生产 Cookie 设置 HttpOnly、Secure 和合适的 SameSite。普通登录与“保持登录”的有效期分别明确，过期后回到登录页面。未来有移动客户端或第三方调用时再评估 token 方案。
 
 基础设施按需求引入：
 
@@ -163,7 +165,11 @@ English Hero/
 
 阶段 0 已细化到 [实施计划](../plans/2026-10-13-phase-0-foundation.md)，环境与评审记录见 [评审报告](../../reviews/2026-10-13-architecture-environment-review.md)。后续执行遵循该计划的前提检查和验收，数据库密码由用户在本地配置，不在聊天中收集。
 
-方案编写时尚未初始化 Git 和安装依赖。当前实施状态见 docs/acceptance/phase-0.md；原型源文件保持不变，独立优化 HTML 需用户亲自确认。
+方案编写时尚未初始化 Git 和安装依赖。当前实施状态见 docs/acceptance/phase-0.md；原型源文件保持不变，用户已于2026-10-14确认独立HTML的最基础布局，正式Vue已据此落实。
+
+2026-10-14 按用户参考流程补齐项目协作约定与详细设计入口，技术栈、阶段 0—6 和阶段 4 V1 目标不变。后续从 [文档入口](../../README.md) 和 [当前进度](../../progress.md) 恢复上下文；需求与设计审查流程见 [协作流程](../../project-workflow.md)，界面规范见 [设计规范](../../design/design-system.md)，数据/API 见 [数据库](../../database.md) 与 [接口契约](../../api.md)。
+
+阶段 0 收尾补充请求追踪、基础异常和日志的设计与验收，复用当前 Spring Boot 能力，不引入新框架，不改变系统状态接口契约。设计与公共能力代码均已完成，复核后15单元/MVC与2真实MySQL集成通过；参考流程完整性记录见 [对照评审](../../reviews/2026-10-14-workflow-completeness-review.md)。
 
 ## 8. 官方资料与选型核查
 

@@ -1,0 +1,12 @@
+<script setup lang="ts">
+import {ref,watch,nextTick,onBeforeUnmount} from 'vue'
+import {useAuthStore} from '@/stores/auth'
+import {userAudit,type Audit} from '@/api/admin-users'
+import {errorMessage} from '@/api/identity'
+const props=defineProps<{open:boolean;userId?:string}>(),emit=defineEmits<{close:[]}>(),auth=useAuthStore(),dialog=ref<HTMLDialogElement>(),rows=ref<Audit[]>([]),loading=ref(false),error=ref(''),cursor=ref<string|null>(null),more=ref(false)
+let generation=0,controller:AbortController|undefined
+async function load(append=false){if(loading.value)return;const g=generation;controller=new AbortController();loading.value=true;error.value='';try{const page=await userAudit(props.userId,append?cursor.value??undefined:undefined,controller.signal);if(g!==generation)return;rows.value=append?[...rows.value,...page.items.filter(r=>!rows.value.some(v=>v.id===r.id))]:page.items;cursor.value=page.nextCursor;more.value=page.hasMore}catch(e){if(g===generation&&!(e instanceof DOMException&&e.name==='AbortError'))error.value=errorMessage(e)}finally{if(g===generation)loading.value=false}}
+watch(()=>`${props.open}:${props.userId??''}:${auth.user?.id??''}`,async()=>{generation++;controller?.abort();rows.value=[];error.value='';cursor.value=null;more.value=false;loading.value=false;dialog.value?.close();if(!props.open||!auth.isAdmin)return;await nextTick();if(!props.open||!auth.isAdmin)return;dialog.value?.showModal();void load()})
+onBeforeUnmount(()=>{generation++;controller?.abort()})
+</script>
+<template><dialog ref="dialog" class="users-dialog" aria-labelledby="admin-user-audit-title" @cancel.prevent="emit('close')"><header><div><h2 id="admin-user-audit-title">操作记录</h2><p class="muted">{{userId?'当前账号的管理记录':'全部账号的管理记录'}} · 仅管理员可见</p></div><button aria-label="关闭操作记录" @click="emit('close')">×</button></header><p v-if="error" role="alert" class="users-error">{{error}} <button @click="load(!!rows.length)">重试</button></p><article v-for="item in rows" :key="item.id" class="users-audit"><strong>{{item.afterEnabled?'恢复账号':'停用账号'}} · {{item.target.username}}</strong><p>{{item.reason}}</p><small>{{item.actor.username}} · {{new Date(item.createdAt).toLocaleString('zh-CN')}}</small></article><p v-if="loading" role="status">正在加载记录…</p><p v-if="!loading&&!rows.length&&!error" class="muted">暂无管理记录。</p><button v-if="more" :disabled="loading" @click="load(true)">加载更多记录</button></dialog></template>

@@ -1,0 +1,129 @@
+@@1|B1|A Notebook That Makes Room for Tomorrow|给明天留一页笔记|A student changes a crowded study notebook into a small, useful daily habit.|habit,routine,review
+On Monday evening, Mina opened her English notebook and felt tired before she had written a word. Every page contained long lists copied from a textbook. Some words had bright circles around them, but she could not remember why. The notebook showed how much time she had spent copying. It did not show what she could actually use. She decided to try a smaller habit for one week.
+
+Instead of adding twenty new words, Mina chose three words from a short article. She wrote each word beside the sentence where she had found it. Under the sentence, she added one example about her own day. For the word "return," she wrote about returning a library book. The example was ordinary, but that was the point. It connected a piece of English with something she already understood.
+
+The next morning, Mina covered the explanations and tried to recall the meanings. One word came back easily. Another needed a little thought. She could not remember the third at all. Rather than copying the whole page again, she checked that word and said its example aloud. This short review gave her a clearer task than simply reading the same list from top to bottom.
+
+By Thursday, the routine had met its first difficulty. Mina came home late and did not want to study. She reduced the task to one sentence from the previous day. It took only a few minutes, and she left a small note about what was still unclear. She did not call the evening a perfect success. She also did not treat it as a reason to abandon the notebook.
+
+On Sunday, Mina compared her new pages with the older lists. The new section looked less impressive from a distance. It contained fewer words and more empty space. However, she could explain several examples without looking at the Chinese notes. She could also see exactly which words needed another review. The notebook had become a record of questions and useful attempts, rather than a display of completed pages.
+
+Mina kept the empty space at the bottom of each page for tomorrow. She used it for a new example, a correction, or a connection to another article. Her method was still an experiment, and she planned to adjust it. For now, the small notebook gave her a simple place to begin again.
+
+@@1|B2|The Question at the Back of the Classroom|教室后排的一个问题|A quiet learner discovers how a specific question can turn uncertainty into a shared discussion.|question,evidence,confidence
+During a reading class, Leo noticed that everyone around him was turning the page. He was still looking at a single paragraph. The writer seemed to support an idea in the first sentence and challenge it in the next. Leo understood most of the vocabulary, yet he could not explain how the two sentences fitted together. He wondered whether asking a question would show that he had fallen behind.
+
+At the end of the lesson, the teacher invited questions. Leo almost remained silent. Then he read his note: "What does the word 'however' change here?" It was a small question about a visible detail. The teacher asked him to describe his current understanding before offering an answer. Leo explained that he had treated both sentences as the writer's own opinion. Saying this aloud made the source of his confusion easier to find.
+
+Another student pointed to a phrase that introduced a different person's argument. Together, the class marked which ideas belonged to whom. The paragraph had not changed, but their picture of it had. The teacher described this process as looking for evidence in the text. A reasonable answer needed more than a confident voice. It needed words or structures that other readers could check for themselves.
+
+After class, Leo expected his classmates to forget the discussion. Instead, one student thanked him. She had also been unsure but had assumed that everyone else understood. They agreed to compare one difficult paragraph before the next lesson. Their aim was not to decide who was the better reader. They wanted to notice where their explanations differed and return to the article with a more specific purpose.
+
+Leo began keeping a short list of questions. He avoided writing only "I don't understand." Instead, he recorded what he understood, the point where that explanation stopped working, and one possible alternative. Sometimes the answer came during this preparation. At other times, a classmate or teacher helped. His confidence grew from having a way to investigate uncertainty, rather than from pretending uncertainty had disappeared.
+
+The following week, Leo asked another question from the back of the classroom. This time, he was prepared to change his view if someone showed stronger evidence. He still spoke quietly. What had changed was his expectation of the conversation: a useful question could help several people move forward, even when its answer was not immediate.
+
+@@2|B1|Saturday at the Repair Table|周六的修理桌|Neighbors use a shared repair table to exchange practical skills and rethink familiar objects.|repair,borrow,community
+At the entrance to a neighborhood center, someone placed a handwritten sign beside a wooden table. It said, "Bring one broken thing and one question." On Saturday morning, Jun arrived with a desk lamp that no longer worked. He expected to leave it with an expert and collect it later. Instead, a volunteer offered him a chair and asked him to describe what had happened before the lamp stopped working.
+
+The repair table was not a shop. It was a small community activity where people could learn from one another. A retired technician checked the lamp after explaining the safety rules. Jun watched from the other side of the table and wrote down the parts he could recognize. Tasks involving electrical risks stayed with the trained volunteer. Participation did not mean that every visitor should attempt every kind of repair.
+
+At the next table, a student was sewing a loose button onto a coat. Another visitor helped someone adjust a bicycle seat. People shared simple tools and talked while they waited. A notice explained which tools they could borrow and when to return them. The organizers had learned that a shared collection needed clear labels and a record of who was using each item. Good intentions alone did not keep the tools available.
+
+Not every object could be repaired that morning. One radio needed a part that nobody had. Its owner received a written description of the problem, not a promise that it would certainly work again. Another visitor decided that a damaged chair was beyond the group's ability. The volunteer explained the limits of the activity and suggested asking a suitable professional. Knowing when to stop was part of using the table responsibly.
+
+Jun's lamp needed a replacement switch. While the volunteer completed the work, Jun helped sort the small storage boxes. He had arrived thinking only about a broken object. He left with a better understanding of the lamp and the people living nearby. On the way home, he noticed a loose strap on his bag and decided to bring a different question next time.
+
+The following Saturday, Jun returned without anything broken. He carried a notebook and asked how he could help welcome new visitors. The repair table had become more than a place to save an object. It offered a regular reason for neighbors to meet, exchange knowledge, and make careful choices together.
+
+@@2|B1|A Different Route Home|换一条回家的路|A short walk helps a busy student notice her neighborhood and set a practical boundary around screen time.|attention,route,balance
+Nora usually travelled home by the same bus. After class, she would sit near the back and look at her phone until her stop appeared. One afternoon, a road closure changed the journey. The bus stopped two streets away from her building, and she had to walk the final part. At first, she felt annoyed. Then she noticed a small garden behind a low wall that she had never seen before.
+
+The next day, Nora chose to leave the bus at the same place. She was not beginning an ambitious exercise plan. She simply wanted ten minutes without another screen. Before walking, she checked the route and put her phone in her bag. She kept it available for directions or an important call. The aim was to give her attention a different task, not to prove that she could live without technology.
+
+During the first few walks, Nora tried a simple activity. She looked for one detail that was different from the previous day. A shop had changed its window display. A worker had painted a gate. Rain had filled a small space beside the road. These details did not need to be beautiful or interesting to anyone else. Looking for them gave her a reason to notice where she actually was.
+
+Some evenings, the route did not suit her. Heavy rain made the bus a more comfortable choice. When she needed to return quickly, she went straight home. Nora decided that a useful routine should respond to real conditions. She did not want a quiet walk to become another task that made her feel guilty. The decision to walk could be small and flexible while still having a place in her week.
+
+After a month, Nora could describe several streets that had once been only names on a map. She sometimes bought fruit from a shop on the corner and exchanged greetings with its owner. She also noticed when she reached for her phone without a particular reason. Rather than judging every moment of screen use, she began asking what she wanted from it at that moment.
+
+For Nora, balance did not mean dividing every hour into equal parts. It meant choosing when a device was useful and when another experience deserved attention. The garden behind the wall had always been there. A different route had simply given her enough space to see it.
+
+@@3|B2|Before You Press Allow|点击允许之前|A student team compares an app's attractive features with the permissions it requests.|privacy,permission,verify
+When a student team tested a new planning app, the first screen looked promising. It offered shared task lists, colorful reminders, and a quick way to arrange meetings. Most of the group wanted to create accounts immediately. Sara paused at a request for access to her contact list. She could understand why a meeting tool might need names, but she was not sure why it needed every contact on her phone.
+
+The team decided to spend part of the meeting examining the request. They listed what they wanted the app to do and what information each feature appeared to require. A personal reminder needed a task and a time. Inviting a classmate might need one address. These observations did not prove that the app was unsafe. They gave the students specific questions to investigate before making a choice about permission.
+
+Sara opened the explanation beside the request. It described a feature that suggested people to invite. The group then checked whether that feature could be disabled. They found a way to add classmates manually instead. This alternative required more effort at the beginning, but it matched their immediate purpose. They did not need to accept every available feature in order to use a shared list.
+
+Another student suggested reading online comments. The team treated those comments as personal experiences, not complete evidence about how the service worked. They compared the comments with the app's own instructions and privacy information. When a claim remained unclear, they wrote it down rather than turning a guess into a fact. To verify a detail, they needed a source that actually addressed the question being asked.
+
+At the end of the meeting, the students chose a limited trial using ordinary practice tasks. They agreed not to put sensitive information into the list. They also checked how to remove an account and what the service said about stored records. Their choice could change later if the app's behavior, settings, or their needs changed. The decision was part of an ongoing process, not a permanent judgment about every digital tool.
+
+The exercise made privacy less abstract for the team. It connected a broad idea with a particular request on a familiar screen. Before pressing "Allow," they had learned to ask what a feature needed, what alternatives existed, and whether the explanation was clear enough for the choice in front of them.
+
+@@3|B2|Choosing a Journey, Not Just a Vehicle|选择一段行程，而不只是一辆车|Students compare everyday travel options by considering the whole journey and their changing needs.|energy,battery,efficient
+In a campus design class, a group of students received a simple question: what would make the journey from a station to their classroom easier? Their first answer was a new electric vehicle. It sounded modern and efficient, and several students began drawing before they had examined the journey itself. Their tutor asked them to put the drawings aside and travel the route using the options already available.
+
+The students divided into pairs. One pair walked, another used a bus, and a third tried the campus bicycle service. They recorded waiting time, places to leave a bicycle, and the distance from each stop to the classroom. They also noted whether a route was practical when someone carried a large bag or needed step-free access. A useful comparison had to include more than the time spent moving.
+
+When they returned, the group discussed energy as one part of a larger system. An electric vehicle needed a charged battery, a suitable place to charge it, and regular care. A bus needed a route and a schedule that matched people's journeys. Walking required a connected path that people could reasonably use. The class did not calculate a complete environmental comparison, because they did not have the necessary data. They marked that limit clearly.
+
+The observations changed their design idea. They noticed that many visitors lost time looking for the correct exit at the station. Clearer signs and a simple route map might help those visitors without adding another vehicle. For people who could not comfortably use that path, information about the existing accessible bus stop was difficult to find. Improving that information became a second part of the proposal.
+
+The students kept a separate list of questions about a possible electric service. How many people would use it? Where could it wait without blocking the entrance? Who would maintain the equipment? What would happen when a battery needed charging during a busy period? The group did not treat these questions as arguments against technology. They were conditions that any practical design would need to address.
+
+Their final presentation contained fewer drawings of vehicles and more details about people and places. The word "efficient" now described whether a whole journey worked well for a particular need. The students had started by choosing a machine. They finished by explaining a problem, proposing a small improvement, and showing what they still needed to learn.
+
+@@4|B1|The Recipe with Three Different Endings|一道食谱的三种结尾|A family cooking afternoon shows how a tradition can remain recognizable while making room for different people.|tradition,recipe,memory
+On the morning of a neighborhood festival, Mei found three versions of the same recipe on her kitchen table. Her grandmother had written one on an old card. Her uncle had sent another in a message. The third was Mei's own note from the previous year. Each version described a familiar family dish, but the final instructions were different. Mei wondered which one she should call the correct recipe.
+
+Her grandmother laughed when she saw the three pages. She explained that the old card was already different from the version she had learned as a child. At that time, some ingredients had been difficult to find. Later, she had changed the amount she prepared because the family had become smaller. What Mei thought of as a fixed tradition had developed through ordinary choices made in different kitchens.
+
+That afternoon, the family decided to cook together. They discussed which parts gave the dish its familiar character and which parts could change. A cousin could not eat one ingredient, so they prepared a separate portion with a suitable alternative. Mei wrote the difference on a label rather than hiding it. Welcoming someone to the table mattered more than making every plate look exactly the same.
+
+While they worked, Mei asked about the memory behind the dish. Her uncle remembered carrying it to a relative's home in a covered bowl. Her grandmother remembered a crowded kitchen and someone who always arrived late. These stories did not produce one official history. They showed how the same food could connect people with different moments. Mei recorded each story beside the name of the person who had told it.
+
+At the festival, a visitor asked for the recipe. Mei offered a copy of the basic method with three possible endings. She included the ingredients in each version and explained that families could make their own choices. She did not present the dish as a complete picture of a whole culture. It was one family's practice, shared with care and enough information for someone else to understand it.
+
+That evening, Mei added a fourth page to the collection. It described the afternoon, including the separate portion and the visitor's question. The tradition had not disappeared because the recipe had changed. For Mei, it had become easier to recognize: a familiar activity that people could carry forward while making room for the lives they actually lived.
+
+@@4|B1|A Library Card and an Empty Chair|一张借书卡与一把空椅子|A new visitor learns how a public library serves different needs through shared space and clear rules.|library,access,volunteer
+When Omar moved to a new town, he visited the public library to find a place to read. He expected shelves, a desk, and perhaps a few newspapers. Near the entrance, however, he saw a notice about a conversation group. Another notice described a quiet study room. There was also a small display of objects that residents could borrow. Omar realized that he did not yet understand all the ways the building was used.
+
+A volunteer welcomed him and explained the library card application. Omar asked which services required a card and which spaces he could use without one. The volunteer showed him the current rules instead of assuming that every service worked in the same way. Clear information made access easier. Omar could choose where to begin without feeling that he should already know how the library operated.
+
+During his first week, Omar used an empty chair near a window. Some visitors came to study, while others searched for practical information or read with their children. These activities did not always fit comfortably together. A lively conversation could disturb someone preparing for an examination. The library used separate areas and visible signs to explain where different activities belonged. Sharing a space required attention to other people's needs as well as one's own.
+
+On Wednesday, Omar joined the conversation group. The topic was a place that participants liked in town. Nobody had to give a perfect speech. Each person could speak, ask a question, or simply listen. The volunteer helped people take turns and checked unfamiliar words when necessary. Omar described the window seat. Another participant recommended a nearby garden, and a third asked where the quiet study room was.
+
+Later, Omar noticed that some instructions were difficult for a new visitor to find. He asked whether he could help test a simpler map of the building. The librarian welcomed the suggestion but explained that changes needed to be checked for accuracy and accessibility. Omar joined a small group that walked through the entrance as if arriving for the first time. They recorded questions rather than guessing what every visitor would need.
+
+Omar still used the chair near the window, but it no longer felt like an isolated place. His library card gave him access to a collection. Returning regularly gave him a chance to understand the people and arrangements that made the shared space work.
+
+@@5|B2|The Note That Helped the Next Shift|帮助下一班同事的一份记录|A team replaces a vague handoff with a short record of decisions, open questions, and responsibility.|handoff,deadline,responsibility
+At a small design studio, the evening shift often left a message saying, "Everything is nearly ready." The next morning, colleagues still needed to ask which files were current, what had been checked, and whether anyone was waiting for an answer. The message sounded positive, but it did not help them decide what to do next. When a deadline approached, these missing details became especially difficult to manage.
+
+The team decided to examine one handoff rather than introduce a complicated new system. They chose a poster project that would pass between two shifts. Before leaving, the evening team wrote three short sections: what was finished, what remained uncertain, and who was responsible for the next action. They linked the current file and described the checks already completed. They also named an older version that should no longer be used.
+
+In the morning, a colleague found a question about a photograph. The note did not simply say that the image was "probably fine." It stated which permission information had been received and which detail still needed confirmation. The colleague could continue with another part of the project while the responsible person investigated. Making uncertainty visible allowed the next shift to work around it instead of discovering the same problem again.
+
+The first handoff note was longer than anyone wanted. During a short review, the team removed details that did not affect the next person's choices. They kept the file location, the decision, the reason for an important change, and the next action. A useful record did not need to repeat every conversation. It needed enough context for someone who had not been present to continue the work responsibly.
+
+They also discussed responsibility. Naming a person in the note was not a way to assign blame if something went wrong. It showed who could answer a question or make the next decision. When a person was unavailable, the note identified an alternative contact. The team agreed that important changes to a deadline or expected result should be confirmed directly, rather than hidden inside a long message that someone might miss.
+
+After the project, the studio kept the three sections for similar tasks. The notes did not remove the need for conversation. They made conversations more specific and reduced repeated searches for basic information. The best sign of progress was ordinary: the next shift could open the right file, understand the remaining question, and begin its work.
+
+@@5|B2|A Meeting with Time to Think|留出思考时间的会议|A group changes its meeting routine so useful contributions can arrive in more than one way.|agenda,contribution,summary
+Before a student organization planned its annual event, its committee met in a crowded room. The same two people usually spoke first, and their ideas often shaped the whole discussion. Quieter members sometimes sent useful suggestions afterward, when the main decision had already been made. The chairperson wanted more balanced participation, but asking everyone to "speak more" did not explain how the meeting could support different ways of thinking.
+
+For the next meeting, the chairperson shared a short agenda in advance. Each topic included a question and the decision the group hoped to make. Members could read the material beforehand and send notes if they wished. The agenda did not assume that everyone had unlimited preparation time. It highlighted one essential page and separated background information from the details needed for a decision that evening.
+
+At the beginning of the meeting, the group spent a few quiet minutes writing ideas. Nobody needed to produce a complete proposal immediately. Members then compared notes in pairs before the wider discussion. This arrangement did not make every contribution equally useful, but it gave more people a clear point at which to begin. One member noticed a practical access problem that earlier conversations had overlooked.
+
+The chairperson also changed the questions used during discussion. Instead of asking whether an idea was "good," she asked what problem it solved, what resources it required, and what information was still missing. Members could disagree with a proposal while showing respect for the person who suggested it. They were encouraged to explain their reasons and to change their position when another contribution addressed a concern more effectively.
+
+At the end, someone read a short summary aloud. It listed the decisions, the people responsible for the next actions, and the questions that remained open. Members checked whether the summary represented what they had actually agreed. A suggestion was not recorded as a decision simply because it had been mentioned confidently. The group also set a suitable time to review the unresolved points.
+
+The new routine required practice. Some meetings still ran too long, and the committee continued adjusting the agenda. Yet more of the useful thinking now appeared before a choice was final. The chairperson learned that participation was not only a matter of who spoke the most. It also depended on how people received information, prepared a response, and understood what would happen next.

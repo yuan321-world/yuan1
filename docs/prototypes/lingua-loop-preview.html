@@ -1757,6 +1757,45 @@
     .gate-card { padding:28px 24px 24px; }
   }
 
+
+
+  .hero-quote { margin:24px auto 0; max-width:760px; padding:28px 38px 20px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(250,250,251,.94) 55%,rgba(248,229,234,.46)); text-align:left; animation:quoteFadeIn 420ms ease-out both; }
+  .hero-quote p { margin:0; }
+  .quote-heading { display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;font-size:11.5px;color:var(--muted); }
+  .quote-heading>span { display:inline-flex;align-items:center;gap:8px; }
+  .quote-heading>span::before { content:"";width:18px;height:1px;background:var(--accent); }
+  .hero-quote .quote-english { max-width:30ch;font-family:Georgia,"Times New Roman",serif;font-size:clamp(27px,3.5vw,38px);font-weight:400;line-height:1.32;letter-spacing:-.025em;color:var(--ink);text-wrap:balance;user-select:text;cursor:text; }
+  .quote-english::selection { background:var(--accent-soft);color:var(--ink); }
+  .hero-quote .quote-chinese { margin-top:17px;font-size:13.5px;line-height:1.8;color:var(--ink-soft); }
+  .quote-chinese[aria-hidden="true"] { visibility:hidden; }
+  .quote-attribution { display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin-top:20px;font-size:11.5px;line-height:1.6;color:var(--muted); }
+  .quote-attribution a { color:var(--muted);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px; }
+  .quote-attribution a:hover { color:var(--accent-dark); }
+  .quote-toolbar { display:flex;flex-wrap:wrap;gap:7px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line); }
+  .quote-action { display:inline-flex;justify-content:center;align-items:center;gap:7px;min-height:38px;padding:7px 13px;border:1px solid transparent;border-radius:var(--r-sm);background:rgba(255,255,255,.55);color:var(--ink-soft);font-size:12px; }
+  .quote-action svg { width:16px;height:16px;flex:none; }
+  .quote-action:hover { background:var(--surface);border-color:var(--line); }
+  .quote-action[aria-pressed="true"] { color:var(--accent-dark);background:var(--accent-soft); }
+  .quote-action:disabled { opacity:.5;cursor:not-allowed; }
+  .hero-quote .quote-feedback { min-height:18px;margin-top:11px;font-size:11px;line-height:1.6;color:var(--muted); }
+  .quote-selection[hidden] { display:none; }
+  .quote-selection { position:fixed;z-index:65;width:min(300px,calc(100vw - 24px));padding:16px 18px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);box-shadow:var(--shadow-md);text-align:left; }
+  .quote-selection-head { display:flex;gap:12px;align-items:center;justify-content:space-between; }
+  .quote-selection-head strong { font-family:Georgia,serif;font-size:21px;font-weight:400;overflow-wrap:anywhere; }
+  .quote-selection-head button { flex:none;width:28px;height:28px;border-radius:var(--r-sm);color:var(--muted);font-size:20px; }
+  .quote-selection-head button:hover { background:var(--surface-3); }
+  .quote-selection p { margin:10px 0 12px;font-size:13px;line-height:1.7;color:var(--ink-soft); }
+  .quote-selection-note { color:var(--muted);font-size:10.5px; }
+  .quote-copy-dialog { width:min(480px,calc(100% - 32px));padding:25px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);color:var(--ink);box-shadow:var(--shadow-md); }
+  .quote-copy-dialog::backdrop { background:rgba(22,23,26,.22); }
+  .quote-copy-dialog h2 { margin:0 0 12px;font-size:19px; }
+  .quote-copy-dialog p { margin:0 0 14px;color:var(--muted);font-size:12.5px;line-height:1.7; }
+  .quote-copy-dialog textarea { width:100%;min-height:170px;resize:vertical;padding:12px;border:1px solid var(--line-strong);border-radius:var(--r-sm);font:13px/1.8 var(--sans);color:var(--ink-soft);background:var(--surface-2); }
+  .quote-copy-dialog>button { margin-top:14px; }
+  @keyframes quoteFadeIn { from { opacity:0; } to { opacity:1; } }
+  @media(max-width:640px) { .hero-quote { padding:23px 22px 18px;margin-top:22px; } .quote-heading { margin-bottom:18px; } .quote-attribution { gap:3px 12px; } .quote-action { flex:1;padding:7px 8px;gap:5px; } .quote-toolbar { gap:5px; } }
+  @media(prefers-reduced-motion:reduce) { .hero-quote { animation:none!important; } }
+
 </style>
 </head>
 <body class="is-gated">
@@ -1903,6 +1942,19 @@
         智能英语学习平台<br />
         <span>背单词、外刊精读、四六级刷题，三个模块共用一个生词队列</span>
       </p>
+            <blockquote class="hero-quote" id="dailyQuote" aria-label="英语名言">
+        <div class="quote-heading"><span>每日一句</span><time id="dailyQuoteDate"></time></div>
+        <p class="quote-english" id="dailyQuoteText" lang="en" tabindex="0"></p>
+        <p class="quote-chinese" id="dailyQuoteChinese" lang="zh-CN"></p>
+        <div class="quote-attribution"><span id="dailyQuoteAuthor"></span><a id="dailyQuoteSource" target="_blank" rel="noopener noreferrer"></a></div>
+        <div class="quote-toolbar" role="group" aria-label="名言操作">
+          <button type="button" class="quote-action" data-quote-action="translation" aria-controls="dailyQuoteChinese" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h10M9 3v2M6 5c0 6 5 10 8 10M12 5c0 6-5 10-8 10M14 20l4-10 4 10M16 16h4"/></svg><span>中文</span></button>
+          <button type="button" class="quote-action" data-quote-action="speak" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4zM17 8c2 2 2 6 0 8M20 5c4 4 4 10 0 14"/></svg><span>朗读</span></button>
+          <button type="button" class="quote-action" data-quote-action="favorite" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span>收藏</span></button>
+          <button type="button" class="quote-action" data-quote-action="copy"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg><span>复制</span></button>
+        </div>
+        <p class="quote-feedback" id="dailyQuoteFeedback" role="status" aria-live="polite" aria-atomic="true">划选英文，查看词义。</p>
+      </blockquote>
       <div class="hero-ctas">
         <button class="btn" id="hero-start">开始今天的复习</button>
         <button class="btn-quiet" data-goto="reading">读今天的文章</button>
@@ -1913,36 +1965,36 @@
       </p>
 
       <div class="tiles">
-        <button class="tile" data-goto="vocab">
+        <div class="tile">
           <span class="tile-glyph" aria-hidden="true">Aa</span>
           <span class="tile-name">背单词</span>
           <span class="tile-meta">47 个到期</span>
-        </button>
-        <button class="tile" data-goto="wrongbook">
+        </div>
+        <div class="tile">
           <span class="tile-glyph" aria-hidden="true">&#10005;</span>
           <span class="tile-name">错词本</span>
           <span class="tile-meta">4 个高频错词</span>
-        </button>
-        <button class="tile" data-goto="notebook">
+        </div>
+        <div class="tile">
           <span class="tile-glyph" aria-hidden="true">&#9635;</span>
           <span class="tile-name">笔记本</span>
           <span class="tile-meta">6 个划词生词</span>
-        </button>
-        <button class="tile" data-goto="reading">
+        </div>
+        <div class="tile">
           <span class="tile-glyph" aria-hidden="true">&#9636;</span>
           <span class="tile-name">外刊精读</span>
           <span class="tile-meta">今天一篇</span>
-        </button>
-        <button class="tile" data-goto="practice">
+        </div>
+        <div class="tile">
           <span class="tile-glyph" aria-hidden="true">&#9673;</span>
           <span class="tile-name">分题型专练</span>
           <span class="tile-meta">听力 25 题</span>
-        </button>
-        <button class="tile" data-goto="wall">
+        </div>
+        <div class="tile">
           <span class="tile-glyph" aria-hidden="true">&#9998;</span>
           <span class="tile-name">留言墙</span>
           <span class="tile-meta">21 条加油</span>
-        </button>
+        </div>
       </div>
     </div>
 
@@ -1997,17 +2049,6 @@
       </aside>
     </div>
 
-    <section class="panel pick-card" style="margin-top:18px">
-      <div>
-        <span class="tag tag-accent">每日一篇</span>
-        <h3>为什么我们戒不掉糖，而意志力是个错误的工具</h3>
-        <p style="margin:0;color:var(--muted);font-size:12.5px">BBC Future，6 分钟读完，生词率 4.2%，在你读得下去的区间</p>
-        <div class="pick-meta">
-          <span class="tag">科学</span><span class="tag">B2</span><span class="tag">528 词</span><span class="tag">8 个词不在你的词表里</span>
-        </div>
-      </div>
-      <button class="btn" data-goto="reading">去读这一篇</button>
-    </section>
   </section>
 
   <!-- =====================================================================
@@ -4619,5 +4660,337 @@
 })();
 </script>
 
+<aside class="quote-selection" id="dailyQuoteSelection" aria-label="名言划词释义" hidden>
+  <div class="quote-selection-head"><strong id="dailyQuoteSelectedWord"></strong><button type="button" id="dailyQuoteSelectionClose" aria-label="关闭名言释义">×</button></div>
+  <p id="dailyQuoteDefinition"></p><span class="quote-selection-note">本地词典 · 名言语境</span>
+</aside>
+<dialog class="quote-copy-dialog" id="dailyQuoteCopyDialog" aria-labelledby="dailyQuoteCopyTitle">
+  <h2 id="dailyQuoteCopyTitle">手动复制名言</h2><p>当前浏览器限制自动复制。选中下面的内容，使用 Ctrl+C 或 ⌘C 复制。</p>
+  <textarea id="dailyQuoteCopyText" aria-label="待复制的名言" readonly></textarea>
+  <button type="button" class="btn" id="dailyQuoteCopyClose" aria-label="关闭复制窗口">完成</button>
+</dialog>
+<script type="application/json" id="dailyQuoteData">[{"id":"hamlet-self","english":"This above all: to thine own self be true;","chinese":"最重要的是：忠于你自己。","author":"William Shakespeare","source":{"title":"Hamlet · I.3","url":"https://www.gutenberg.org/cache/epub/1524/pg1524.txt","speaker":"Polonius"}},{"id":"hamlet-thinking","english":"There is nothing either good or bad but thinking makes it so.","chinese":"事物本无善恶，是我们的想法使它如此。","author":"William Shakespeare","source":{"title":"Hamlet · II.2","url":"https://www.gutenberg.org/cache/epub/1524/pg1524.txt","speaker":"Hamlet"}},{"id":"hamlet-brevity","english":"Brevity is the soul of wit.","chinese":"简洁是机智的灵魂。","author":"William Shakespeare","source":{"title":"Hamlet · II.2","url":"https://www.gutenberg.org/cache/epub/1524/pg1524.txt","speaker":"Polonius"}},{"id":"hamlet-possibility","english":"We know what we are, but know not what we may be.","chinese":"我们知道现在的自己，却不知道未来可能成为怎样的人。","author":"William Shakespeare","source":{"title":"Hamlet · IV.5","url":"https://www.gutenberg.org/cache/epub/1524/pg1524.txt","speaker":"Ophelia"}},{"id":"pride-self","english":"Till this moment, I never knew myself.","chinese":"直到此刻，我才真正认识自己。","author":"Jane Austen","source":{"title":"Pride and Prejudice · Ch.36","url":"https://www.gutenberg.org/cache/epub/1342/pg1342.txt","speaker":"Elizabeth Bennet"}},{"id":"sherlock-data","english":"It is a capital mistake to theorise before one has data.","chinese":"在掌握资料之前就作推断，是一个严重的错误。","author":"Arthur Conan Doyle","source":{"title":"A Scandal in Bohemia","url":"https://www.gutenberg.org/cache/epub/1661/pg1661.txt","speaker":"Sherlock Holmes"}}]</script>
+<script id="dailyQuoteModule">(function () {
+  'use strict';
+  var root = document.getElementById('dailyQuote');
+  var quotes = JSON.parse(document.getElementById('dailyQuoteData').textContent);
+  var text = document.getElementById('dailyQuoteText');
+  var chinese = document.getElementById('dailyQuoteChinese');
+  var author = document.getElementById('dailyQuoteAuthor');
+  var source = document.getElementById('dailyQuoteSource');
+  var dateNode = document.getElementById('dailyQuoteDate');
+  var feedback = document.getElementById('dailyQuoteFeedback');
+  var translationButton = root.querySelector('[data-quote-action="translation"]');
+  var speakButton = root.querySelector('[data-quote-action="speak"]');
+  var favoriteButton = root.querySelector('[data-quote-action="favorite"]');
+  var copyButton = root.querySelector('[data-quote-action="copy"]');
+  var popup = document.getElementById('dailyQuoteSelection');
+  var copyDialog = document.getElementById('dailyQuoteCopyDialog');
+  var copyText = document.getElementById('dailyQuoteCopyText');
+  var preferenceKey = 'lingua-loop.quotes.translation.v1';
+  var memoryFavorites = new Map();
+  var currentQuote, displayedDate = '', pendingDate = '', requestVersion = 0, requestController;
+  var speaking = false, speechVersion = 0, selectionTimer, lastSelection = '';
+  var formatter = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' });
+  var dictionary = {
+    we:'我们', know:'知道；了解', what:'什么；所……的事', are:'是（be 的复数形式）',
+    but:'但是', not:'不；没有', may:'可能；也许', be:'是；成为', this:'这；这个',
+    above:'在……之上；超过', all:'全部；一切', to:'对；向；不定式标志',
+    thine:'你的（古英语形式）', own:'自己的', self:'自我；自己', true:'真实的；忠于内心的',
+    there:'那里；there is 表示“存在”', is:'是；存在', nothing:'没有什么；没有任何事物',
+    either:'两者中的任一个', good:'好的；善的', or:'或者', bad:'坏的；恶的',
+    thinking:'思考；想法', makes:'使……（make 的第三人称形式）', it:'它；这件事', so:'如此；这样',
+    brevity:'简洁；简短', the:'这；那个（定冠词）', soul:'灵魂；精髓', of:'……的', wit:'机智；才思',
+    till:'直到', moment:'时刻；瞬间', i:'我', never:'从未；从不', knew:'知道；认识（know 的过去式）',
+    myself:'我自己', a:'一；某个（不定冠词）', capital:'严重的；根本的（此处不是“资本”）',
+    mistake:'错误', theorise:'推测；提出理论（英式拼写）', theorize:'推测；提出理论（美式拼写）',
+    before:'在……之前', one:'一个人；人', has:'有；拥有（have 的第三人称形式）', data:'数据；资料'
+  };
+  var phrases = {
+    'above all':'最重要的是', 'own self':'自己的内心；自己', 'be true':'忠实；保持真实',
+    'makes it so':'使它如此', 'the soul of wit':'机智的精髓', 'till this moment':'直到此刻',
+    'never knew myself':'从未真正了解自己', 'capital mistake':'严重的错误',
+    'before one has data':'在掌握资料之前', 'what we may be':'未来可能成为怎样的人',
+    'we know':'我们知道', 'good or bad':'好与坏；善与恶'
+  };
+
+  function getDateKey(date) {
+    var parts = formatter.formatToParts(date || new Date());
+    var fields = {};
+    parts.forEach(function (part) { fields[part.type] = part.value; });
+    return fields.year + '-' + fields.month + '-' + fields.day;
+  }
+  function selectLocalDailyQuote(dateKey) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateKey)) throw new TypeError('Invalid date key');
+    var date = new Date(dateKey + 'T00:00:00Z');
+    if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== dateKey) throw new TypeError('Invalid date key');
+    var day = Math.floor(date.getTime() / 86400000);
+    return quotes[((day % quotes.length) + quotes.length) % quotes.length];
+  }
+  function validateQuote(quote) {
+    if (!quote || typeof quote !== 'object') throw new TypeError('Invalid quote');
+    ['id','english','chinese','author'].forEach(function (field) {
+      if (typeof quote[field] !== 'string' || !quote[field].trim() || quote[field].length > 800) throw new TypeError('Invalid quote field');
+    });
+    if (!quote.source || typeof quote.source.title !== 'string' || !quote.source.title.trim()) throw new TypeError('Invalid quote source');
+    var sourceUrl = new URL(quote.source.url);
+    if (sourceUrl.protocol !== 'https:') throw new TypeError('Quote source must use HTTPS');
+    if (quote.source.speaker != null && typeof quote.source.speaker !== 'string') throw new TypeError('Invalid speaker');
+    return quote;
+  }
+  function createJavaQuoteProvider(endpoint) {
+    endpoint = endpoint || '/api/v1/quotes/daily';
+    return {
+      getDailyQuote: async function (dateKey, signal) {
+        var url = new URL(endpoint, location.href);
+        if (!/^https?:$/.test(url.protocol) || url.origin !== location.origin || !url.pathname.startsWith('/api/v1/')) {
+          throw new TypeError('Java quote provider requires a same-origin HTTP API');
+        }
+        url.searchParams.set('date', dateKey);
+        url.searchParams.set('timezone', 'Asia/Shanghai');
+        var response = await fetch(url.pathname + url.search, { credentials: 'same-origin', signal: signal, headers: { Accept: 'application/json' } });
+        if (!response.ok) throw new Error('Daily quote request failed');
+        var payload = await response.json();
+        if (payload.date !== dateKey || payload.timezone !== 'Asia/Shanghai') throw new TypeError('Daily quote date mismatch');
+        return validateQuote(payload.quote);
+      }
+    };
+  }
+  // Extension point for a later Java provider. The standalone prototype uses local data by default.
+  var provider = window.LinguaLoopQuoteProvider || {
+    getDailyQuote: function (dateKey) { return Promise.resolve(selectLocalDailyQuote(dateKey)); }
+  };
+  window.LinguaLoopDailyQuotes = Object.freeze({
+    getDateKey: getDateKey,
+    selectLocalDailyQuote: selectLocalDailyQuote,
+    createJavaQuoteProvider: createJavaQuoteProvider
+  });
+
+  function notify(message) { feedback.textContent = message; }
+  function isHomeVisible() {
+    return !document.body.classList.contains('is-gated') && !document.body.classList.contains('is-admin')
+      && document.getElementById('view-today').classList.contains('is-active');
+  }
+  function accountKey() {
+    var registering = !document.getElementById('form-register').hidden;
+    var input = document.getElementById(registering ? 'rg-user' : 'lg-user');
+    var username = input.value.trim().toLowerCase() || document.getElementById('roleWho').textContent.trim().toLowerCase() || 'local';
+    return 'lingua-loop.quotes.favorites.v1:' + encodeURIComponent(username);
+  }
+  function readFavorites() {
+    var key = accountKey();
+    if (memoryFavorites.has(key)) return memoryFavorites.get(key);
+    var items = [];
+    try {
+      var saved = JSON.parse(localStorage.getItem(key) || '[]');
+      if (!Array.isArray(saved)) throw new TypeError('Invalid saved favorites');
+      items = saved.filter(function (item) { try { validateQuote(item); return true; } catch (_) { return false; } }).slice(0, 200);
+    } catch (_) { items = []; }
+    memoryFavorites.set(key, items);
+    return items;
+  }
+  function updateFavorite() {
+    if (!currentQuote) return;
+    var saved = readFavorites().some(function (item) { return item.id === currentQuote.id; });
+    favoriteButton.setAttribute('aria-pressed', String(saved));
+    favoriteButton.setAttribute('aria-label', saved ? '取消收藏名言' : '收藏名言');
+    favoriteButton.querySelector('span').textContent = saved ? '已收藏' : '收藏';
+  }
+  function toggleFavorite() {
+    var items = readFavorites().slice();
+    var index = items.findIndex(function (item) { return item.id === currentQuote.id; });
+    var adding = index < 0;
+    if (adding) items.push(currentQuote); else items.splice(index, 1);
+    memoryFavorites.set(accountKey(), items);
+    var persisted = true;
+    try { localStorage.setItem(accountKey(), JSON.stringify(items)); } catch (_) { persisted = false; }
+    updateFavorite();
+    notify((adding ? '已收藏' : '已取消收藏') + (persisted ? '，已保存在本机。' : '（仅本次打开有效，浏览器未允许保存）。'));
+  }
+  var chineseVisible = true;
+  try { var pref = JSON.parse(localStorage.getItem(preferenceKey) || 'true'); if (typeof pref === 'boolean') chineseVisible = pref; } catch (_) {}
+  function applyTranslation() {
+    chinese.setAttribute('aria-hidden', String(!chineseVisible));
+    translationButton.setAttribute('aria-pressed', String(chineseVisible));
+    translationButton.setAttribute('aria-label', chineseVisible ? '隐藏中文翻译' : '显示中文翻译');
+  }
+  function toggleTranslation() {
+    chineseVisible = !chineseVisible;
+    applyTranslation();
+    try { localStorage.setItem(preferenceKey, JSON.stringify(chineseVisible)); } catch (_) {}
+    notify(chineseVisible ? '已显示中文翻译。' : '已隐藏中文翻译，再点“中文”即可显示。');
+  }
+
+  function setSpeaking(value) {
+    speaking = value;
+    speakButton.setAttribute('aria-pressed', String(value));
+    speakButton.setAttribute('aria-label', value ? '停止英文朗读' : '朗读英文名言');
+    speakButton.querySelector('span').textContent = value ? '停止' : '朗读';
+  }
+  var speechSupported = !!window.speechSynthesis && typeof window.SpeechSynthesisUtterance === 'function';
+  speakButton.disabled = !speechSupported;
+  if (!speechSupported) speakButton.title = '当前浏览器不支持英文朗读';
+  function stopSpeaking() {
+    speechVersion += 1;
+    if (speaking && speechSupported) { try { window.speechSynthesis.cancel(); } catch (_) {} }
+    setSpeaking(false);
+  }
+  function toggleSpeech() {
+    if (!speechSupported) { notify('当前浏览器不支持英文朗读。'); return; }
+    if (speaking) { stopSpeaking(); notify('朗读已停止。'); return; }
+    var token = ++speechVersion;
+    try {
+      window.speechSynthesis.cancel();
+      var utterance = new SpeechSynthesisUtterance(currentQuote.english);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.88;
+      var voices = window.speechSynthesis.getVoices();
+      var englishVoice = voices.find(function (voice) { return /^en(?:-|$)/i.test(voice.lang); });
+      if (englishVoice) { utterance.voice = englishVoice; utterance.lang = englishVoice.lang; }
+      utterance.onend = function () { if (token === speechVersion) { setSpeaking(false); notify('朗读结束。'); } };
+      utterance.onerror = function (event) {
+        if (token !== speechVersion) return;
+        setSpeaking(false);
+        notify(event.error === 'canceled' || event.error === 'interrupted' ? '朗读已停止。' : '朗读失败，请检查设备的英语语音设置。');
+      };
+      setSpeaking(true);
+      notify('正在朗读英文名言…');
+      window.speechSynthesis.speak(utterance);
+    } catch (_) { setSpeaking(false); notify('当前设备无法朗读，请检查英语语音设置。'); }
+  }
+
+  function copyPayload() {
+    return currentQuote.english + '\n' + currentQuote.chinese + '\n' + currentQuote.author
+      + '\n' + currentQuote.source.title + (currentQuote.source.speaker ? ' · ' + currentQuote.source.speaker : '')
+      + '\n' + currentQuote.source.url;
+  }
+  var copyVersion = 0;
+  async function copyQuote() {
+    var token = ++copyVersion;
+    var content = copyPayload();
+    try {
+      if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(content);
+      if (token !== copyVersion || !isHomeVisible()) return;
+      notify('已复制英文、中文与出处。');
+      return;
+    } catch (_) {}
+    if (token !== copyVersion || !isHomeVisible()) return;
+    var temporary = document.createElement('textarea');
+    temporary.value = content; temporary.readOnly = true;
+    temporary.style.cssText = 'position:fixed;left:-9999px;top:0;';
+    document.body.appendChild(temporary);
+    var copied = false;
+    try { temporary.select(); copied = document.execCommand('copy'); } catch (_) {}
+    temporary.remove();
+    copyButton.focus({ preventScroll: true });
+    if (copied) { notify('已复制英文、中文与出处。'); return; }
+    copyText.value = content;
+    copyDialog.showModal(); copyText.focus(); copyText.select();
+    notify('复制受限，请在弹窗中手动复制。');
+  }
+  document.getElementById('dailyQuoteCopyClose').addEventListener('click', function () { copyDialog.close(); copyButton.focus({ preventScroll: true }); });
+
+  function normalizeSelection(value) {
+    return value.trim().replace(/[\u2019]/g, "'").replace(/[.,;:!?]/g, '').replace(/\s+/g, ' ').toLowerCase();
+  }
+  function hideSelection(clear) {
+    clearTimeout(selectionTimer); lastSelection = ''; popup.hidden = true;
+    if (clear) {
+      var selection = window.getSelection();
+      if (selection && text.contains(selection.anchorNode)) selection.removeAllRanges();
+    }
+  }
+  function showSelection() {
+    if (!isHomeVisible()) { hideSelection(false); return; }
+    var selection = window.getSelection();
+    if (!selection || selection.isCollapsed || !selection.rangeCount
+        || !text.contains(selection.anchorNode) || !text.contains(selection.focusNode)) { hideSelection(false); return; }
+    var raw = selection.toString().trim();
+    if (!raw || raw.length > 160 || !/[A-Za-z]/.test(raw)) { hideSelection(false); return; }
+    var key = normalizeSelection(raw);
+    if (key === lastSelection && !popup.hidden) return;
+    var definition = key === normalizeSelection(currentQuote.english) ? currentQuote.chinese
+      : (phrases[key] || dictionary[key] || '本地词典暂未收录这段内容，可点击“中文”查看整句翻译。');
+    document.getElementById('dailyQuoteSelectedWord').textContent = raw;
+    document.getElementById('dailyQuoteDefinition').textContent = definition;
+    var rect = selection.getRangeAt(0).getBoundingClientRect();
+    popup.hidden = false;
+    var box = popup.getBoundingClientRect();
+    popup.style.left = Math.max(12, Math.min(rect.left, innerWidth - box.width - 12)) + 'px';
+    var top = rect.bottom + 10;
+    if (top + box.height > innerHeight - 12) top = rect.top - box.height - 10;
+    popup.style.top = Math.max(12, Math.min(top, innerHeight - box.height - 12)) + 'px';
+    lastSelection = key;
+  }
+  function scheduleSelection() { clearTimeout(selectionTimer); selectionTimer = setTimeout(showSelection, 250); }
+  text.addEventListener('pointerup', scheduleSelection);
+  document.addEventListener('selectionchange', scheduleSelection);
+  document.getElementById('dailyQuoteSelectionClose').addEventListener('click', function () { hideSelection(true); text.focus({ preventScroll: true }); });
+  document.addEventListener('pointerdown', function (event) { if (!popup.contains(event.target) && !text.contains(event.target)) hideSelection(false); });
+  document.addEventListener('keydown', function (event) { if (event.key === 'Escape') hideSelection(true); });
+  window.addEventListener('scroll', function () { hideSelection(false); }, { passive: true });
+  window.addEventListener('resize', function () { hideSelection(false); });
+
+  function renderQuote(quote, dateKey, fallback) {
+    validateQuote(quote);
+    if (!currentQuote || currentQuote.id !== quote.id || displayedDate !== dateKey) { copyVersion += 1; if (copyDialog.open) copyDialog.close(); stopSpeaking(); hideSelection(true); }
+    currentQuote = quote; displayedDate = dateKey;
+    text.textContent = quote.english; chinese.textContent = quote.chinese; author.textContent = quote.author;
+    source.textContent = quote.source.title;
+    source.href = quote.source.url;
+    source.title = quote.source.title + (quote.source.speaker ? ' · ' + quote.source.speaker + '（作品人物台词）' : '');
+    root.setAttribute('cite', quote.source.url);
+    dateNode.dateTime = dateKey;
+    dateNode.textContent = Number(dateKey.slice(5,7)) + '月' + Number(dateKey.slice(8,10)) + '日';
+    applyTranslation(); updateFavorite();
+    notify(fallback ? '名言服务暂不可用，已显示本地名言。' : '划选英文，查看词义。');
+  }
+  async function refreshDaily(force) {
+    var dateKey = getDateKey(new Date());
+    if (pendingDate && pendingDate !== dateKey) {
+      if (requestController) requestController.abort();
+      requestVersion += 1;
+      pendingDate = '';
+    }
+    if (pendingDate === dateKey || (!force && displayedDate === dateKey)) return;
+    if (requestController) requestController.abort();
+    requestController = new AbortController();
+    var token = ++requestVersion;
+    pendingDate = dateKey;
+    try {
+      var quote = await provider.getDailyQuote(dateKey, requestController.signal);
+      if (token === requestVersion) {
+        if (getDateKey(new Date()) === dateKey) renderQuote(quote, dateKey, false);
+        else refreshDaily(false);
+      }
+    } catch (_) {
+      if (token === requestVersion) {
+        if (getDateKey(new Date()) === dateKey) renderQuote(selectLocalDailyQuote(dateKey), dateKey, true);
+        else refreshDaily(false);
+      }
+    } finally { if (token === requestVersion) pendingDate = ''; }
+  }
+
+  translationButton.addEventListener('click', toggleTranslation);
+  favoriteButton.addEventListener('click', toggleFavorite);
+  speakButton.addEventListener('click', toggleSpeech);
+  copyButton.addEventListener('click', copyQuote);
+  function onViewChange() {
+    if (!isHomeVisible()) { copyVersion += 1; stopSpeaking(); hideSelection(true); if (copyDialog.open) copyDialog.close(); }
+    updateFavorite();
+  }
+  new MutationObserver(onViewChange).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  new MutationObserver(onViewChange).observe(document.getElementById('view-today'), { attributes: true, attributeFilter: ['class'] });
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') { refreshDaily(false); updateFavorite(); }
+    else { stopSpeaking(); hideSelection(false); }
+  });
+  window.addEventListener('pagehide', function () { copyVersion += 1; stopSpeaking(); hideSelection(false); if (requestController) requestController.abort(); });
+  window.addEventListener('storage', function (event) { if (event.key && event.key.startsWith('lingua-loop.quotes.favorites.v1:')) { memoryFavorites.delete(event.key); updateFavorite(); } });
+  setInterval(function () { if (!document.hidden) refreshDaily(false); }, 60000);
+  renderQuote(selectLocalDailyQuote(getDateKey(new Date())), getDateKey(new Date()), false);
+  refreshDaily(true);
+})();</script>
 </body>
 </html>

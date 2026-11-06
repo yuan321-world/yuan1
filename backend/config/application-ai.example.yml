@@ -1,0 +1,12 @@
+# Copy to ignored backend/config/application-ai.yml or use DEEPSEEK_API_KEY.
+# Never put a real key in this example. The feature is disabled by default.
+english-hero:
+  practice:
+    ai:
+      enabled: false
+      api-key: ${DEEPSEEK_API_KEY:}
+      model: deepseek-flash
+      user-daily-limit: 10
+      # 1000000 microCNY = RMB 1 for the entire project per Shanghai calendar day.
+      daily-budget-microcny: 1000000
+      worker-enabled: true

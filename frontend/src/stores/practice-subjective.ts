@@ -1,0 +1,24 @@
+import {ref,computed,watch} from 'vue'
+import {defineStore} from 'pinia'
+import {useAuthStore} from './auth'
+import {getGeneration,onRemoteIdentityChange} from '../auth/token-session'
+import {ApiError} from '../api/client'
+import {errorMessage} from '../api/identity'
+import * as api from '../api/practice-subjective'
+export const useSubjectiveAttempt=defineStore('practice-subjective',()=>{
+ const auth=useAuthStore(),attempt=ref<api.SubjectiveAttempt|null>(null),text=ref(''),recoveryText=ref(''),saved=ref(''),error=ref(''),loading=ref(false),saving=ref(false),submitting=ref(false),conflict=ref(false),pendingSubmit=ref<{expectedVersion:number;requestId:string;confirmWordRange:boolean}|null>(null)
+ let carry:{id:string;text:string}|null=null
+ let epoch=0,timer:ReturnType<typeof setTimeout>|undefined,inflight:Promise<boolean>|null=null
+ const dirty=computed(()=>text.value!==saved.value),wordCount=computed(()=>api.englishWords(text.value)),saveState=computed(()=>error.value?'保存尚未确认':saving.value?'正在保存…':dirty.value?'有待保存文字':'草稿已保存')
+ const scope=()=>{const e=epoch,owner=auth.user?.id;return()=>e===epoch&&owner===auth.user?.id},context=()=>{const same=scope(),g=getGeneration();return()=>same()&&g===getGeneration()}
+ function dispose(){clearTimeout(timer);timer=undefined}
+ function clear(){epoch++;dispose();attempt.value=null;text.value='';recoveryText.value='';carry=null;saved.value='';error.value='';conflict.value=false;loading.value=false;saving.value=false;submitting.value=false;pendingSubmit.value=null;inflight=null}
+ watch(()=>auth.user?.id,clear,{flush:'sync'});onRemoteIdentityChange(clear)
+ async function load(id:string){const restored=carry?.id===id?carry:null;if(attempt.value?.id!==id)clear();const valid=context(),same=scope();loading.value=true;error.value='';try{const a=await api.getSubjectiveAttempt(id);if(valid()){attempt.value=a;text.value=restored?.text??a.answerText;saved.value=a.answerText;recoveryText.value='';carry=null;conflict.value=false;pendingSubmit.value=null;if(restored)timer=setTimeout(()=>{void flush()},900)}}catch(e){if(same())error.value=errorMessage(e)}finally{if(same())loading.value=false}}
+ function edit(value:string){if(attempt.value?.status!=='IN_PROGRESS'||pendingSubmit.value||submitting.value||loading.value)return;text.value=value;dispose();if(!conflict.value)timer=setTimeout(()=>{void flush()},900)}
+ async function flush():Promise<boolean>{dispose();if(inflight)return inflight;if(!attempt.value||attempt.value.status!=='IN_PROGRESS'||!dirty.value)return true;if(conflict.value||pendingSubmit.value)return false;const same=scope(),valid=context();saving.value=true;error.value='';const run=(async()=>{try{while(dirty.value&&valid()){const sent=text.value;const a=await api.saveSubjectiveDraft(attempt.value!.id,{expectedVersion:attempt.value!.version,answerText:sent});if(!valid())return false;attempt.value=a;saved.value=sent}return valid()}catch(e){if(same()){error.value=errorMessage(e);if(e instanceof ApiError&&e.status===409)conflict.value=true}return false}finally{if(same()){saving.value=false;inflight=null}}})();inflight=run;return run}
+ async function reloadKeepingText(){if(!attempt.value||saving.value||submitting.value)return;const same=scope(),valid=context(),local=text.value;loading.value=true;error.value='';try{const a=await api.getSubjectiveAttempt(attempt.value.id);if(valid()){attempt.value=a;saved.value=a.answerText;if(a.status==='COMPLETED'&&local!==a.answerText)recoveryText.value=local;text.value=a.status==='COMPLETED'?a.answerText:local;conflict.value=false;pendingSubmit.value=null}}catch(e){if(same())error.value=errorMessage(e)}finally{if(same())loading.value=false}}
+ async function submit(confirmWordRange:boolean){if(submitting.value||conflict.value||!attempt.value)return false;if(!pendingSubmit.value&&!await flush())return false;if(!pendingSubmit.value)pendingSubmit.value={expectedVersion:attempt.value.version,requestId:crypto.randomUUID(),confirmWordRange};const command=pendingSubmit.value,same=scope(),valid=context();submitting.value=true;error.value='';try{const a=await api.submitSubjective(attempt.value.id,command);if(!valid())return false;attempt.value=a;text.value=a.answerText;saved.value=a.answerText;pendingSubmit.value=null;return true}catch(e){if(same()){error.value=errorMessage(e);if(e instanceof ApiError&&e.status===409){conflict.value=true;pendingSubmit.value=null}else if(e instanceof ApiError&&e.status===400)pendingSubmit.value=null}return false}finally{if(same())submitting.value=false}}
+ function carryRecovery(id:string){if(recoveryText.value){carry={id,text:recoveryText.value};recoveryText.value=''}}
+ return {attempt,text,recoveryText,carryRecovery,dirty,wordCount,error,loading,saving,submitting,conflict,pendingSubmit,saveState,load,edit,flush,submit,reloadKeepingText,clear,dispose}
+})

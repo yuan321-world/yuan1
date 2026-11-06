@@ -1,0 +1,107 @@
+{
+  "checkedOn": "2026-10-22",
+  "scope": "LOCAL_PERSONAL_ONLY",
+  "publicationPermission": "NOT_ESTABLISHED",
+  "officialAnswer": false,
+  "examCode": "CET4",
+  "year": 2024,
+  "month": 6,
+  "paperNo": 1,
+  "paperNumberBasis": "SOURCE_LOCAL_LABEL_NOT_UNIVERSAL",
+  "sourceEdition": "Nanjing University domain learning resource, not official examination release",
+  "sources": {
+    "paper": {
+      "url": "https://eol.nju.edu.cn/cet4/papers/2024%E5%B9%B46%E6%9C%88%E5%A4%A7%E5%AD%A6%E8%8B%B1%E8%AF%AD%E5%9B%9B%E7%BA%A7%E7%9C%9F%E9%A2%98%EF%BC%88%E7%AC%AC%E4%B8%80%E5%A5%97%EF%BC%89_%20%E5%AE%8C%E6%95%B4%E7%89%88%E7%B2%BE%E6%8E%92.pdf",
+      "sha256": "27f4989281fc018b83abc1af9d55bbe1ffefc90791a03dd3d3813afa452394b8",
+      "pages": 13
+    },
+    "answers": {
+      "url": "https://eol.nju.edu.cn/cet4/papers/2024%E5%B9%B46%E6%9C%88%E5%9B%9B%E7%BA%A7%E7%9C%9F%E9%A2%98%EF%BC%88%E7%AC%AC%E4%B8%80%E5%A5%97%EF%BC%89%C2%B7%E7%AD%94%E6%A1%88%E8%A7%A3%E6%9E%90.pdf",
+      "sha256": "35756137f3f89ade79b154741c105fcb429da129eb187425f16ee0468fef270a",
+      "pages": 12
+    }
+  },
+  "corroboratingSources": {
+    "writing": "https://cet4-6.xdf.cn/202406/13800993.html",
+    "translation": "https://cet4-6.xdf.cn/202406/13800977.html"
+  },
+  "translationNumberConflict": "NJU learning edition labels this collection 1; XDF labels the same Siheyuan prompt translation 2. Do not assume universal paper numbering.",
+  "newItems": [
+    {
+      "id": "8",
+      "type": "WRITING",
+      "status": "PUBLISHED",
+      "revision": 1,
+      "sourceKind": "PAST",
+      "title": "2024年6月四级·写作·大学图书馆是否应向公众开放",
+      "publicSetVersionId": "9",
+      "contentHash": "2f3d544c55acd96428594d3cf299c87f24a9f49b56e4ccbc9d55622b30ddb8a2"
+    },
+    {
+      "id": "9",
+      "type": "TRANSLATION",
+      "status": "PUBLISHED",
+      "revision": 1,
+      "sourceKind": "PAST",
+      "title": "2024年6月四级·翻译·四合院",
+      "publicSetVersionId": "10",
+      "contentHash": "7caa6e75c391927d631f49e688c53f84a8a002f836bcc1c7c30539ac6a284c53"
+    },
+    {
+      "id": "10",
+      "type": "DETAILED",
+      "status": "PUBLISHED",
+      "revision": 1,
+      "sourceKind": "PAST",
+      "title": "2024年6月四级·仔细阅读·老年学习与大脑健康",
+      "publicSetVersionId": "11",
+      "contentHash": "cb7a122614d63e00b23a450c495506bdc0d0daa0dced4c6297fcb9c5c6eb1be2"
+    }
+  ],
+  "publicPastCounts": {
+    "reading": 4,
+    "listening": 1,
+    "writing": 1,
+    "translation": 1
+  },
+  "readingQuestionNumbers": [
+    51,
+    52,
+    53,
+    54,
+    55
+  ],
+  "readingReferenceAnswerKey": "BCDAC",
+  "q51ReferenceBasis": "Original asks what some people think, matching forgetfulness/B. Companion answer asks author view/C and is rejected for this question.",
+  "referenceOrigin": "PROJECT_AI_ASSISTED_NONOFFICIAL",
+  "writingReferenceWords": 151,
+  "sourcePagesChecked": [
+    1,
+    11,
+    12,
+    13
+  ],
+  "oldSetResponsesPreserved": 7,
+  "oldVersionResponsesPreserved": true,
+  "publicReadingArticlesPreserved": true,
+  "productionLearnerRecordsCreated": false,
+  "verification": {
+    "isolatedHttpGroups": 7,
+    "isolatedBrowserFlows": 6,
+    "browserWidths": [
+      1440,
+      320
+    ],
+    "newSubjectiveCatalogCounts": [
+      1,
+      1
+    ],
+    "liveAnonymousCatalogViews": 8
+  },
+  "contentCache": ".tool-cache/practice-subjective-source/",
+  "notImplemented": [
+    "CET6",
+    "combined whole-paper attempt",
+    "AI grading"
+  ]
+}

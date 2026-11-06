@@ -1,0 +1,348 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "draft-1",
+  "status": "DRAFT_FOR_REVIEW",
+  "source": "original-b1-b2.v1.json",
+  "sourceFileSha256": "c170609946f4d0968fff750e05c8b920a3f0ea9d2fc54dddaab648749b996a87",
+  "note": "原创学习题，AI辅助编写，待用户审核；非考试真题。审核元数据不属于管理端请求字段，不可直接作为API请求或文章导入文件。未写数据库、未发布。",
+  "articles": [
+    {
+      "sourceIndex": 1,
+      "title": "A Notebook That Makes Room for Tomorrow",
+      "titleZh": "给明天留一页笔记",
+      "difficulty": "B1",
+      "sourceBodySha256": "fa05f92cfa4d5e41b6e147aa678f54b3b03dae5e694f62d73fea48f5946bd564",
+      "currentPublicBinding": null,
+      "questions": [
+        {
+          "key": "original-v1-01-q1",
+          "type": "MAIN_IDEA",
+          "stem": "What makes Mina’s new notebook more useful than her old word lists?",
+          "options": [
+            "It gives her a complete copy of each article she reads.",
+            "It helps her use words and see which ones need review.",
+            "It lets her add more new words without reviewing them.",
+            "It makes every evening’s study task exactly the same."
+          ],
+          "correctOption": "B",
+          "explanation": "新笔记不仅把词与原句、个人例句联系起来，还帮助Mina回忆用法并发现需要复习的词。第5段指出，她不看中文也能解释例句，并清楚知道哪些词需要再次复习；这才是新方法的价值。",
+          "sortOrder": 0,
+          "evidence": {
+            "paragraph": 5,
+            "quote": "She could also see exactly which words needed another review."
+          },
+          "distractorNotes": [
+            "A：她选取少量词和相关句子，没有完整抄写每篇文章。",
+            "C：新方法减少新词数量，并包含回忆和针对性复习。",
+            "D：她在疲惫时缩小任务，学习安排并非每天完全相同。"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceIndex": 2,
+      "title": "The Question at the Back of the Classroom",
+      "titleZh": "教室后排的一个问题",
+      "difficulty": "B2",
+      "sourceBodySha256": "6e4947c3596f162aa3cfeb4d8b2f13057ce00ad51e12851360d732661bdb013e",
+      "currentPublicBinding": null,
+      "questions": [
+        {
+          "key": "original-v1-02-q1",
+          "type": "INFERENCE",
+          "stem": "What can be inferred about the source of Leo’s growing confidence?",
+          "options": [
+            "He learns to answer classmates’ questions without preparation.",
+            "He proves that his first interpretation is usually correct.",
+            "He becomes able to read every paragraph without uncertainty.",
+            "He develops a way to examine questions using textual evidence."
+          ],
+          "correctOption": "D",
+          "explanation": "Leo的信心来自一套处理疑问的方法：先说明已理解的部分，再找出解释失效的位置，并依据文本比较其他可能。第5段直接说明，信心不是来自假装没有疑问；第6段也表明他愿意接受更强的证据。",
+          "sortOrder": 0,
+          "evidence": {
+            "paragraph": 5,
+            "quote": "His confidence grew from having a way to investigate uncertainty, rather than from pretending uncertainty had disappeared."
+          },
+          "distractorNotes": [
+            "A：文章强调准备具体问题，没有说他无需准备就能回答同学。",
+            "B：他愿意根据更强证据改变看法，并非证明最初理解总是正确。",
+            "C：他仍有疑问，只是学会了如何调查和讨论。"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceIndex": 3,
+      "title": "Saturday at the Repair Table",
+      "titleZh": "周六的修理桌",
+      "difficulty": "B1",
+      "sourceBodySha256": "2d8243fe0c8e5a00398acc77c5fa1e4cfd9e2e388f119a10a370854e3fef040e",
+      "currentPublicBinding": null,
+      "questions": [
+        {
+          "key": "original-v1-03-q1",
+          "type": "DETAIL",
+          "stem": "Why did a volunteer suggest professional help for the damaged chair?",
+          "options": [
+            "Its repair was beyond what the group could responsibly handle.",
+            "Its owner had not brought a question to the repair table.",
+            "The organizers allowed visitors to repair only electrical items.",
+            "The repair table required every damaged object to be replaced."
+          ],
+          "correctOption": "A",
+          "explanation": "第4段说明，这把损坏的椅子超出了小组的能力范围，志愿者因此解释活动的边界，并建议找合适的专业人士。这里体现的是负责任地认识能力限制，而不是保证修好所有东西。",
+          "sortOrder": 0,
+          "evidence": {
+            "paragraph": 4,
+            "quote": "Another visitor decided that a damaged chair was beyond the group's ability."
+          },
+          "distractorNotes": [
+            "B：原文没有说椅子主人未带问题，也未把这作为拒修理由。",
+            "C：现场也有缝纽扣和调整自行车座等活动，并非只修电器。",
+            "D：修理桌会尝试修理，未要求所有损坏物品都更换。"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceIndex": 4,
+      "title": "A Different Route Home",
+      "titleZh": "换一条回家的路",
+      "difficulty": "B1",
+      "sourceBodySha256": "ce84696f850a99af2b09f60f78640251f3e232fcb2ebaca394bf82093d1ab47d",
+      "currentPublicBinding": null,
+      "questions": [
+        {
+          "key": "original-v1-04-q1",
+          "type": "MAIN_IDEA",
+          "stem": "What does Nora learn about balancing screen use with other experiences?",
+          "options": [
+            "A helpful routine should give every activity equal time.",
+            "A useful device should be put away on every journey home.",
+            "A flexible choice can give attention to what matters at the time.",
+            "A quiet walk should become a fixed daily study requirement."
+          ],
+          "correctOption": "C",
+          "explanation": "最后一段明确解释，平衡不是把时间平均分配，而是判断何时设备有用、何时其他体验值得关注。Nora在雨天或赶时间时会调整安排，说明这种选择也应适应现实条件。",
+          "sortOrder": 0,
+          "evidence": {
+            "paragraph": 6,
+            "quote": "It meant choosing when a device was useful and when another experience deserved attention."
+          },
+          "distractorNotes": [
+            "A：最后一段明确否定把每小时平均分成几份的理解。",
+            "B：她保留手机用于导航或重要电话，不是每次旅程都不能用。",
+            "D：她不希望散步成为让自己内疚的固定任务。"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceIndex": 5,
+      "title": "Before You Press Allow",
+      "titleZh": "点击允许之前",
+      "difficulty": "B2",
+      "sourceBodySha256": "05d8dd23ab323c93658d63e00c1d611834786df870889c6a4b188b18680d5f0f",
+      "currentPublicBinding": null,
+      "questions": [
+        {
+          "key": "original-v1-05-q1",
+          "type": "INFERENCE",
+          "stem": "Which principle best explains the team’s decision about the planning app?",
+          "options": [
+            "Positive user comments can replace checking permission information.",
+            "Permissions should be judged against actual needs and alternatives.",
+            "One limited trial can establish that an app will always be safe.",
+            "Useful shared lists require access to every saved phone contact."
+          ],
+          "correctOption": "B",
+          "explanation": "团队先核对功能实际需要哪些信息，再查看说明、替代做法及账号删除规则，最后进行有限试用。第6段把这种做法总结为：检查功能需求、替代方案和解释是否清楚。因此应根据具体用途判断权限，而非直接给所有工具贴安全或不安全的标签。",
+          "sortOrder": 0,
+          "evidence": {
+            "paragraph": 6,
+            "quote": "Before pressing \"Allow,\" they had learned to ask what a feature needed, what alternatives existed, and whether the explanation was clear enough for the choice in front of them."
+          },
+          "distractorNotes": [
+            "A：第4段把用户评论视为个人经验，并与官方说明等信息比较。",
+            "C：第5段说明选择会随应用行为、设置或需求变化而调整，不是永久安全结论。",
+            "D：团队找到手动添加同学的方法，不必开放所有联系人。"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceIndex": 6,
+      "title": "Choosing a Journey, Not Just a Vehicle",
+      "titleZh": "选择一段行程，而不只是一辆车",
+      "difficulty": "B2",
+      "sourceBodySha256": "c73bf45fac877449810e8d4a273359572c961d5bab514162e77ea17883d156da",
+      "currentPublicBinding": null,
+      "questions": [
+        {
+          "key": "original-v1-06-q1",
+          "type": "VOCABULARY",
+          "stem": "In the final paragraph, what does “efficient” mean for the students’ design?",
+          "options": [
+            "Making the whole journey work well for a particular need.",
+            "Making the vehicle move as fast as its equipment allows.",
+            "Using the newest machine available for every journey.",
+            "Using the least energy in a complete environmental comparison."
+          ],
+          "correctOption": "A",
+          "explanation": "这里考查的是efficient在本文设计情境中的含义。最后一段将它解释为整段行程是否能满足具体需求；等待、出入口、无障碍信息等都属于考虑范围，不能仅按车辆速度或新旧程度判断。",
+          "sortOrder": 0,
+          "evidence": {
+            "paragraph": 6,
+            "quote": "The word \"efficient\" now described whether a whole journey worked well for a particular need."
+          },
+          "distractorNotes": [
+            "B：第2段说明比较不能只看移动所花的时间。",
+            "C：更清晰的标识和路线图也可能改善行程，不一定要增加新机器。",
+            "D：第3段明确说缺少必要数据，因此没有完成全面环境比较。"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceIndex": 7,
+      "title": "The Recipe with Three Different Endings",
+      "titleZh": "一道食谱的三种结尾",
+      "difficulty": "B1",
+      "sourceBodySha256": "b1d3214342bf7c9bc06a7ab73758aa839b70dca293163347144c00f2dabc3558",
+      "currentPublicBinding": null,
+      "questions": [
+        {
+          "key": "original-v1-07-q1",
+          "type": "MAIN_IDEA",
+          "stem": "What does Mei’s experience suggest about a living tradition?",
+          "options": [
+            "It needs one official history before people can share it.",
+            "It depends on serving exactly the same dish to everyone.",
+            "It becomes less meaningful whenever ingredients change.",
+            "It can remain familiar while adapting to people’s lives."
+          ],
+          "correctOption": "D",
+          "explanation": "祖母的食谱本身就曾因食材和家庭人数而调整；这次家人又为不能吃某种食材的亲属准备替代份。结尾说明，变化没有使传统消失，熟悉的活动可以在适应真实生活的同时延续。",
+          "sortOrder": 0,
+          "evidence": {
+            "paragraph": 6,
+            "quote": "The tradition had not disappeared because the recipe had changed."
+          },
+          "distractorNotes": [
+            "A：家人的故事没有组成唯一官方历史，也不妨碍分享食谱。",
+            "B：第3段强调欢迎家人比让每盘菜完全一样更重要。",
+            "C：结尾明确否定食谱变化就意味着传统消失。"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceIndex": 8,
+      "title": "A Library Card and an Empty Chair",
+      "titleZh": "一张借书卡与一把空椅子",
+      "difficulty": "B1",
+      "sourceBodySha256": "30d843e0bf2428c06ce2ae361991481abf3c5c21cb03df4c5c10d5f2805db415",
+      "currentPublicBinding": null,
+      "questions": [
+        {
+          "key": "original-v1-08-q1",
+          "type": "DETAIL",
+          "stem": "Why does the library provide separate areas and visible signs?",
+          "options": [
+            "To keep visitors without library cards out of the building.",
+            "To make every visitor take part in the conversation group.",
+            "To help different activities share the building with less disturbance.",
+            "To reserve the window seats for people preparing for examinations."
+          ],
+          "correctOption": "C",
+          "explanation": "第3段先举出热闹交谈可能打扰备考者，再说明图书馆用不同区域和明显标识安排活动。这样做是为了兼顾不同使用者的需要，减少共享空间中的相互干扰。",
+          "sortOrder": 0,
+          "evidence": {
+            "paragraph": 3,
+            "quote": "The library used separate areas and visible signs to explain where different activities belonged."
+          },
+          "distractorNotes": [
+            "A：第2段区分不同服务的规则，没有把所有无卡访客挡在门外。",
+            "B：会话小组允许发言、提问或只听，也不是每位访客都必须参加。",
+            "D：原文没有说靠窗座位只留给备考者。"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceIndex": 9,
+      "title": "The Note That Helped the Next Shift",
+      "titleZh": "帮助下一班同事的一份记录",
+      "difficulty": "B2",
+      "sourceBodySha256": "0e5d7e6ca66f2a8562bd6325952f7b335618979448fb70cacee1940ddc2ac282",
+      "currentPublicBinding": {
+        "articleId": "9",
+        "articleVersionId": "9",
+        "bodyMatches": true
+      },
+      "questions": [
+        {
+          "key": "original-v1-09-q1",
+          "type": "INFERENCE",
+          "stem": "Why does the team name a responsible person in the handoff note?",
+          "options": [
+            "To show who can answer questions or make the next decision.",
+            "To identify who should be blamed if the project has problems.",
+            "To remove the need to confirm important changes directly.",
+            "To let the next shift avoid dealing with unresolved questions."
+          ],
+          "correctOption": "A",
+          "explanation": "第5段明确区分责任人和追责：写名字是为了让下一班知道该找谁回答问题或作下一步决定；此人不在时还要列出替代联系人。这有助于工作衔接，而不是把所有沟通替换成文字。",
+          "sortOrder": 0,
+          "evidence": {
+            "paragraph": 5,
+            "quote": "It showed who could answer a question or make the next decision."
+          },
+          "distractorNotes": [
+            "B：原文直接说明，点名不是为了出错时归咎于某人。",
+            "C：重要的截止时间或预期结果变化仍应直接确认。",
+            "D：记录让未决问题更清晰，便于继续处理，而非避开它们。"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceIndex": 10,
+      "title": "A Meeting with Time to Think",
+      "titleZh": "留出思考时间的会议",
+      "difficulty": "B2",
+      "sourceBodySha256": "9f0160801173a7d4c588135b80c8bd29909e2d3a8035a47dadbeae37f8d85c54",
+      "currentPublicBinding": {
+        "articleId": "10",
+        "articleVersionId": "10",
+        "bodyMatches": true
+      },
+      "questions": [
+        {
+          "key": "original-v1-10-q1",
+          "type": "MAIN_IDEA",
+          "stem": "What is the main lesson of the committee’s new meeting routine?",
+          "options": [
+            "Better participation mainly depends on making everyone speak longer.",
+            "Useful participation depends on how people prepare and share ideas.",
+            "A successful meeting requires every proposal to receive agreement.",
+            "Written summaries can replace checking what members actually decided."
+          ],
+          "correctOption": "B",
+          "explanation": "提前发议程、先安静写想法、两人讨论以及共同核对总结，为不同思考方式提供了参与机会。最后一段指出，参与不仅取决于谁说得最多，也取决于如何接收信息、准备回应及理解后续安排。",
+          "sortOrder": 0,
+          "evidence": {
+            "paragraph": 6,
+            "quote": "It also depended on how people received information, prepared a response, and understood what would happen next."
+          },
+          "distractorNotes": [
+            "A：开头已经说明，仅要求大家多说并不能解决参与不均。",
+            "C：成员可以有理由地不同意提议，不要求每项提议都获一致赞成。",
+            "D：第5段要求成员核对总结是否准确反映实际决定。"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+import {test,expect} from '@playwright/test'
+import {mockIdentity} from './identity-fixtures'
+const days=Array.from({length:7},(_,i)=>({date:`2026-11-${String(i+2).padStart(2,'0')}`,newLearned:0,reviewed:0,checked:i===0}))
+test('vocabulary records stay inline and all learning words are managed inside the notebook',async({page},info)=>{
+ await mockIdentity(page);let active=true
+ await page.route('**/api/v1/vocabulary/learning/overview',r=>r.fulfill({json:{candidates:0,unlearned:0,due:0,nextDueAt:null,newToday:0,reviewToday:0,settings:{newGoal:20,reviewGoal:100},source:{kind:'PERSONAL',title:'我的阅读生词',available:true},savedSessions:[]}}))
+ await page.route('**/api/v1/vocabulary/learning/stats',r=>r.fulfill({json:{today:'2026-11-02',days,recentDays:days,totalLearned:3,totalReviewPasses:0,due:0,paused:0,completedRounds:1,nextDueAt:null,streakDays:1,longestStreak:1}}))
+ await page.route('**/api/v1/vocabulary/learning/words?*',r=>r.fulfill({json:{items:[{id:'31',entryId:'12',lemma:'agenda',meaning:'议程',active,stage:1,proficient:false}],page:1,pageSize:20,total:1}}))
+ await page.route('**/api/v1/vocabulary/learning/words/31',r=>{active=r.request().postDataJSON().active;return r.fulfill({json:null})})
+ await page.goto('/vocabulary');await expect(page.getByRole('heading',{name:'这一周的积累'})).toBeVisible()
+ await expect(page.locator('.vl-management')).toHaveCount(0);await expect(page.locator('a[href="/stats"]')).toHaveCount(0)
+ await page.getByText('更多学习记录',{exact:true}).click();await expect(page.getByRole('heading',{name:'近30天',exact:true})).toBeVisible();await expect(page).toHaveURL(/\/vocabulary$/)
+ await page.getByRole('button',{name:'生词本',exact:true}).click();await page.getByText('全部学习词 · 暂停与恢复',{exact:true}).click()
+ await page.getByRole('button',{name:'暂停学习',exact:true}).click();await expect(page.getByRole('button',{name:'恢复学习',exact:true})).toBeEnabled();expect(active).toBe(false)
+ await page.getByRole('button',{name:'恢复学习',exact:true}).click();await expect(page.getByRole('button',{name:'暂停学习',exact:true})).toBeEnabled();expect(active).toBe(true)
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
+ await page.screenshot({path:`../.tool-cache/vocabulary-full/entries-words-${info.project.name}.png`,fullPage:true})
+})
+test('reading records open from a small list button and close without replacing article filters',async({page},info)=>{
+ await mockIdentity(page)
+ await page.route('**/api/v1/reading/checkins/week',r=>r.fulfill({json:{today:'2026-11-02',weekStart:'2026-11-02',days,todayChecked:true,totalDays:1,qualifiedArticles:1,completedReadings:1,completedAttempts:1}}))
+ await page.goto('/reading');await page.getByPlaceholder('搜索英文标题、中文译名或关键词').fill('health')
+ await expect(page.locator('a[href="/stats"]')).toHaveCount(0)
+ const button=page.getByRole('button',{name:'学习记录',exact:true});await button.click()
+ const dialog=page.getByRole('dialog',{name:'阅读学习记录'});await expect(dialog.getByRole('heading',{name:'本周阅读打卡'})).toBeVisible();await expect(dialog.getByText('累计打卡',{exact:true})).toBeVisible()
+ expect(await dialog.evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true)
+ await page.screenshot({path:`../.tool-cache/vocabulary-full/entries-reading-${info.project.name}.png`,fullPage:true})
+ await page.keyboard.press('Escape');await expect(dialog).not.toBeVisible();await expect(button).toBeFocused();await expect(page.getByPlaceholder('搜索英文标题、中文译名或关键词')).toHaveValue('health');await expect(page).toHaveURL(/\/reading$/)
+ await page.goto('/reading?records=1');await expect(dialog).toBeVisible()
+})

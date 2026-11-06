@@ -1,0 +1,15 @@
+<script setup lang="ts">
+import {onBeforeUnmount,onMounted,ref} from 'vue'
+import {vocabularyStats,type VocabularyStats} from '@/api/vocabulary-stats'
+import {errorMessage} from '@/api/identity'
+import {getGeneration} from '@/auth/token-session'
+type Trend=VocabularyStats&{independentReviewPasses?:number;streakDays?:number}
+const stats=ref<Trend|null>(null),error=ref(''),busy=ref(false)
+let disposed=false;const controller=new AbortController()
+async function load(){if(busy.value)return;const generation=getGeneration();busy.value=true;error.value='';try{const result=await vocabularyStats(controller.signal);if(!disposed&&generation===getGeneration()&&result?.days)stats.value=result}catch(e){if(!disposed&&generation===getGeneration()&&!(e instanceof DOMException&&e.name==='AbortError'))error.value=errorMessage(e)}finally{busy.value=false}}
+function height(value:number){const max=Math.max(1,...(stats.value?.days.map(d=>d.newLearned+d.reviewed)||[]));return Math.max(2,Math.round(value/max*34))+'px'}
+onMounted(load);onBeforeUnmount(()=>{disposed=true;controller.abort()})
+</script>
+<template><section class="vl-trend" aria-label="真实学习趋势"><div class="vl-section-heading"><h2>这一周的积累</h2></div><p v-if="error" class="vl-muted" role="status">{{ error }} <button :disabled="busy" @click="load">重试统计</button></p><p v-if="busy&&!stats" class="vl-muted">正在加载学习记录…</p><template v-if="stats"><div class="vl-trend-summary"><div class="vl-trend-bars" role="img" aria-label="本周每日新增与复习词数"><div v-for="day in stats.days" :key="day.date" class="vl-trend-day"><span>{{ day.newLearned+day.reviewed }}</span><div :style="{height:height(day.newLearned+day.reviewed)}" :title="`${day.date} 新学 ${day.newLearned}，复习 ${day.reviewed}`"></div><small>{{ day.date.slice(5) }}</small></div></div><dl class="vl-trend-totals"><div><dt>累计学过</dt><dd>{{ stats.totalLearned }}</dd></div><div><dt>复习通过词次</dt><dd>{{ stats.totalReviewPasses }}</dd></div><div v-if="stats.independentReviewPasses!=null"><dt>无辅助独立复习</dt><dd>{{ stats.independentReviewPasses }}</dd></div><div v-if="stats.streakDays!=null"><dt>连续学习天数</dt><dd>{{ stats.streakDays }}</dd></div></dl></div><details class="vl-inline-records"><summary>更多学习记录</summary><dl class="vl-trend-totals"><div><dt>完成轮次</dt><dd>{{stats.completedRounds}}</dd></div><div><dt>现在到期</dt><dd>{{stats.due}}</dd></div><div><dt>难词</dt><dd>{{stats.difficult||0}}</dd></div><div><dt>最长连续天数</dt><dd>{{stats.longestStreak||0}}</dd></div></dl><h3>近30天</h3><ol><li v-for="day in stats.recentDays||stats.days" :key="day.date"><time>{{day.date}}</time><span>新学 {{day.newLearned}}</span><span>复习 {{day.reviewed}}</span></li></ol></details><p class="vl-muted">每天同一个词只计一次；新学与复习分别统计。跟打与自报认识不代表独立默写。</p></template></section></template>
+
+<style scoped>.vl-inline-records{margin:24px 0}.vl-inline-records summary{cursor:pointer;color:#536b43;font-size:14px}.vl-inline-records ol{padding:0;list-style:none}.vl-inline-records li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #e2e6dd;font-size:13px}.vl-inline-records h3{font-size:15px}</style>
