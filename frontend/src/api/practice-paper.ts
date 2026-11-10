@@ -28,7 +28,7 @@ export const paperAudioTicket=(id:string)=>businessWrite<AudioTicket>(`${base}/p
 export const listPaperHistory=(q:URLSearchParams,signal?:AbortSignal)=>businessGet<PageResult<PaperHistory>>(`${base}/paper-history?${q}`,signal)
 export const paperMistakes=(q:URLSearchParams,signal?:AbortSignal)=>businessGet<PageResult<PaperMistake>>(`${base}/paper-mistakes?${q}`,signal)
 export const retryPaperMistakes=(id:string,input:{requestId:string;slot:string})=>businessWrite<Attempt>(`${base}/paper-attempts/${encodeURIComponent(id)}/retry-mistakes`,input)
-export const adminPapers=()=>businessGet<PaperView[]>(admin)
+export const adminPapers=(signal?:AbortSignal)=>businessGet<PaperView[]>(admin,signal)
 export const adminPaper=(id:string)=>businessGet<PaperView>(`${admin}/${encodeURIComponent(id)}`)
 export const adminComponents=(q:URLSearchParams)=>businessGet<Candidate[]>(`${admin}/components?${q}`)
 export const createPaper=(input:PaperInput)=>businessWrite<PaperView>(admin,input)

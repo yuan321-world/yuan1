@@ -110,7 +110,6 @@ test('owned article word sidebar updates only after successful real API save', a
   await page.route('**/api/v1/dictionary/lookup?word=step', r => r.fulfill({ json: { found: true, candidates: [{ ...keyword, collection: null }] } }))
   await page.route('**/api/v1/vocabulary/words', r => { saved = true; return r.fulfill({ status: 201, json: { word, created: true } }) })
   await page.goto('/reading/10')
-  if (test.info().project.name === 'mobile') await page.getByRole('button', { name: '本篇生词', exact: true }).click()
   await page.getByRole('button', { name: '查看重点词：step' }).click()
   await page.getByRole('dialog').getByRole('button', { name: '收藏生词', exact: true }).click()
   await expect.poll(() => saved).toBe(true)
@@ -175,7 +174,6 @@ test('lookup can cancel, retry failure, and restore a collected word without lea
     active = false; return r.fulfill({ status: 204 })
   })
   await page.goto('/reading/10')
-  if (test.info().project.name === 'mobile') await page.getByRole('button', { name: '本篇生词', exact: true }).click()
   await page.getByRole('button', { name: '查看重点词：step' }).click()
   const lookup = page.locator('.word-lookup-panel')
   await lookup.getByRole('button', { name: '收藏生词', exact: true }).click()
@@ -243,7 +241,6 @@ test('collection follows the chosen dictionary entry without mixing candidate st
     return r.fulfill({ status: 201, json: { word: { id: '50', entryId: '2', lemma: 'other', phonetic: null, senses, sourceNote: 'fixture', active: true }, created: true } })
   })
   await page.goto('/reading/10')
-  if (test.info().project.name === 'mobile') await page.getByRole('button', { name: '本篇生词', exact: true }).click()
   await page.getByRole('button', { name: '查看重点词：step' }).click()
   const panel = page.locator('.word-lookup-panel')
   await panel.getByRole('button', { name: '查看词条：other', exact: true }).click()
@@ -256,7 +253,7 @@ test('collection follows the chosen dictionary entry without mixing candidate st
   await expect(panel.getByRole('button', { name: '取消收藏', exact: true })).toBeEnabled()
 })
 
-test('lexical sections show sourced synonyms and phrases for the selected entry only', async ({ page }) => {
+test('lexical sections show sourced synonyms and phrases for the selected entry only', async ({ page }, info) => {
   await setup(page)
   await page.route('**/api/v1/dictionary/lookup?word=step', r => r.fulfill({ json: { found: true, candidates: [
     { ...keyword, collection: null, synonyms: [{ partOfSpeech: 'n.', meaningEn: 'A stage in a process.', words: ['stage', 'phase'] }], phrases: [{ text: 'step by step', translationZh: '一步一步地' }], lexicalSourceNote: 'WordNet 3.0 / ECDICT' },
@@ -272,6 +269,7 @@ test('lexical sections show sourced synonyms and phrases for the selected entry 
   await panel.locator('.lookup-phrases summary').click()
   await expect(panel.locator('.lookup-phrases')).toContainText('step by step')
   await expect(panel.locator('.lookup-phrases')).toContainText('一步一步地')
+  const phraseButton=panel.getByRole('button',{name:'收藏词组',exact:true});const size=await phraseButton.boundingBox();expect(size!.height).toBeLessThanOrEqual(32);expect(size!.width).toBeLessThanOrEqual(100);await page.screenshot({path:`../.tool-cache/phrase-save-compact-${info.project.name}.png`})
   await expect(panel.getByText('词典来源', { exact: true })).toHaveCount(0)
   await panel.locator('.lookup-source summary').click()
   await expect(panel.locator('.lookup-source')).toContainText('WordNet 3.0')

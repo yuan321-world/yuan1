@@ -22,7 +22,7 @@ test('progress failures stay unsynced and conflicts require explicit reload', as
   await expect(page.getByRole('button', { name: '标记为已读', exact: true })).toBeDisabled()
   await page.getByRole('button', { name: '加载最新进度', exact: true }).click()
   await page.getByRole('button', { name: '重新加载', exact: true }).click()
-  await expect(page.getByText('进度已保存', { exact: true })).toBeVisible()
+  await expect(page.getByText('阅读位置自动保存', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: '标记为已读', exact: true }).click()
   await expect(page.getByRole('button', { name: '已读完', exact: true })).toBeDisabled()
   expect(attempts).toBe(3)

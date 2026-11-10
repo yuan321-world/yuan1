@@ -66,7 +66,7 @@ test('guest list is public and filters never hide the daily pick', async ({ page
   await expect(page.getByRole('button', { name: '登录后查看' })).toBeVisible()
   await expect(page.locator('.reading-featured')).toBeVisible()
 })
-test('guest favorite resumes after login, survives reload, and can be canceled', async ({ page }) => {
+test('guest favorite resumes after login, survives reload, and can be canceled', async ({ page }, info) => {
   await mockIdentity(page, true); await articleList(page)
   let signedIn = false, favorite = false, mutations = 0
   const user = { id: 'favorite-user', username: 'reader', displayName: 'Reader', roles: ['USER'] }
@@ -81,6 +81,7 @@ test('guest favorite resumes after login, survives reload, and can be canceled',
   await dialog.getByLabel('用户名', { exact: true }).fill('reader'); await dialog.getByLabel('密码', { exact: true }).fill('test-only-password')
   await dialog.getByRole('button', { name: '登录', exact: true }).click()
   await expect(page.getByRole('button', { name: '取消收藏：A public page' })).toHaveAttribute('aria-pressed', 'true')
+  await page.locator('.reading-card').first().screenshot({path:`../.tool-cache/article-favorite-dark-${info.project.name}.png`})
   expect(mutations).toBe(1)
   await page.reload(); await page.getByRole('button', { name: '取消收藏：A public page' }).click()
   await expect(page.getByRole('button', { name: '收藏文章：A public page' })).toHaveAttribute('aria-pressed', 'false')
@@ -93,11 +94,11 @@ test('guest detail reads without starting progress and exposes reading controls'
   await page.route('**/api/v1/reading/articles/10', route => route.fulfill({ json: { version: { ...article, id: '11', articleId: '10', versionNo: 1, content: { schemaVersion: 1, paragraphs: [{ key: 'p0001', sentences: [{ key: 'p0001-s0001', text: 'Every small step matters.' }] }] } }, progress: null } }))
   await page.goto('/reading/10')
   await expect(page.locator('.article-body')).toHaveText('Every small step matters.')
-  expect(await page.locator('.article-body').evaluate(el=>getComputedStyle(el).fontSize)).toBe('18px')
+  expect(await page.locator('.article-body').evaluate(el=>getComputedStyle(el).fontSize)).toBe('17px')
   expect(await page.locator('.article-heading h1').evaluate(el=>parseFloat(getComputedStyle(el).fontSize))).toBeLessThanOrEqual(28)
   await page.getByRole('button', { name: '阅读设置', exact: true }).click()
   await page.getByRole('button', { name: '放大字号' }).click()
-  expect(await page.locator('.article-body').evaluate(el => getComputedStyle(el).fontSize)).toBe('19px')
+  expect(await page.locator('.article-body').evaluate(el => getComputedStyle(el).fontSize)).toBe('18px')
   await expect(page.getByText('游客可阅读与查词，阅读位置不会保存到账号。')).toBeVisible()
   expect(writes).toBe(0)
 })

@@ -4,6 +4,8 @@ import {wordbookCatalog,selectLearningSource,type LearningSource,type Wordbook} 
 import {errorMessage} from '@/api/identity'
 import {getGeneration} from '@/auth/token-session'
 import {useAuthStore} from '@/stores/auth'
+import WordbookWords from './WordbookWords.vue'
+const viewer=ref<InstanceType<typeof WordbookWords>>()
 const props=defineProps<{source?:LearningSource;disabled:boolean}>(),emit=defineEmits<{changed:[];busy:[value:boolean];catalog:[value:Wordbook[]]}>(),auth=useAuthStore(),dialog=ref<HTMLDialogElement>(),opener=ref<HTMLButtonElement>(),books=ref<Wordbook[]>([]),busy=ref(false),saving=ref(false),error=ref('')
 const query = ref('')
 const group = ref<'all' | 'book' | 'personal'>('all')
@@ -23,7 +25,7 @@ watch(()=>props.source?.bookId,id=>{if(id)void load()})
 onBeforeUnmount(()=>{disposed=true;sequence++;controller?.abort()})
 </script>
 <template>
-  <button ref="opener" :disabled="disabled" @click="open">切换来源</button>
+  <button ref="opener" :disabled="disabled" @click="open">切换词书</button>
   <Teleport to="body">
     <dialog ref="dialog" class="wordbook-dialog" aria-labelledby="wb-title" @close="close" @cancel="saving && $event.preventDefault()">
       <header class="wb-heading">
@@ -46,17 +48,18 @@ onBeforeUnmount(()=>{disposed=true;sequence++;controller?.abort()})
           <p class="wb-count">本书 <strong>{{ book.availableCount.toLocaleString() }}</strong> 词</p>
           <p class="wb-muted">已学习覆盖 {{ book.learned.toLocaleString() }} 词</p>
           <progress v-if="book.availableCount > 0" :value="book.learned" :max="book.availableCount" aria-label="本书词汇覆盖进度"/>
-          <button :disabled="busy || saving || source?.bookId === book.id" @click="select('BOOK',book.id)">{{ source?.bookId === book.id ? '当前词书' : book.status === 'PUBLISHED' ? '选择这本词书' : '切回已保存词书' }}</button>
+          <div class="wb-actions"><button :disabled="busy || saving" :aria-label="'查看'+book.title+'词表'" @click="viewer?.open(book.id)">查看词表</button><button :disabled="busy || saving || source?.bookId === book.id" @click="select('BOOK',book.id)">{{ source?.bookId === book.id ? '当前词书' : '切换使用' }}</button></div>
         </article>
         <article v-if="showPersonal" class="wb-card" :class="{ 'is-current': source?.kind === 'PERSONAL' }">
           <div class="wb-tags"><span class="wb-tag">个人来源</span><span v-if="source?.kind === 'PERSONAL'" class="wb-tag">正在使用</span></div>
           <h3>我的阅读生词</h3>
           <p class="wb-muted">从已收藏并明确加入学习的词开始。</p>
-          <button :disabled="busy || saving || source?.kind === 'PERSONAL'" @click="select('PERSONAL')">{{ source?.kind === 'PERSONAL' ? '当前来源' : '使用个人生词' }}</button>
+          <div class="wb-actions"><button :disabled="busy || saving" aria-label="查看我的阅读生词词表" @click="viewer?.open('personal')">查看词表</button><button :disabled="busy || saving || source?.kind === 'PERSONAL'" @click="select('PERSONAL')">{{ source?.kind === 'PERSONAL' ? '当前来源' : '切换使用' }}</button></div>
         </article>
       </div>
     </dialog>
   </Teleport>
+  <WordbookWords ref="viewer" :source-title="source?.title||'我的阅读生词'" :source-book="source?.kind==='BOOK'?source.bookId||undefined:'personal'" @changed="load();emit('changed')" @busy="emit('busy',$event)"/>
 </template>
 <style scoped>
 .wordbook-dialog { width:min(800px,calc(100% - 32px));max-height:85dvh;overflow:auto;scrollbar-gutter:stable;border:1px solid var(--line);border-radius:20px;padding:22px;color:var(--ink);background:var(--bg) }
@@ -77,8 +80,9 @@ onBeforeUnmount(()=>{disposed=true;sequence++;controller?.abort()})
 .wb-card { display:flex;flex-direction:column;gap:6px;min-width:0;min-height:288px;overflow-wrap:anywhere;background:var(--surface);border:1px solid var(--line);padding:14px;border-radius:16px }
 .wb-card.is-current { border-color:var(--accent) }
 .wb-card h3 { font-size:17px }
-.wb-card>button { margin-top:auto;color:var(--accent-dark) }
-.wb-card.is-current>button,.wb-tag { background:var(--accent-soft) }
+.wb-actions {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:auto}
+.wb-actions button{min-width:0;font-size:13px;color:var(--accent-dark)}
+.wb-card.is-current .wb-actions>button:last-child,.wb-tag { background:var(--accent-soft) }
 .wb-tag { color:var(--accent-dark);font-size:11px;border-radius:99px;padding:2px 8px }
 .wb-count strong { font-size:22px;font-variant-numeric:tabular-nums }
 .wb-card progress { width:100%;height:6px;accent-color:var(--accent) }

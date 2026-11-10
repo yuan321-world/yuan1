@@ -26,7 +26,7 @@ test('word notebook reuses dictionary details in a centered modal',async({page})
   await expect(page.getByRole('button',{name:'banana',exact:true})).toBeFocused()
 })
 
-test('phrase notebook shows examples and retains editable personal notes',async({page})=>{
+test('phrase notebook shows examples and retains editable personal notes',async({page},info)=>{
   await mockIdentity(page)
   let phrase={id:'p1',text:'play a role',meaningZh:'发挥作用；扮演角色',note:'我自己的记忆方法',active:true,enrolled:false,exempt:false,independentPasses:0,sources:[]}
   let expectedMeaning=phrase.meaningZh
@@ -40,6 +40,7 @@ test('phrase notebook shows examples and retains editable personal notes',async(
   await page.goto('/vocabulary?tab=phrases')
   const opener=page.getByRole('button',{name:'详情 / 编辑',exact:true})
   await expect(opener).toBeVisible()
+  await page.screenshot({path:`../.tool-cache/phrase-book-compact-${info.project.name}.png`,fullPage:true})
   await expect(page.getByRole('button',{name:'手动收藏词组',exact:true})).toHaveCount(0)
   await opener.click()
   const dialog=page.getByRole('dialog',{name:'词组详情',exact:true})

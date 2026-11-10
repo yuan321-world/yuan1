@@ -12,4 +12,15 @@ async function change(word:LearningWord){if(props.busy||saving.value)return;cons
 onMounted(load);onBeforeUnmount(()=>{disposed=true;sequence++;controller?.abort();emit('busy',false)})
 </script>
 <template><section class="vn-learning" aria-label="全部学习词" :aria-busy="loading||saving"><p class="vn-count">包括词书中学过和已取消收藏的词；暂停不删除学习记录。</p><p v-if="error" role="alert">{{error}} <button :disabled="loading||saving" @click="load">重试</button></p><p v-if="loading" role="status">正在加载学习词…</p><p v-else-if="!items.length">暂无已加入的学习词。</p><article v-for="word in items" :key="word.id" class="vn-row"><div><strong lang="en">{{word.lemma}}</strong><p>{{word.meaning}}</p><small>{{word.proficient?'熟练免复习':!word.active?'学习已暂停':word.stage?'学习中':'待新学'}}</small></div><button :disabled="busy||saving||loading" @click="change(word)">{{word.proficient?'恢复复习':word.active?'暂停学习':'恢复学习'}}</button></article><nav v-if="total>20" aria-label="全部学习词分页"><button :disabled="loading||saving||page<=1" @click="page--;load()">上一页</button><span>第{{page}}页</span><button :disabled="loading||saving||page*20>=total" @click="page++;load()">下一页</button></nav></section></template>
-<style scoped>.vn-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--border,#e4e7e0)}p,small{line-height:1.7;color:#6f786d}button{font:inherit;border:1px solid #d8ded1;background:transparent;color:#536b43;border-radius:10px;padding:9px 12px;white-space:nowrap}button:disabled{opacity:.5}nav{display:flex;gap:16px;align-items:center;margin-top:20px}</style>
+<style scoped>
+.vn-learning .vn-count{margin:8px 0 6px;font-size:12px;line-height:1.45;color:#6f786d}
+.vn-learning .vn-row{display:grid;grid-template-columns:minmax(0,1fr) auto;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border,#e4e7e0)}
+.vn-learning .vn-row>div{min-width:0}
+.vn-learning .vn-row strong{font-size:16px;line-height:1.2;overflow-wrap:anywhere}
+.vn-learning p{margin:3px 0;font-size:12px;line-height:1.45;color:#6f786d;overflow-wrap:anywhere}
+.vn-learning small{font-size:11px;line-height:1.35;color:#6f786d}
+.vn-learning button{font:inherit;font-size:12px;border:1px solid #d8ded1;background:transparent;color:#536b43;border-radius:10px;padding:7px 10px;white-space:nowrap}
+.vn-learning button:disabled{opacity:.5}
+.vn-learning nav{display:flex;gap:12px;align-items:center;margin-top:14px;font-size:12px}
+@media(max-width:420px){.vn-learning .vn-row{gap:8px}.vn-learning button{font-size:11px;padding:6px 8px}}
+</style>

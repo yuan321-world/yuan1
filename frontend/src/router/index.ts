@@ -11,10 +11,8 @@ import AccountView from '@/views/AccountView.vue'
 import AdminArticlesView from '@/views/AdminArticlesView.vue'
 import AdminArticleEditorView from '@/views/AdminArticleEditorView.vue'
 import AdminArticlePreviewView from '@/views/AdminArticlePreviewView.vue'
-import AdminArticleWritingView from '@/views/AdminArticleWritingView.vue'
 import ReadingListView from '@/views/ReadingListView.vue'
 import ReadingDetailView from '@/views/ReadingDetailView.vue'
-import WritingLibraryView from '@/views/WritingLibraryView.vue'
 import AdminDashboardView from '@/views/AdminDashboardView.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useAuthDialogStore } from '@/stores/auth-dialog'
@@ -37,7 +35,7 @@ const router = createRouter({
         { path: 'reading', component: ReadingListView, meta: { title: '外刊精读', public: true } },
         { path: 'notebook', redirect: to => ({path:'/vocabulary',query:{...to.query,tab:'words'},hash:to.hash}) },
         { path: 'wall', component: () => import('@/views/WallView.vue'), meta: { title: '留言墙', public: true } },
-        { path: 'writing', component: WritingLibraryView, meta: { title: '我的写作素材' } },
+        { path: 'writing', redirect: '/reading' },
         { path: 'reading/:articleId', component: ReadingDetailView, meta: { title: '阅读文章', public: true } },
         { path: 'practice', component: () => import('@/views/PracticeEntryView.vue'), meta: { title: '专项练习', public: true } },
         { path: 'practice/cet', component: () => import('@/views/PracticeLibraryView.vue'), meta: { title: '大学英语（四六级）', public: true } },
@@ -56,7 +54,7 @@ const router = createRouter({
       { path: 'articles/new', component: AdminArticleEditorView, meta: { title: '创建文章' } },
       { path: 'articles/:id/edit', component: AdminArticleEditorView, meta: { title: '编辑草稿' } },
       { path: 'articles/:id/preview', component: AdminArticlePreviewView, meta: { title: '文章预览' } },
-      { path: 'articles/:id/writing', component: AdminArticleWritingView, meta: { title: '写作素材管理' } },
+      { path: 'articles/:id/writing', redirect: to => `/admin/articles/${to.params.id}/edit` },
       { path: 'articles/:id/quiz', component: AdminArticleQuizView, meta: { title: '阅读题组管理' } },
       { path: 'practice', component: () => import('@/views/AdminPracticeSetsView.vue'), meta: { title: '专项题组' } },
       { path: 'practice/import', component: () => import('@/views/AdminPracticeImportView.vue'), meta: { title: '专项题组导入' } },

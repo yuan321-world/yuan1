@@ -23,10 +23,10 @@ async function request(){if(!consent.value){consentPanel.value=true;return}conse
  <header :class="{'subjective-tools-row':compact}"><slot name="tools"/><h2 v-if="!compact">AI 学习反馈 <span class="review-ai-label">AI生成 · 学习参考</span></h2><button class="button-primary" :class="{'subjective-ai-button':compact}" :aria-label="state.requesting?'正在申请…':busy?'正在批改…':successful?'本次已批改':selected?.status==='FAILED'?'重新申请批改':'申请批改'" :disabled="state.loading||state.requesting||busy||successful" @click="request">{{state.requesting?'正在申请…':busy?'正在批改…':successful?'本次已批改':selected?.status==='FAILED'?'重新申请批改':compact?'AI 批改':'申请批改'}}</button><slot name="word-count"/></header>
  <slot name="reference"/>
  <h2 v-if="compact&&state.records.length" class="review-result-heading">AI 学习反馈 <span class="review-ai-label">AI生成 · 学习参考</span></h2>
- <div v-if="consentPanel" class="review-consent"><p>将题目和本次已提交作答发送至 DeepSeek 生成学习反馈。参考评分不计入原卷成绩。</p><label><input v-model="consent" type="checkbox">我同意发送本次题目和作答</label><button :disabled="!consent" @click="request">确认申请批改</button><button @click="consentPanel=false">取消</button></div>
+ <div v-if="consentPanel" class="review-consent"><p>将题目和本次已提交作答发送至 DeepSeek 生成学习反馈。评分仅供学习参考，不代表官方考试成绩。</p><label><input v-model="consent" type="checkbox">我同意发送本次题目和作答</label><button :disabled="!consent" @click="request">确认申请批改</button><button @click="consentPanel=false">取消</button></div>
  <p v-if="state.error" role="alert" class="review-error">{{state.error}} <button :disabled="state.loading" @click="refresh">读取服务器记录</button></p>
  <p v-if="state.loading&&!state.records.length" role="status">正在读取批改记录…</p>
- <p v-else-if="!state.records.length&&!compact" class="review-muted">主动申请后生成逐句建议；参考范文和译文仍可照常查看。</p>
+ <p v-else-if="!state.records.length&&!compact" class="review-muted">交卷后自动生成评分与逐句建议；参考范文和译文仍可照常查看。</p>
  <div v-if="state.records.length" class="review-history"><label>批改记录 <select v-model="state.selected" @change="tab='notes'"><option v-for="(r,i) in state.records" :key="r.id" :value="r.id">{{new Date(r.createdAt).toLocaleString()}} · {{r.status==='SUCCEEDED'?'已完成':r.status==='FAILED'?'未完成':'处理中'}} · {{state.records.length-i}}</option></select></label></div>
  <p v-if="selected?.status==='QUEUED'||selected?.status==='RUNNING'" role="status">{{selected.status==='QUEUED'?'已排队，等待批改。':'正在生成反馈，可以离开页面，稍后回来查看。'}}</p>
  <p v-if="selected?.status==='FAILED'" role="alert" class="review-error">{{failedMessage}}</p>

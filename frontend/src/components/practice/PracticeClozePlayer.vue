@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PracticeSelectionArea from './PracticeSelectionArea.vue'
+import PracticeLetterPicker from './PracticeLetterPicker.vue'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { Attempt, PracticePublicQuestion, SavedAnswer } from '@/api/practice'
 import {
@@ -24,13 +25,14 @@ const emit = defineEmits<{
 }>()
 
 const bankDialog = ref<HTMLDialogElement | null>(null)
+const letterPicker = ref<InstanceType<typeof PracticeLetterPicker>>()
 const moveDialog = ref<HTMLDialogElement | null>(null)
 const unusedFilter = ref<HTMLInputElement | null>(null)
 const mobile = ref(false)
 const onlyUnused = ref(false)
 const onlyWrong = ref(false)
 const activeId = ref(props.currentId || props.attempt.questions[0]?.id || '')
-const pendingMove = ref<{ targetId: string; sourceId: string; letter: string } | null>(null)
+const pendingMove = ref<{ targetId: string; sourceId: string; letter: string; inline: boolean } | null>(null)
 const returnFocus = ref<HTMLElement | null>(null)
 const suppressBankCloseFocus = ref(false)
 const bankIsModal = ref(false)
@@ -98,6 +100,11 @@ const words = computed(() => wordBank.value.map((word, index) => {
   return { letter, word, usedBy, current: currentAnswer.value === letter }
 }))
 const visibleWords = computed(() => onlyUnused.value ? words.value.filter(word => !word.usedBy) : words.value)
+const letterOptions = computed(() => words.value.map(({ letter, word, usedBy }) => ({
+  letter,
+  label: `${letter}，${word}${usedBy ? `，已用于第${questions.value.find(question => question.id === usedBy)?.stem}空` : ''}`,
+  used: !!usedBy,
+})))
 const completedAnswers = computed(() => orderedQuestions.value.map(question => ({
   question,
   answer: answerFor(question.id),
@@ -130,7 +137,7 @@ function gapText(question: PracticePublicQuestion): string {
   const choice = isCompleted.value
     ? answerFor(question.id)?.submittedChoice ?? answerFor(question.id)?.draftChoice ?? selectedChoice(question.id)
     : selectedChoice(question.id)
-  if (!isCompleted.value) return choice ? `${choice} ${letterWord(choice)}` : '选择'
+  if (!isCompleted.value) return choice ? `${choice} ${letterWord(choice)}` : '?'
 
   const answer = answerFor(question.id)
   const correct = answer?.correctOption
@@ -201,7 +208,7 @@ function setCurrentFromGap(question: PracticePublicQuestion, element: HTMLButton
   returnFocus.value = element
   activeId.value = question.id
   if (!isCompleted.value && !props.disabled) emit('navigate', question.id)
-  if (mobile.value && canEdit.value) openBank()
+  if (canEdit.value) void nextTick(() => letterPicker.value?.open(element))
 }
 
 function updateBankMode(isMobile: boolean) {
@@ -267,13 +274,13 @@ function applyChanges(changes: ClozeChoiceChange[], recordUndo = true) {
   return true
 }
 
-function selectWord(letter: string) {
+function selectWord(letter: string, inline = false) {
   if (!canEdit.value || !currentQuestion.value) return
   const plan = planClozeSelection(choiceMap.value, currentQuestion.value.id, letter)
   if (plan.type === 'none') return
   if (plan.type === 'apply') {
     if (!applyChanges(plan.changes)) return
-    afterChoice(letter)
+    if (!inline) afterChoice(letter)
     return
   }
 
@@ -281,6 +288,7 @@ function selectWord(letter: string) {
     targetId: currentQuestion.value.id,
     sourceId: plan.sourceQuestionId,
     letter,
+    inline,
   }
   moveDialog.value?.showModal()
   void nextTick(() => moveDialog.value?.querySelector<HTMLButtonElement>('[data-cancel-move]')?.focus())
@@ -295,15 +303,18 @@ function confirmMove() {
   const changes = confirmedClozeMove(choiceMap.value, move.targetId, move.letter, move.sourceId)
   pendingMove.value = null
   moveDialog.value?.close()
-  if (applyChanges(changes)) afterChoice(move.letter)
+  const applied = applyChanges(changes)
+  if (move.inline) void focusGap(move.targetId)
+  else if (applied) afterChoice(move.letter)
   else void nextTick(() => wordElements.get(move.letter)?.focus())
 }
 
 function cancelMove() {
-  const letter = pendingMove.value?.letter
+  const move = pendingMove.value
   pendingMove.value = null
   if (moveDialog.value?.open) moveDialog.value.close()
-  if (letter) void nextTick(() => wordElements.get(letter)?.focus())
+  if (move?.inline) void focusGap(move.targetId)
+  else if (move) void nextTick(() => wordElements.get(move.letter)?.focus())
 }
 
 function afterChoice(letter: string) {
@@ -363,10 +374,12 @@ function moveDialogCancel(event: Event) {
 }
 
 watch(() => props.currentId, id => {
+  if (id !== activeId.value) letterPicker.value?.close(false)
   if (id) activeId.value = id
 })
 
 watch(() => props.attempt.id, () => {
+  letterPicker.value?.close(false)
   undoStack.splice(0)
   onlyWrong.value = false
   onlyUnused.value = false
@@ -378,6 +391,8 @@ watch(() => props.attempt.id, () => {
     closeBank(false)
   }
 })
+
+watch(canEdit, editable => { if (!editable) letterPicker.value?.close(false) })
 
 onMounted(() => {
   viewport = window.matchMedia('(max-width: 900px)')
@@ -417,6 +432,7 @@ onBeforeUnmount(() => {
                   :data-practice-sentence="sentence.key"
                   :aria-label="gapLabel(segment.question)"
                   :aria-current="segment.question.id === activeId ? 'step' : undefined"
+                  :aria-haspopup="canEdit ? 'dialog' : undefined"
                   :disabled="disabled && !isCompleted"
                   @click="setCurrentFromGap(segment.question, $event.currentTarget as HTMLButtonElement)"
                 >
@@ -498,6 +514,9 @@ onBeforeUnmount(() => {
         </footer>
       </dialog>
     </div>
+
+    <PracticeLetterPicker ref="letterPicker" :title="`第 ${currentNumber} 空 · 从词库里选一个词`"
+      :options="letterOptions" :selected="currentAnswer" @choose="selectWord($event, true)" @clear="clearCurrent" />
 
     <section v-if="isCompleted" class="practice-cloze-results practice-panel" aria-labelledby="cloze-results-title">
       <header class="practice-cloze-results-heading">

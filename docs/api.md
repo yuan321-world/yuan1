@@ -1,5 +1,9 @@
 # API 契约与异常日志约定
 
+## 2026-11-08 阅读重点词跟随学习来源
+
+现有`GET /api/v1/reading/articles/{articleId}/versions/{versionId}/tools`增量返回`keywordSource`（展示名）和`keywordSourceKind`（BOOK/PERSONAL/EDITORIAL），不移除其他字段。登录用户的`keywords`改为当前学习词书与正文交集；PERSONAL仅匹配本人明确personal_enrolled的词。游客仍返回文章预设精选词。匹配完整单词及已有dictionary_form词形，按正文首次出现排序，forms仅含本篇出现的匹配形式；不将词内片段当作词头，不自动学习/收藏/建阅读进度。保留原文章版本可见性和身份验证，响应no-store，不可共享缓存含个人来源的JSON；没有新增表、接口或写请求。
+
 ## 2026-11-02 词汇中心正式升级
 
 所有下列接口继续要求本人登录、原有CSRF保护、资源归属和no-store；不调用翻译或AI。单词与词组的收藏、加入学习、手动免复习和暂停互相独立。
@@ -579,3 +583,27 @@ GET /api/v1/dictionary/lookup 的 candidate 新增 examples:[{text,translationZh
 - 查词弹窗的最近记录按账号保存于当前浏览器，最多8项。首版实现英文查词、详情、朗读、收藏和查词辅助，未收录显示空状态，不自动请求外部翻译。
 
 词组扩充：复用 GET `/api/v1/dictionary/phrase?text=...` 读取离线中文释义；多词表达通过已有 POST `/api/v1/vocabulary/phrases` 收藏到词组本，重复收藏保留原个人释义/笔记和学习状态，不自动加入学习。最近词组在展示前刷新关联词条ID；建议、详情及历史涉及当前复习词（含大小写和已知词形）时先保存LOOKUP辅助。单词查询 `/lookup` 的原64字符完整单词规则保持。
+## 2026-11-07：词书词表浏览（增量接口）
+
+前缀 `/api/v1/vocabulary/learning`，登录用户，返回 `Cache-Control: no-store`，写入继续校验CSRF、账号及归属。
+
+- `GET /wordbooks/{book}/words?q=&status=ALL&collectedOnly=false&sort=BOOK&page=1&pageSize=30`：book为已发布或当前用户有保存新词轮次的词书ID；`personal`只列当前用户明确加入个人学习来源的词。status为ALL/NEW/REVIEW/PROFICIENT，sort为BOOK/ALPHA，q最长80字、按字面匹配英文和中文释义，pageSize为1—50。返回 `{title,counts:{total,unlearned,reviewing,proficient},items,page,pageSize,total}`；counts为该来源全部状态数量，total为当前搜索筛选数量。items为`{entryId,lemma,meaning,state,dueAt,reviewActive,collectionId,collected}`；熟练优先，其余stage>0为复习中、其他未学习。历史active=false不新增暂停分类、不修改旧数据；仅reviewActive且到期才展示“今天到期”。
+- `PUT /wordbooks/{book}/words/{entry}/proficiency`：`{proficient:boolean}`，只接受该词书或本人个人学习来源中的词，返回 `{word,counts}`。按用户加写锁；新词标熟仅惰性建立proficient记录，不收藏、不加入个人来源、不写学习事件；恢复保留原stage/due/active。熟练与词条ID/用户绑定，跨词书共享。
+- 查询不切换学习来源、不创建轮次、不分配学习词。收藏/取消收藏和词条详情继续复用已有from-dictionary、DELETE word、dictionary lookup接口。不存在/不可访问词书或不在词书中的词404，非法参数400，匿名401。
+
+
+## 2026-11-08：全文参考译文与写作素材界面下线
+
+- `GET /api/v1/reading/articles/{article}/versions/{version}/full-translation`：沿用文章版本可见性；公开版本允许游客读取，私有/不可访问版本不因缓存存在而公开。返回 `Cache-Control: no-store`。
+- `POST` 同一路径：登录及 CSRF，无请求体，幂等建立缺失分块/重试符合冷却时间的失败分块；不重复翻译成功分块。全文服务未启用或凭据未配置时拒绝新任务，不假装已排队。
+- 响应 `{status, completed, total, configured, translation, error}`。status 为 MISSING/QUEUED/RUNNING/SUCCEEDED/FAILED，completed/total 按**完整段落**统计；translation 延续 tools 的 available/source/paragraphs/sentences 格式，只有全篇完成才 available=true，允许返回已完成段落。error 为可公开的中文提示，不返回密钥、签名或上游原始响应。
+- 已有编辑参考译文优先。无编辑译文时 tools/full-translation 共享版本+正文哈希的机器缓存；全文和英中对照共用段落 key，刷新重点词不清除已经得到的译文。
+- V44 新增全文分块、请求尝试账本与首次公开文章补齐标记，原文章/用户进度不重写。每次请求最多1000 Unicode码点，外部请求在数据库事务外；数据库租约、唯一键和尝试结算防止重复领取及重复释放额度。
+- 百度字符额度与既有选文翻译共用 `reading_baidu_monthly_quota`，沿用每月100万字符配置，不增加每日金额上限。已明确未发送的失败释放预留，未知结果保留预留；限流有限次数退避，其他失败等待显式重试。
+- 开关 `english-hero.reading.translation.full.enabled=true` 启用后台队列；`full.seed-published=true` 首次补齐当前公开的阅读文章，跳过已有编辑译文及已完成缓存。默认关闭，测试不自动访问外部服务；未来文章可通过准备按钮入队。
+- 用户明确下线阅读写作积累、个人写作素材和后台素材编辑入口。旧 `/writing` 重定向阅读列表，旧后台写作地址回到该文章编辑页；不再挂载登录后写作续接逻辑。已有数据库与受鉴权接口保留，不进行数据删除；考试作文/AI批改保持。
+
+
+### 2026-11-08：精选重点词（tools格式保持）
+
+`GET /reading/articles/{article}/versions/{version}/tools` 的keywords改为精选列表：当前词书/本人个人学习词与文章完整词及词形交集，排除常用功能词及本人proficient，再按未学/待复习优先、标题命中与重复频次排序，同分原文顺序。≤500词最多10项、501—1000最多15项、更长最多20项，候选不足返回实际数；游客文章编辑候选也受相同上限。keywordSource/keywordSourceKind及其他字段保持，不返回全部匹配词的新字段。只读查询学习状态，不创建或改动学习/收藏/进度数据。前端只展示及高亮keywords，本篇收藏仍按原接口独立显示。

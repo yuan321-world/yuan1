@@ -8,7 +8,6 @@ import { useReadingProgress } from '@/reading/useReadingProgress'
 import { ElMessageBox } from 'element-plus'
 import { notifySuccess } from '@/feedback/notify'
 import 'element-plus/es/components/message-box/style/css'
-import { sourceLabel } from '@/api/admin-articles'
 import { errorMessage } from '@/api/identity'
 import { ApiError } from '@/api/client'
 import { useAuthStore } from '@/stores/auth'
@@ -27,11 +26,11 @@ import { selectionFromRange, wordAtPoint, rangeFromOffsets } from '@/reading/sel
 import { useWordLookup } from '@/reading/useWordLookup'
 import { collectWord, cancelWord } from '@/api/vocabulary'
 import { lookupPhrase, type DictionaryCandidate, type PhraseLookupResult, type LookupResult } from '@/api/dictionary'
-import type { ReadingKeyword, ArticleWord } from '@/api/reading-tools'
+import type { ReadingKeyword, ArticleWord, ReadingTools } from '@/api/reading-tools'
 import ReadingToolbar from '@/components/reading/ReadingToolbar.vue'
 import ReadingRail from '@/components/reading/ReadingRail.vue'
-import ArticleWritingPanel from '@/components/reading/ArticleWritingPanel.vue'
-import { createReaderSettings } from '@/reading/settings'
+import ArticleFullTranslation from '@/components/reading/ArticleFullTranslation.vue'
+import { createReaderSettings, readerFontFamily } from '@/reading/settings'
 import { useReadingTools } from '@/reading/useReadingTools'
 import { useReadingHighlights } from '@/reading/useReadingHighlights'
 import { normalizeWord } from '@/reading/selection'
@@ -39,13 +38,26 @@ const checkinRevision = ref(0)
 const auth = useAuthStore(), authDialog = useAuthDialogStore(), settings = ref(createReaderSettings())
 const extra = useReadingTools()
 const { tools, toolsBusy, toolsError, words, wordTotal, wordPage, wordsBusy, wordsError } = extra
-const wordsOpen = ref(false), readingRoot = ref<HTMLElement>(), selectedSentence = ref(''), sentenceText = ref(''), sentenceDialog = ref<HTMLDialogElement>()
-const translationMap = computed(() => Object.fromEntries((tools.value?.translation.paragraphs ?? []).map(p => [p.key, p.text])))
-const readerStyle = computed(() => ({ '--reading-font-size': settings.value.fontSize + 'px', '--reading-line-height': settings.value.lineHeight, '--reader-font': settings.value.font === 'serif' ? 'var(--serif)' : 'var(--sans)', '--reader-align': settings.value.align }))
-function closeWords() { wordsOpen.value = false; document.querySelector<HTMLButtonElement>('.reader-words-toggle')?.focus({ preventScroll: true }) }
+const readingRoot = ref<HTMLElement>(), selectedSentence = ref(''), sentenceText = ref(''), sentenceDialog = ref<HTMLDialogElement>()
+const fullTranslation = shallowRef<ReadingTools['translation']>()
+const activeTranslation = computed(() => tools.value?.translation.available ? tools.value.translation : fullTranslation.value ?? tools.value?.translation)
+const translationMap = computed(() => Object.fromEntries((activeTranslation.value?.paragraphs ?? []).map(p => [p.key, p.text])))
+const readerStyle = computed(() => ({ '--reading-font-size': settings.value.fontSize + 'px', '--reading-line-height': settings.value.lineHeight, '--reader-font': readerFontFamily(settings.value.font), '--reader-align': settings.value.align }))
+watch(()=>settings.value.keywords,enabled=>{if(enabled)void extra.reloadTools()})
+function refreshKeywordSource(){if(document.visibilityState==='visible'&&auth.user)void extra.reloadTools()}
 const route = useRoute(), detail = ref<ReadingDetail>(), error = ref(''), busy = ref(true)
 let controller: AbortController | undefined, generation = 0
 const tracking = shallowRef<ReturnType<typeof useReadingProgress>>()
+const markingRead = ref(false)
+const saveFailed = computed(() => tracking.value?.state.value === 'unsynced' && !!tracking.value.error.value)
+const saveMessage = computed(() => tracking.value?.state.value === 'conflict' ? '其他页面已更新进度，请加载最新位置' : saveFailed.value ? '进度尚未同步' : '阅读位置自动保存')
+async function markRead() {
+  const current = tracking.value
+  if (!current || markingRead.value) return
+  markingRead.value = true
+  try { await current.markCompleted() }
+  finally { if (tracking.value === current) markingRead.value = false }
+}
 const lookup = useWordLookup(), lookupOpen = ref(false)
 const localWord=ref(''),localResult=shallowRef<LookupResult|null>(null)
 const localExample=computed(()=>detail.value?.version.content.paragraphs.flatMap(p=>p.sentences).find(s=>s.text.includes(localWord.value))?.text)
@@ -71,7 +83,7 @@ const selectionMode=ref<SelectionMode>('TRANSLATION')
 const selectionLabel=computed(()=>selectionMode.value==='GRAMMAR'?'解析':'翻译')
 const sentenceAnswer = computed(() => {
   if(selectionMode.value==='GRAMMAR')return undefined
-  const exact = tools.value?.translation.sentences?.find(s => s.sourceText === sentenceText.value)
+  const exact = activeTranslation.value?.sentences?.find(s => s.sourceText === sentenceText.value)
   if (exact) return exact.text
   const paragraph = detail.value?.version.content.paragraphs.find(p => p.sentences.map(s => s.text).join(' ') === sentenceText.value)
   return paragraph ? translationMap.value[paragraph.key] : undefined
@@ -196,15 +208,15 @@ function scrollPosition(sentence: string, start = 0, end = start) {
   const range = rangeFromOffsets(element, start, end), bounds = range?.getBoundingClientRect()
   if (bounds && bounds.height > 0) window.scrollBy({ top: bounds.top - 125 })
 }
-function pageHidden() { if (document.visibilityState === 'hidden') void tracking.value?.flush() }
-onMounted(() => { document.addEventListener('visibilitychange', pageHidden); disposeSelection=bindSettledSelection(captureSelection,()=>{if(lookupOpen.value||localWord.value||sentenceDialog.value?.open)return;selectedSentence.value='';lookup.select(null);selectionRange=null;selectionPosition.value=null});window.addEventListener('scroll',positionSelectionAction,true);window.addEventListener('resize',positionSelectionAction) })
+function pageHidden() { if (document.visibilityState === 'hidden') void tracking.value?.flush();else refreshKeywordSource() }
+onMounted(() => { window.addEventListener('focus',refreshKeywordSource); document.addEventListener('visibilitychange', pageHidden); disposeSelection=bindSettledSelection(captureSelection,()=>{if(lookupOpen.value||localWord.value||sentenceDialog.value?.open)return;selectedSentence.value='';lookup.select(null);selectionRange=null;selectionPosition.value=null});window.addEventListener('scroll',positionSelectionAction,true);window.addEventListener('resize',positionSelectionAction) })
 onBeforeRouteLeave(async () => { await tracking.value?.flush() })
 onBeforeRouteUpdate(async () => { await tracking.value?.flush() })
 async function load() {
   cancelPhrase(); closeLookup(); closeLocal(); extra.reset(); selectedSentence.value = '';selectionRange=null;selectionPosition.value=null; sentenceDialog.value?.close()
-  observer?.disconnect(); tracking.value?.dispose(); tracking.value = undefined
+  observer?.disconnect(); tracking.value?.dispose(); tracking.value = undefined; markingRead.value = false
   controller?.abort(); controller = new AbortController(); const current = ++generation
-  busy.value = true; error.value = ''; detail.value = undefined
+  busy.value = true; error.value = ''; detail.value = undefined; fullTranslation.value = undefined
   try {
     const id = String(route.params.articleId), version = typeof route.query.version === 'string' ? route.query.version : null
     let result: ReadingDetail = version ? await readingVersion(id, version, controller.signal) : auth.user ? await startReading(id, controller.signal) : await currentArticle(id, controller.signal)
@@ -235,7 +247,7 @@ async function load() {
   finally { if (current === generation) busy.value = false }
 }
 watch(() => [route.params.articleId, route.query.version, route.query.sentence, route.query.start, route.query.end], load, { immediate: true })
-onBeforeUnmount(() => { cancelPhrase(); generation++; controller?.abort(); observer?.disconnect(); tracking.value?.dispose(); closeLookup(); document.removeEventListener('visibilitychange', pageHidden); disposeSelection?.();window.removeEventListener('scroll',positionSelectionAction,true);window.removeEventListener('resize',positionSelectionAction) })
+onBeforeUnmount(() => { cancelPhrase(); generation++; controller?.abort(); observer?.disconnect(); tracking.value?.dispose(); closeLookup(); document.removeEventListener('visibilitychange', pageHidden);window.removeEventListener('focus',refreshKeywordSource); disposeSelection?.();window.removeEventListener('scroll',positionSelectionAction,true);window.removeEventListener('resize',positionSelectionAction) })
 </script>
 <template><section class="reading-page reading-workspace">
 <RouterLink class="reading-back" to="/reading">← 返回文章列表</RouterLink>
@@ -243,18 +255,19 @@ onBeforeUnmount(() => { cancelPhrase(); generation++; controller?.abort(); obser
 <div v-else-if="error" class="reading-notice" role="alert"><p>{{ error }}</p><button class="button-secondary" @click="load">重新加载</button></div>
 <div v-else-if="detail" class="reader-columns">
 <article class="reading-sheet">
-<header class="article-heading"><ArticleFavoriteButton :article-id="detail.version.articleId" :title="detail.version.title" /><span class="reading-tag">{{ detail.version.category.name }} · {{ detail.version.difficulty }}</span><h1>{{ detail.version.title }}</h1><p class="reader-title-zh">{{ detail.version.titleZh }}</p><p class="reading-meta">{{ detail.version.author }} · {{ sourceLabel(detail.version.sourceType) }} · {{ detail.version.wordCount }} 词 · 约 {{ detail.version.estimatedMinutes }} 分钟（估算）</p><a v-if="detail.version.sourceUrl" :href="detail.version.sourceUrl" target="_blank" rel="noopener noreferrer">查看原始来源</a><p class="reading-meta">{{ detail.version.usageNote }}</p></header>
-<ReadingToolbar v-model:settings="settings" :keyword-count="tools?.keywords.length ?? 0" :words-open="wordsOpen" @toggle-words="wordsOpen = !wordsOpen" />
-<p class="reading-lookup-hint">点击单词查词；手机上选中一个完整单词，再点击“查询选中单词”。选中多个单词后，可点击“翻译”查看中文，或点击“解析”了解语法结构。</p>
+<header class="article-heading"><ArticleFavoriteButton :article-id="detail.version.articleId" :title="detail.version.title" /><span class="reading-tag">{{ detail.version.category.name }} · {{ detail.version.difficulty }}</span><h1>{{ detail.version.title }}</h1><p class="reader-title-zh">{{ detail.version.titleZh }}</p><p class="reading-meta">{{ detail.version.wordCount }} 词 · 约 {{ detail.version.estimatedMinutes }} 分钟（估算）</p></header>
+<ReadingToolbar v-model:settings="settings" :keyword-count="tools?.keywords.length ?? 0" :keyword-source="tools?.keywordSource" />
+<p class="reading-lookup-hint">点击或选中单词查词；划选词句后可翻译或解析。</p>
 <p v-if="!auth.user" class="reading-guest-note">游客可阅读与查词，阅读位置不会保存到账号。<button type="button" class="text-button" @click="authDialog.request()">登录后同步</button></p>
-<p v-if="settings.bilingual && !tools?.translation.available" class="reader-local-message" role="status">{{ toolsBusy ? '正在加载参考译文…' : toolsError ? '参考译文加载失败，可以在阅读工具中重试。' : '此文章版本暂未准备参考译文，实时翻译尚未启用。' }}</p>
-<p v-if="settings.bilingual && tools?.translation.available" class="reader-translation-source">{{ tools.translation.source }}</p>
+<p v-if="settings.bilingual && !activeTranslation?.available" class="reader-local-message" role="status">{{ toolsBusy ? '正在加载参考译文…' : toolsError ? '参考译文加载失败，可以在阅读工具中重试。' : '全文译文准备好后会在段落下显示，也可在文末查看翻译进度。' }}</p>
+<p v-if="settings.bilingual && activeTranslation?.available" class="reader-translation-source">{{ activeTranslation.source }}</p>
 <div ref="readingRoot" class="reading-article-content" :style="readerStyle" @click="clickWord" @mousemove="highlights.hover" @mouseleave="highlights.clearHover"><ArticleBody :content="detail.version.content" :translations="translationMap" :bilingual="settings.bilingual" /></div>
-<div v-if="tracking" class="reading-progress-bar"><p role="status" aria-live="polite">{{ { idle: '阅读位置会自动保存', saving: '正在保存…', saved: '进度已保存', unsynced: '进度尚未同步', conflict: '其他页面已更新进度，请加载最新位置' }[tracking.state.value] }}</p><div class="reading-actions"><button v-if="tracking.state.value === 'unsynced'" class="button-secondary" @click="tracking.retry">重试保存</button><button v-if="tracking.state.value === 'conflict'" class="button-secondary" @click="reloadProgress">加载最新进度</button><button class="button-secondary" :disabled="tracking.progress.value.status === 'COMPLETED' || tracking.state.value === 'saving' || tracking.state.value === 'conflict'" @click="tracking.markCompleted">{{ tracking.progress.value.status === 'COMPLETED' ? '已读完' : '标记为已读' }}</button></div></div>
-<details class="reader-full-translation"><summary>查看全文中文翻译</summary><div v-if="tools?.translation.available"><p class="reader-translation-source">{{ tools.translation.source }}</p><p v-for="paragraph in tools.translation.paragraphs" :key="paragraph.key">{{ paragraph.text }}</p></div><p v-else>{{ toolsBusy ? '正在加载…' : '此文章版本暂未准备参考译文，实时翻译尚未启用。' }}</p></details>
-<div id="reader-writing-mobile" class="reader-writing-mobile" /><ArticleQuizPanel :article="detail.version.articleId" :version="detail.version.id" @completed="checkinRevision++" /><ReadingCheckinCard :article="detail.version.articleId" :version="detail.version.id" :revision="checkinRevision" :read-status="tracking?.progress.value.status" /><nav v-if="tools" class="reader-neighbors" aria-label="相邻文章"><RouterLink v-if="tools.previous" :to="'/reading/' + tools.previous.id"><small>← 上一篇</small>{{ tools.previous.title }}</RouterLink><span v-else>已经是第一篇</span><RouterLink v-if="tools.next" :to="'/reading/' + tools.next.id"><small>下一篇 →</small>{{ tools.next.title }}</RouterLink><span v-else>已经是最后一篇</span></nav>
+<div v-if="tracking" class="reading-progress-bar"><p role="status" aria-live="polite">{{ saveMessage }}</p><div class="reading-actions"><button v-if="saveFailed" class="button-secondary" @click="tracking.retry">重试保存</button><button v-if="tracking.state.value === 'conflict'" class="button-secondary" @click="reloadProgress">加载最新进度</button><button class="button-secondary" :disabled="tracking.progress.value.status === 'COMPLETED' || markingRead || tracking.state.value === 'conflict'" @click="markRead">{{ tracking.progress.value.status === 'COMPLETED' ? '已读完' : markingRead ? '正在标记…' : '标记为已读' }}</button></div></div>
+<ArticleFullTranslation :article="detail.version.articleId" :version="detail.version.id" :reference="tools?.translation" :bilingual="settings.bilingual" @translation="value => fullTranslation = value" />
+<ArticleQuizPanel :article="detail.version.articleId" :version="detail.version.id" @completed="checkinRevision++" /><ReadingCheckinCard :article="detail.version.articleId" :version="detail.version.id" :revision="checkinRevision" :read-status="tracking?.progress.value.status" /><nav v-if="tools" class="reader-neighbors" aria-label="相邻文章"><RouterLink v-if="tools.previous" :to="'/reading/' + tools.previous.id"><small>← 上一篇</small>{{ tools.previous.title }}</RouterLink><span v-else>已经是第一篇</span><RouterLink v-if="tools.next" :to="'/reading/' + tools.next.id"><small>下一篇 →</small>{{ tools.next.title }}</RouterLink><span v-else>已经是最后一篇</span></nav>
+<footer class="reader-attribution"><a v-if="detail.version.sourceUrl" :href="detail.version.sourceUrl" target="_blank" rel="noopener noreferrer">{{ detail.version.author }} · 原文链接 ↗</a><details v-if="detail.version.usageNote" class="reader-source-details"><summary>转载说明</summary><p>{{ detail.version.usageNote }}</p></details></footer>
 </article>
-<ReadingRail :tools="tools" :busy="toolsBusy" :error="toolsError" :words="words" :total="wordTotal" :page="wordPage" :words-busy="wordsBusy" :words-error="wordsError" :authenticated="!!auth.user" :open="wordsOpen" @close="closeWords" @responsive="wordsOpen = $event" @retry-tools="extra.reloadTools()" @retry-words="extra.reloadWords()" @page="extra.reloadWords($event)" @keyword="openKeyword" @word="openSaved" @login="authDialog.request()"><template #writing><ArticleWritingPanel :article="detail.version.articleId" :version="detail.version.id" /></template></ReadingRail>
+<ReadingRail :tools="tools" :busy="toolsBusy" :error="toolsError" :words="words" :total="wordTotal" :page="wordPage" :words-busy="wordsBusy" :words-error="wordsError" :authenticated="!!auth.user" @retry-tools="extra.reloadTools()" @retry-words="extra.reloadWords()" @page="extra.reloadWords($event)" @keyword="openKeyword" @word="openSaved" @login="authDialog.request()"></ReadingRail>
 </div>
 <button v-if="lookup.context.value && !lookupOpen && !localWord && selectionPosition" ref="selectionButton" :style="selectionActionStyle" @pointerdown.prevent class="button-secondary selection-lookup-button" @click="openLookup">查询选中单词：{{ lookup.context.value.surfaceForm }}</button>
 <div v-else-if="selectedSentence && !lookupOpen && !localWord && selectionPosition" ref="selectionButton" :style="selectionActionStyle" @pointerdown.prevent class="selection-lookup-button selection-action-toolbar" role="group" aria-label="选文操作"><button type="button" aria-label="翻译" @click="translateSelection('TRANSLATION')">翻译</button><button type="button" aria-label="解析选中内容" @click="translateSelection('GRAMMAR')">解析</button><PhraseSaveButton :text="selectedSentence" :source="detail?phraseSourceFromRange(selectionRange,detail.version):undefined"/></div>

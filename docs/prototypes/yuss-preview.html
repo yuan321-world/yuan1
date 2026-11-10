@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yuss · Lingua Loop 学习伙伴原型</title>
+<link rel="stylesheet" href="yuss/preview.css">
+<header class="shell">
+  <a class="brand" href="yuss-preview.html"><b>L</b> Lingua Loop</a>
+  <nav aria-label="学习场景">
+    <button type="button" data-scene="read" aria-pressed="true">外刊精读</button>
+    <button type="button" data-scene="words" aria-pressed="false">背单词</button>
+    <button type="button" data-scene="quiz" aria-pressed="false">专项练习</button>
+  </nav>
+  <span class="badge">交互原型</span>
+</header>
+<main class="workspace">
+  <div class="intro">
+    <p class="kicker">学习空间</p>
+    <h1 id="scene-title">外刊精读</h1>
+    <p id="scene-subtitle">读一段短文，试试让 Yuss 解释其中一句。</p>
+  </div>
+  <section class="paper" id="scene" aria-label="学习内容"></section>
+  <aside class="side">
+    <section class="summary">
+      <h2>今日学习</h2>
+      <dl>
+        <div><dt>待复习</dt><dd>35 <small>词</small></dd></div>
+        <div><dt>每日新词目标</dt><dd><span id="goal">20</span> <small>词</small></dd></div>
+      </dl>
+      <button type="button" data-open="plan">请 Yuss 帮我安排</button>
+    </section>
+    <details class="preview-controls">
+      <summary>试试 Yuss 的动作</summary>
+      <div id="poses" class="poses"></div>
+      <button type="button" id="visibility">隐藏 Yuss</button>
+    </details>
+  </aside>
+</main>
+<div class="pet-dock">
+  <button type="button" id="pet" aria-label="打开 Yuss" aria-controls="assistant" aria-expanded="false">
+    <svg id="pet-art" aria-hidden="true" viewBox="30 95 365 425">
+      <defs><clipPath id="pose-crop"><rect x="30" y="95" width="365" height="425"></rect></clipPath></defs>
+      <image href="yuss/poses.png" width="1536" height="1024" clip-path="url(#pose-crop)"></image>
+    </svg>
+    <span>Yuss</span>
+  </button>
+  <button type="button" id="restore" hidden>显示 Yuss</button>
+</div>
+<section id="assistant" class="assistant" aria-labelledby="assistant-name" hidden>
+  <header class="assistant-header">
+    <div><h2 id="assistant-name">Yuss</h2><p>你的英语学习伙伴 · 模拟演示</p></div>
+    <button type="button" id="close" aria-label="收起 Yuss 对话">×</button>
+  </header>
+  <nav class="modes" aria-label="Yuss 功能">
+    <button type="button" data-mode="ask" aria-pressed="true">答疑</button>
+    <button type="button" data-mode="generate" aria-pressed="false">生成练习</button>
+    <button type="button" data-mode="plan" aria-pressed="false">学习计划</button>
+  </nav>
+  <div id="assistant-body" class="assistant-body"></div>
+</section>
+<p id="announce" class="visually-hidden" role="status"></p>
+<script src="yuss/preview.js" defer></script>
+</html>

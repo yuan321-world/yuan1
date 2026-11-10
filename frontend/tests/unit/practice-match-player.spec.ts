@@ -118,10 +118,10 @@ describe('PracticeMatchPlayer', () => {
   it('allows two questions to choose the same paragraph and keeps the current question selected', async () => {
     const wrapper = mountPlayer()
 
-    await wrapper.get('[data-match-paragraph="A"]').trigger('click')
+    await wrapper.get('[aria-label="匹配A段"]').trigger('click')
     expect(wrapper.emitted('change')?.at(-1)).toEqual([[{ questionId: 'q36', choice: 'A' }]])
     await wrapper.setProps({ currentId: 'q37', choices: { q36: 'A' } })
-    await wrapper.get('[data-match-paragraph="A"]').trigger('click')
+    await wrapper.get('[aria-label="匹配A段"]').trigger('click')
     await wrapper.setProps({ choices: { q36: 'A', q37: 'A' } })
 
     expect(wrapper.emitted('change')?.at(-1)).toEqual([[{ questionId: 'q37', choice: 'A' }]])
@@ -267,7 +267,7 @@ describe('PracticeMatchPlayer', () => {
   it('does not edit or emit parent navigation when the attempt is completed or disabled', async () => {
     const wrapper = mountPlayer({ disabled: true })
 
-    expect(wrapper.get('[data-match-paragraph="A"]').attributes('disabled')).toBeDefined()
+    expect(wrapper.get('[aria-label="匹配A段"]').attributes('disabled')).toBeDefined()
     await wrapper.get('[data-question-id="q37"]').trigger('click')
     expect(wrapper.emitted('change')).toBeUndefined()
     expect(wrapper.emitted('navigate')).toBeUndefined()

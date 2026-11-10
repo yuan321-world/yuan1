@@ -15,10 +15,13 @@ export async function mockIdentity(page: Page, anonymous = false, admin = false)
   await page.route('**/api/v1/reading/articles/*/versions/*/quiz',route=>route.fulfill({json:null}))
   await page.route('**/api/v1/reading/articles/*/versions/*/writing-materials/states',route=>route.fulfill({json:{}}))
   await page.route('**/api/v1/reading/articles/*/versions/*/writing-materials',route=>route.fulfill({json:[]}))
+  await page.route('**/api/v1/reading/articles/*/versions/*/full-translation', r => r.fulfill({json:{status:'MISSING',completed:0,total:0,configured:false,error:null,translation:{available:false,source:'',paragraphs:[],sentences:[]}}}))
   await page.route('**/api/v1/reading/articles/*/versions/*/tools', route => route.fulfill({ json: { related: [], previous: null, next: null, keywords: [], translation: { available: false, source: '', paragraphs: [] } } }))
   await page.route('**/api/v1/reading/articles/*/versions/*/words?*', route => route.fulfill({ json: { items: [], page: 1, pageSize: 10, total: 0 } }))
   await page.route('**/api/v1/reading/favorites/states?*', route => route.fulfill({ json: [] }))
   await page.route('**/api/v1/reading/favorites?*', route => route.fulfill({ json: { items: [], page: 1, pageSize: 6, total: 0 } }))
+  // Automatic practice scoring must never escape Mock tests into a real paid provider.
+  await page.route('**/api/v1/practice/subjective-reviews**',r=>r.request().method()==='POST'?r.fulfill({status:503,json:{code:'PRACTICE_AI_UNAVAILABLE',message:'Mock scoring is disabled'}}):r.fulfill({json:[]}))
   // Keep ordinary Mock navigation isolated from the real reading backend.
   await page.route('**/api/v1/reading/recommendation', route => route.fulfill({ json: { date: '2026-10-16', article: null } }))
   await page.route('**/api/v1/reading/categories', route => route.fulfill({ json: [] }))

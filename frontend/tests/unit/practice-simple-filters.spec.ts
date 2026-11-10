@@ -55,8 +55,9 @@ it('CET months use the available year facets without inventing regular or except
 it('history never accepts a free-form year either',()=>{
  const w=mount(PracticeFilters,{props:{modelValue:{...emptyFilters(),source:'PAST'},catalogLayout:true,history:true,facets:{source:[],readingType:[],topic:[],state:[],year:[{value:'2024',count:3}],month:[],paperNo:[]}}})
  expect(w.find('input[aria-label="考试年份筛选"]').exists()).toBe(false)
- expect(w.find('select[aria-label="考试年份筛选"]').exists()).toBe(true)
- expect(w.get('select[aria-label="考试年份筛选"]').text()).toContain('2024年')
+ expect(w.find('button[aria-label="年份：2024年"]').exists()).toBe(true)
+ expect(w.find('[aria-label="来源筛选"]').exists()).toBe(false)
+ expect(w.find('[aria-label="练习状态筛选"]').exists()).toBe(true)
  expect(w.find('[aria-label="题组排序"]').exists()).toBe(false)
 })
 

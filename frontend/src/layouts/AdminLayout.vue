@@ -28,7 +28,7 @@ async function logout() {
         <RouterLink class="admin-menu-link" to="/admin/practice/papers">整卷管理</RouterLink>
         <RouterLink class="admin-menu-link" to="/admin/wall">留言管理</RouterLink>
         <RouterLink class="admin-menu-link" to="/admin/users">用户管理</RouterLink>
-        <RouterLink class="admin-menu-link" to="/admin/account">账户设置</RouterLink>
+        <RouterLink class="admin-menu-link admin-account-link" to="/admin/account">账户设置</RouterLink>
         <button class="admin-menu-link text-button" :disabled="busy" @click="logout">{{ busy ? '正在退出…' : '退出登录' }}</button>
       </nav>
       <p v-if="error" class="form-message form-error" role="alert">{{ error }}</p>

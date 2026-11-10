@@ -8,6 +8,7 @@ import PracticeListeningPlayer from '@/components/practice/PracticeListeningPlay
 import PracticeClozePlayer from '@/components/practice/PracticeClozePlayer.vue'
 import PracticeMatchPlayer from '@/components/practice/PracticeMatchPlayer.vue'
 import PracticeReader from '@/components/practice/PracticeReader.vue'
+import {useAutomaticPracticeReview} from '@/stores/practice-auto-review'
 import PracticePaperResult from '@/components/practice/PracticePaperResult.vue'
 import PracticeSubjectiveTools from '@/components/practice/PracticeSubjectiveTools.vue'
 import PracticePaperAnswerCard from '@/components/practice/PracticePaperAnswerCard.vue'
@@ -21,6 +22,8 @@ const showResult=ref(false),localError=ref(''),restarting=ref(false),visibleSlot
 const viewport=window.matchMedia('(max-width:900px)'),mobile=ref(viewport.matches)
 const a=computed(()=>store.attempt),done=computed(()=>a.value?.status==='COMPLETED')
 provide(practiceSelectionContextKey,computed(()=>({paperAttemptId:a.value?.id,enabled:done.value})))
+const automaticReview=useAutomaticPracticeReview()
+watch(()=>done.value?a.value?.id:'',()=>{if(done.value&&a.value)automaticReview.enqueue(a.value.components.filter(c=>!c.objective&&c.text?.trim()&&['WRITING','TRANSLATION'].includes(c.slot)).map(c=>({sourceType:'PAPER',attemptId:a.value!.id,slot:c.slot as 'WRITING'|'TRANSLATION'})))})
 const ordered=computed(()=>api.slots.flatMap(slot=>a.value?.components.filter(c=>c.slot===slot)||[]))
 const returnTo=computed(()=>(/^\/practice\/(?:cet|cet4)(?:\?|$)/.test(String(route.query.returnTo||''))?String(route.query.returnTo):'/practice/cet?source=PAST&collection=PAST&section=paper&exam=CET4'))
 const partNames:Record<string,string>={WRITING:'Part I · 写作',LISTENING:'Part II · 听力',CLOZE:'Part III · Section A · 选词填空',MATCH:'Part III · Section B · 长篇匹配',DETAILED_1:'Part III · Section C · 仔细阅读 · 第一篇',DETAILED_2:'Part III · Section C · 仔细阅读 · 第二篇',TRANSLATION:'Part IV · 翻译'}
@@ -68,7 +71,7 @@ onBeforeUnmount(()=>{store.dispose();cancelAnimationFrame(scrollFrame);window.re
 
 <template>
  <section class="practice-page paper-page paper-attempt paper-continuous">
-  <RouterLink :to="returnTo">← 返回整卷列表</RouterLink>
+  <RouterLink class="reading-back practice-back" :to="returnTo">← 返回整卷列表</RouterLink>
   <p v-if="store.loading" role="status">正在恢复整卷…</p>
   <p v-if="store.error||localError" class="paper-error" role="alert">{{store.error||localError}}
    <button v-if="store.conflict" @click="store.reloadKeepingLocal">重新读取并保留本地副本</button>
@@ -115,6 +118,6 @@ onBeforeUnmount(()=>{store.dispose();cancelAnimationFrame(scrollFrame);window.re
     <dialog ref="cardDialog" class="paper-card-dialog" aria-label="全部题号"><button class="paper-card-close" @click="cardDialog?.close()">关闭题号面板</button><PracticePaperAnswerCard v-if="mobile" :components="ordered" :responses="store.responses" :active-slot="visibleSlot" :current-question-id="store.currentQuestionId" :disabled="store.submitting||store.loading||store.conflict" :done="done" @navigate="go" @submit="openSubmit"/></dialog>
    </div>
   </template>
-  <dialog ref="confirm" class="paper-dialog" @cancel="store.submitting&&$event.preventDefault()"><h2>确认交卷？</h2><p v-for="u in unmet" :key="u.slot">{{api.slotLabels[u.slot]}}：{{u.missing?'未答 '+u.missing+' 题':'已填写'}}</p><p v-if="wordCount('WRITING')<120" class="paper-muted">请留意作文的建议字数；交卷后仍保留原文。</p><p class="paper-muted">确认后本次作答只读，空白题按未作答保留。</p><p v-if="store.error" class="paper-error" role="alert">{{store.error}}</p><div class="paper-actions"><button :disabled="store.submitting||!!store.pendingSubmit" @click="confirm?.close()">返回检查</button><button class="paper-primary" :disabled="store.submitting||store.conflict" @click="submit">确认交卷</button></div></dialog>
+  <dialog ref="confirm" class="paper-dialog" @cancel="store.submitting&&$event.preventDefault()"><h2>确认交卷？</h2><p v-for="u in unmet" :key="u.slot">{{api.slotLabels[u.slot]}}：{{u.missing?'未答 '+u.missing+' 题':'已填写'}}</p><p v-if="wordCount('WRITING')<120" class="paper-muted">请留意作文的建议字数；交卷后仍保留原文。</p><p class="paper-muted">确认后本次作答只读，未答题计零分。写作与翻译将发送题目和本次作答至 DeepSeek 自动评分，使用现有批改额度；参考分非官方成绩。</p><p v-if="store.error" class="paper-error" role="alert">{{store.error}}</p><div class="paper-actions"><button :disabled="store.submitting||!!store.pendingSubmit" @click="confirm?.close()">返回检查</button><button class="paper-primary" :disabled="store.submitting||store.conflict" @click="submit">确认交卷</button></div></dialog>
  </section>
 </template>

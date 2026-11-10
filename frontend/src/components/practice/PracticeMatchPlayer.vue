@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PracticeSelectionArea from './PracticeSelectionArea.vue'
+import PracticeLetterPicker from './PracticeLetterPicker.vue'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { Attempt, PracticePublicQuestion, SavedAnswer } from '@/api/practice'
 import { parseMatchBody } from '@/practice/match-material'
@@ -28,6 +29,7 @@ const emit = defineEmits<{
 type MobileTab = 'article' | 'questions'
 type QuestionFilter = 'all' | 'unanswered' | 'flagged'
 
+const letterPicker = ref<InstanceType<typeof PracticeLetterPicker>>()
 const mobile = ref(false)
 const mobileTab = ref<MobileTab>('article')
 const filter = ref<QuestionFilter>('all')
@@ -87,6 +89,7 @@ const body = computed(() => props.attempt.article.content.paragraphs
   .join('\n\n'))
 const material = computed(() => parseMatchBody(body.value))
 const paragraphLetters = computed(() => material.value.paragraphs.map(paragraph => paragraph.letter))
+const letterOptions = computed(() => paragraphLetters.value.map(letter => ({ letter, label: `选择 ${letter} 段` })))
 const resultRows = computed(() => orderedQuestions.value.map(question => ({
   question,
   answer: answerFor(question.id),
@@ -127,6 +130,15 @@ function navigateTo(questionId: string, focus = false) {
   targetLetter.value = ''
   if (!isCompleted.value && !props.disabled) emit('navigate', questionId)
   if (focus && !mobile.value) void nextTick(() => questionButtons.get(questionId)?.focus({ preventScroll: true }))
+}
+
+function chooseParagraph(questionId: string, button: HTMLButtonElement) {
+  navigateTo(questionId)
+  if (canEdit.value) void nextTick(() => letterPicker.value?.open(button))
+}
+
+function pickParagraph(letter: string) {
+  if (activeQuestion.value) applyChoice(activeQuestion.value.id, letter)
 }
 
 function navigateBy(offset: number) {
@@ -197,10 +209,6 @@ function locateSelected() {
   if (activeChoice.value) void locateParagraph(activeChoice.value)
 }
 
-function matchFromParagraph(letter: string) {
-  if (activeQuestion.value) applyChoice(activeQuestion.value.id, letter)
-}
-
 function revealQuestion(questionId: string) {
   filter.value = 'all'
   navigateTo(questionId)
@@ -230,6 +238,7 @@ function updateViewport(isMobile: boolean) {
 }
 
 watch(() => props.currentId, id => {
+  if (id !== activeId.value) letterPicker.value?.close(false)
   activeId.value = id || orderedQuestions.value[0]?.id || ''
   targetLetter.value = ''
   if (!props.paperLayout) clearUndo()
@@ -242,7 +251,10 @@ watch(() => `${props.attempt.id}\u0000${props.attempt.setVersionId}\u0000${props
   onlyWrong.value = false
   targetLetter.value = ''
   clearUndo()
+  letterPicker.value?.close(false)
 })
+
+watch(canEdit, editable => { if (!editable) letterPicker.value?.close(false) })
 
 onMounted(() => {
   if (typeof window.matchMedia !== 'function') return
@@ -309,14 +321,6 @@ onBeforeUnmount(() => {
           >
             <header>
               <h3 :id="`match-paragraph-title-${paragraph.letter}`">Paragraph {{ paragraph.letter }}</h3>
-              <button
-                type="button"
-                class="practice-match-select-paragraph"
-                :disabled="!canEdit || !activeQuestion"
-                :aria-pressed="activeChoice === paragraph.letter"
-                :data-match-paragraph="paragraph.letter"
-                @click="matchFromParagraph(paragraph.letter)"
-              >匹配当前题</button>
             </header>
             <p data-practice-source>{{ paragraph.text }}</p>
             <small class="practice-match-usage">{{ paragraphUsage(paragraph.letter) }}</small>
@@ -334,20 +338,11 @@ onBeforeUnmount(() => {
         <p class="practice-match-paper-note">段落定位不会修改答案。选择段落后仍停留在当前题。</p>
       </article>
 
-      <div v-if="paperLayout" class="practice-match-paper-questions">
-        <label class="practice-match-filter">显示题目<select v-model="filter" aria-label="筛选题目"><option value="all">全部题目</option><option value="unanswered">仅未答</option><option value="flagged">仅待检查</option></select></label>
-        <article v-for="question in visibleQuestions" :key="question.id" :data-question-id="question.id" class="practice-match-paper-question">
-          <h3>{{questionNumber(question)}}. {{question.stem.replace(/^\d+[.、]\s*/, '')}}</h3>
-          <label>匹配段落<select :aria-label="'第'+questionNumber(question)+'题匹配段落'" :value="selectedChoice(question.id)||''" :disabled="!canEdit" @change="navigateTo(question.id);applyChoice(question.id,($event.target as HTMLSelectElement).value||null)"><option value="">请选择</option><option v-for="letter in paragraphLetters" :key="letter" :value="letter">{{letter}}</option></select></label>
-          <button :disabled="!selectedChoice(question.id)" @click="locateParagraph(selectedChoice(question.id)!)">定位所选段落</button>
-          <label><input type="checkbox" :aria-label="'标记第'+questionNumber(question)+'题待检查'" :checked="flagged(question.id)" :disabled="!canEdit" @change="toggleFlag(question.id,($event.target as HTMLInputElement).checked)">待检查</label>
-        </article>
-        <p v-if="!visibleQuestions.length">没有符合条件的题目，请切回“全部题目”。</p>
-        <button type="button" :disabled="!canEdit||undoStack.length===0" @click="undo">撤销上一步</button>
-      </div>
-      <aside v-if="!paperLayout" class="practice-match-questions practice-panel" aria-labelledby="match-question-panel-title">
-        <h2 id="match-question-panel-title">题目与匹配</h2>
-        <p class="practice-match-question-hint">选段后留在当前题；已选段落可以继续用于其他题。</p>
+      <aside :class="paperLayout ? 'practice-match-paper-questions' : 'practice-match-questions practice-panel'"
+        aria-labelledby="match-question-panel-title">
+        <h2 v-if="!paperLayout" id="match-question-panel-title">题目与匹配</h2>
+        <h3 v-else id="match-question-panel-title" class="practice-match-sheet-title">段落匹配</h3>
+        <p class="practice-match-question-hint">点击题号旁的方框选择段落字母，同一段落可以匹配多题。</p>
         <label class="practice-match-filter">
           显示题目
           <select v-model="filter" :disabled="disabled && !isCompleted" aria-label="筛选题目">
@@ -356,24 +351,37 @@ onBeforeUnmount(() => {
             <option value="flagged">仅待检查</option>
           </select>
         </label>
-        <nav class="practice-match-question-nav" aria-label="组内题号导航">
-          <button
-            v-for="question in visibleQuestions"
-            :key="question.id"
-            :ref="element => registerQuestion(question.id, element as Element | null)"
-            type="button"
-            :class="{ active: question.id === activeId, answered: !!selectedChoice(question.id), flagged: flagged(question.id) }"
-            :aria-current="question.id === activeId ? 'step' : undefined"
-            :aria-pressed="question.id === activeId"
-            :aria-label="`第${questionNumber(question)}题，${selectedChoice(question.id) ? `已选${selectedChoice(question.id)}段` : '未答'}${flagged(question.id) ? '，待检查' : ''}`"
-            :data-question-id="question.id"
-            :disabled="!canNavigate"
-            @click="navigateTo(question.id)"
-          >{{ questionNumber(question) }}</button>
-        </nav>
-        <p v-if="visibleQuestions.length === 0" class="practice-match-empty-nav">没有符合条件的题目，请切回“全部题目”。</p>
 
-        <template v-if="activeQuestion">
+        <div class="practice-match-sheet" role="group" aria-label="组内题号导航">
+          <article v-for="question in visibleQuestions" :key="question.id"
+            :data-question-id="paperLayout ? question.id : undefined" class="practice-match-paper-question">
+            <strong>{{ questionNumber(question) }}.</strong>
+            <button
+              :ref="element => registerQuestion(question.id, element as Element | null)"
+              type="button"
+              class="practice-match-answer-box"
+              :class="{ active: question.id === activeId, answered: !!selectedChoice(question.id), flagged: flagged(question.id) }"
+              :aria-current="question.id === activeId ? 'step' : undefined"
+              :aria-haspopup="canEdit ? 'dialog' : undefined"
+              :aria-label="paperLayout ? `第${questionNumber(question)}题匹配段落` : `第${questionNumber(question)}题，${selectedChoice(question.id) ? `已选${selectedChoice(question.id)}段` : '未答'}${flagged(question.id) ? '，待检查' : ''}`"
+              :data-question-id="paperLayout ? undefined : question.id"
+              :disabled="!canNavigate"
+              @click="chooseParagraph(question.id, $event.currentTarget as HTMLButtonElement)"
+            >{{ selectedChoice(question.id) || '?' }}</button>
+            <p lang="en" data-practice-source>{{ question.stem.replace(/^\d+[.、]\s*/, '') }}</p>
+          </article>
+        </div>
+        <p v-if="!visibleQuestions.length" class="practice-match-empty-nav">没有符合条件的题目，请切回“全部题目”。</p>
+        <div v-if="paperLayout && activeQuestion" class="practice-match-sheet-tools">
+          <span>第 {{ questionNumber(activeQuestion) }} 题</span>
+          <button type="button" :disabled="!activeChoice" @click="locateSelected">定位所选段落</button>
+          <label><input type="checkbox" :aria-label="`标记第${questionNumber(activeQuestion)}题待检查`"
+            :checked="activeFlag" :disabled="!canEdit"
+            @change="toggleFlag(activeQuestion.id, ($event.target as HTMLInputElement).checked)">待检查</label>
+          <button type="button" :disabled="!canEdit || undoStack.length === 0" @click="undo">撤销上一步</button>
+        </div>
+
+        <template v-if="!paperLayout && activeQuestion">
           <section class="practice-match-current-question" aria-live="polite">
             <h3>第 {{ questionNumber(activeQuestion) }} 题</h3>
             <p class="practice-match-statement" aria-label="当前题干">{{ activeQuestion.stem }}</p>
@@ -416,6 +424,9 @@ onBeforeUnmount(() => {
         </template>
       </aside>
     </div>
+
+    <PracticeLetterPicker ref="letterPicker" :title="`第 ${activeQuestion ? questionNumber(activeQuestion) : ''} 题 · 选择对应段落`"
+      :options="letterOptions" :selected="activeChoice" @choose="pickParagraph" @clear="clearCurrent" />
 
     <details v-if="!paperLayout" class="practice-match-overview practice-panel">
       <summary>全部 {{ orderedQuestions.length }} 题总览</summary>
@@ -491,13 +502,10 @@ onBeforeUnmount(() => {
 .practice-match-passage{max-width:790px;margin:auto;font:var(--practice-reading-size,20px)/var(--practice-reading-line,2.1) Georgia,"Times New Roman",serif;overflow-wrap:anywhere}
 .practice-match-paragraph{border-bottom:1px solid var(--surface-3);padding:18px 0 21px;scroll-margin:22px;border-radius:5px}
 .practice-match-paragraph:last-child{border-bottom:0}
-.practice-match-paragraph>header{display:flex;align-items:center;justify-content:space-between;gap:15px}
 .practice-match-paragraph h3{font:600 15px/1.5 "Segoe UI","Microsoft YaHei",sans-serif;margin:0;color:#66556b}
 .practice-match-paragraph>p{margin:14px 0;font:inherit;line-height:inherit}
 .practice-match-paragraph.target{background:#fdf3f7;box-shadow:0 0 0 12px #fdf3f7}
 .practice-match-paragraph.selected>header h3{color:var(--accent)}
-.practice-match-select-paragraph{font-size:12px;min-height:34px!important;padding:6px 10px!important;white-space:nowrap}
-.practice-match-player .practice-match-select-paragraph{font:12px/1.5 "Segoe UI","Microsoft YaHei",sans-serif}
 .practice-match-usage{display:block;min-height:20px;font:12px/1.8 "Segoe UI","Microsoft YaHei",sans-serif;color:var(--muted)}
 .practice-match-used-questions{display:flex;gap:5px;margin-top:5px}
 .practice-match-used-questions button{min-width:34px;min-height:30px;padding:4px 7px;font-size:11px;color:var(--accent)}
@@ -507,10 +515,49 @@ onBeforeUnmount(() => {
 .practice-match-question-hint,.practice-match-progress,.practice-match-empty-nav{font-size:12px;line-height:1.8;color:var(--muted);margin:0 0 14px}
 .practice-match-filter{display:block;font-size:12px;color:var(--muted)}
 .practice-match-filter select{display:block;width:100%;margin-top:6px;padding:8px 10px;border:1px solid var(--practice-line, var(--line));border-radius:9px;background:var(--surface);color:inherit}
-.practice-match-question-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:13px 0 17px}
-.practice-match-question-nav button{position:relative;min-width:0;padding:7px 3px;font-size:12px}
-.practice-match-question-nav button.active{background:var(--accent);color:white;border-color:var(--accent)}
-.practice-match-question-nav button.answered:not(.active){background:var(--accent-soft);color:var(--accent)}
+.practice-match-sheet {
+  margin: 10px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0 12px;
+  background: var(--surface);
+}
+.practice-match-sheet-title { margin: 0 0 4px; font-size: 16px; }
+.practice-match-sheet .practice-match-paper-question {
+  display: grid;
+  grid-template-columns: 2ch 38px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  padding: 9px 0;
+  border: 0;
+}
+.practice-match-sheet .practice-match-paper-question + .practice-match-paper-question {
+  border-top: 1px dashed var(--line);
+}
+.practice-match-paper-question > strong { padding-top: 3px; color: var(--accent-dark); }
+.practice-match-sheet .practice-match-paper-question .practice-match-answer-box {
+  margin: 0;
+  padding: 3px;
+  min-height: 30px;
+  border: 0;
+  border-bottom: 1px solid var(--accent);
+  border-radius: 4px 4px 0 0;
+  background: var(--surface-3);
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 650;
+}
+.practice-match-sheet .practice-match-answer-box:is(:hover, .active, .answered) { background: var(--accent-soft); }
+.practice-match-sheet .practice-match-answer-box.flagged { border-bottom-color: var(--warning, #a06a2d); }
+.practice-match-paper-question > p {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.practice-match-sheet-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12px; }
+.practice-match-sheet-tools label { display: inline-flex; align-items: center; gap: 5px; }
+.practice-match-sheet-tools input[type=checkbox] { width: 15px; height: 15px; min-height: 0; margin: 0; }
 .practice-match-question-nav button.flagged::after{content:"";position:absolute;right:4px;top:4px;width:5px;height:5px;background:#b35d24;border-radius:50%}
 .practice-match-empty-nav{margin:0 0 13px}
 .practice-match-current-question{border-top:1px solid var(--practice-line, var(--line));padding-top:17px}
@@ -568,7 +615,6 @@ onBeforeUnmount(() => {
 @media(max-width:560px){
   .practice-match-paper{padding:22px 19px}
   .practice-match-questions{padding:22px 19px}
-  .practice-match-paragraph>header{flex-wrap:wrap;gap:8px}
   .practice-match-paragraph>p{font-size:var(--practice-reading-size,19px);line-height:var(--practice-reading-line,2.2)}
   .practice-match-overview,.practice-match-results{padding:22px 18px}
   .practice-match-overview-row,.practice-match-result-row{grid-template-columns:30px minmax(0,1fr);gap:10px}

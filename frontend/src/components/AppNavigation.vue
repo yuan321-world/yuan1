@@ -61,7 +61,6 @@ onUnmounted(() => { document.removeEventListener('keydown', handleEscape); docum
         <div v-if="userOpen" id="user-menu" class="user-menu" role="region" aria-label="账户菜单">
           <p class="user-menu-name">{{ auth.user.displayName || auth.user.username }}<span>@{{ auth.user.username }}</span></p>
           <RouterLink :to="auth.isAdmin ? '/admin/account' : '/account'">账户设置</RouterLink>
-          <RouterLink v-if="!auth.isAdmin" to="/writing">我的写作素材</RouterLink>
           <button type="button" :disabled="signingOut" @click="signOut">{{ signingOut ? '正在退出…' : '退出登录' }}</button>
           <p v-if="logoutError" role="alert" class="user-menu-error">{{ logoutError }}</p>
         </div>

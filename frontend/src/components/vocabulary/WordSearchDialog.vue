@@ -203,8 +203,9 @@ defineExpose({open})
 </template>
 
 <style scoped>
-.word-search-dialog{--vl-green:#4a653d;--vl-line:#dce1d3;--vl-soft:#788074;--vl-pale:#eef2e6;width:min(480px,calc(100vw - 28px));height:min(500px,calc(100dvh - 56px));max-height:calc(100dvh - 56px);padding:0;border:1px solid var(--border,#dce1d3);border-radius:22px;background:var(--surface,#faf9f2);color:var(--text,#293329);overflow:hidden}
-.word-search-dialog[open]{display:flex;flex-direction:column}
+.word-search-dialog{--vl-green:#4a653d;--vl-line:#dce1d3;--vl-soft:#788074;--vl-pale:#eef2e6;position:fixed;inset:0;margin:auto;box-sizing:border-box;width:min(480px,calc(100% - 24px));max-width:calc(100% - 24px);height:calc(100dvh - 24px);max-height:calc(100dvh - 24px);padding:0;border:1px solid var(--border,#dce1d3);border-radius:22px;background:var(--surface,#faf9f2);color:var(--text,#293329);overflow:hidden}
+.word-search-dialog[open]{display:flex;flex-direction:column;animation:dictionary-enter 200ms ease-out}
+@keyframes dictionary-enter{from{opacity:0}to{opacity:1}}
 .word-search-dialog::backdrop{background:#26302555;backdrop-filter:blur(3px)}
 .word-search-dialog button{font:inherit;cursor:pointer;border:1px solid var(--border,#dce1d3);border-radius:12px;background:transparent;color:inherit;padding:8px 12px}
 .word-search-dialog button:disabled{opacity:.6;cursor:default}
@@ -246,5 +247,6 @@ defineExpose({open})
 .ws-body :deep(.vl-dictionary-more){border-top:1px solid #dce1d3;padding:8px 0;margin-top:12px}
 .ws-body :deep(summary){cursor:pointer;color:#587344;font-size:13px}
 .ws-body :deep(.vl-related-words){font-size:13px}
-@media(max-width:520px){.word-search-dialog{--vl-green:#4a653d;--vl-line:#dce1d3;--vl-soft:#788074;--vl-pale:#eef2e6;width:calc(100vw - 24px);height:min(480px,calc(100dvh - 40px));max-height:calc(100dvh - 40px);border-radius:18px}.ws-toolbar{padding:12px}.ws-body{padding:14px 16px}}
+@media(max-width:520px){.word-search-dialog{width:calc(100% - 16px);max-width:calc(100% - 16px);height:calc(100dvh - 16px);max-height:calc(100dvh - 16px);border-radius:18px}.ws-toolbar{padding:12px}.ws-body{padding:14px 16px}}
+@media(prefers-reduced-motion:reduce){.word-search-dialog[open]{animation:none}}
 </style>

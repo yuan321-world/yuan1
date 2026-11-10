@@ -28,3 +28,10 @@ export const selectLearningSource = (kind: 'PERSONAL' | 'BOOK', bookId?: string,
 export const setLearningProficiency = (id: string, proficient: boolean) => businessWrite<void>(`${root}/words/${encodeURIComponent(id)}/proficiency`, { proficient }, 'PUT')
 
 export const learningSavedSession=(id:string,signal?:AbortSignal)=>businessGet<Session>(`${root}/sessions/${encodeURIComponent(id)}`,signal)
+
+export type WordbookState = 'ALL'|'NEW'|'REVIEW'|'PROFICIENT'
+export interface WordbookWord {entryId:string;lemma:string;meaning:string;state:Exclude<WordbookState,'ALL'>;dueAt:string|null;reviewActive:boolean;collectionId:string|null;collected:boolean}
+export interface WordbookWords {title:string;counts:{total:number;unlearned:number;reviewing:number;proficient:number};items:WordbookWord[];page:number;pageSize:number;total:number}
+export interface WordbookQuery {q:string;status:WordbookState;collectedOnly:boolean;sort:'BOOK'|'ALPHA';page:number}
+export const wordbookWords=(book:string,query:WordbookQuery,signal?:AbortSignal)=>businessGet<WordbookWords>(`${root}/wordbooks/${encodeURIComponent(book)}/words?${new URLSearchParams({q:query.q,status:query.status,collectedOnly:String(query.collectedOnly),sort:query.sort,page:String(query.page),pageSize:'30'})}`,signal)
+export const setBookWordProficiency=(book:string,entry:string,proficient:boolean,signal?:AbortSignal)=>businessWrite<{word:WordbookWord;counts:WordbookWords['counts']}>(`${root}/wordbooks/${encodeURIComponent(book)}/words/${encodeURIComponent(entry)}/proficiency`,{proficient},'PUT',signal)

@@ -155,13 +155,15 @@ async function submitEmailBinding() {
 </script>
 <template>
   <section class="account-page" aria-labelledby="account-title">
-    <p class="eyebrow">YOUR ACCOUNT</p><h1 id="account-title">账户设置</h1>
-    <p class="account-caption">{{ auth.user?.username }} · {{ auth.isAdmin ? '管理员' : '学习者' }}</p>
+    <header class="account-heading">
+      <h1 id="account-title">账户设置</h1>
+      <p class="account-caption">{{ auth.user?.username }} · {{ auth.isAdmin ? '管理员' : '学习者' }}</p>
+    </header>
     <div v-if="pageError" class="auth-message auth-error page-feedback" role="alert">
       {{ pageError.message }}
       <button v-if="pageError.kind === 'network'" class="text-button auth-retry" type="button" :disabled="reconnecting" @click="reconnect">{{ reconnecting ? '连接中…' : '重新连接' }}</button>
     </div>
-    <section class="account-card account-email-card" aria-labelledby="account-email-title">
+    <section class="account-card account-email-card" :class="{ 'is-verified': auth.user?.emailVerified }" aria-labelledby="account-email-title">
       <h2 id="account-email-title">邮箱验证</h2>
       <p v-if="auth.user?.emailVerified === true" class="verified-email"><span class="verified-mark" aria-hidden="true">✓</span><span>{{ auth.user.email }}</span><strong>已验证</strong></p>
       <form v-else ref="bindingForm" class="account-email-form" :aria-busy="busy" @invalid.capture="bindingFeedback.invalid" @submit.prevent="submitEmailBinding">

@@ -1,0 +1,94 @@
+:root {
+  color-scheme: light;
+  --background: #f4f2e9;
+  --paper: #fffdf5;
+  --ink: #293428;
+  --muted: #566451;
+  --green: #49643d;
+  --leaf: #e6eddc;
+  --line: #d7dece;
+  font: 15px/1.6 "Segoe UI", system-ui, "Microsoft YaHei", sans-serif;
+  color: var(--ink);
+  background: var(--background);
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); padding: 7px 12px; min-height: 40px; }
+button:hover { border-color: var(--green); }
+button[aria-pressed="true"] { background: var(--leaf); border-color: var(--leaf); font-weight: 650; }
+.primary { background: var(--green); color: white; border-color: var(--green); }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+[hidden] { display: none !important; }
+h1, h2, h3, p, dl, dd { margin: 0; }
+.shell, .workspace { width: min(1010px, calc(100% - 40px)); margin-inline: auto; }
+.shell { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 16px; margin-block: 17px 0; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; }
+.brand { display: flex; align-items: center; gap: 7px; text-decoration: none; color: var(--ink); font-weight: 750; white-space: nowrap; }
+.brand b { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 7px; background: var(--green); color: white; }
+.shell nav, .modes, .actions, .poses { display: flex; flex-wrap: wrap; gap: 6px; }
+.shell nav button, .modes button { border-color: transparent; }
+.badge { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) 240px; align-items: start; gap: 17px; padding-block: 33px 155px; }
+.intro { grid-column: 1 / -1; }
+.kicker { font-size: 12px; color: var(--green); letter-spacing: .08em; }
+h1 { font-size: clamp(27px, 4vw, 38px); line-height: 1.35; margin: 3px 0; }
+.intro > p:last-child { color: var(--muted); }
+.paper, .summary { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: clamp(17px, 3vw, 28px); }
+.paper h2[lang="en"] { font: 30px/1.2 Georgia, serif; margin: 7px 0 16px; }
+.paper p + p { margin-top: 12px; }
+.reading-copy { font: 18px/1.7 Georgia, serif; max-width: 62ch; }
+.actions { align-items: center; margin-top: 18px; }
+.summary { padding: 16px; }
+.summary h2, .assistant h2 { font-size: 18px; }
+.summary dl { margin: 10px 0 14px; }
+.summary dl > div { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.summary dt, .summary small { font-size: 13px; color: var(--muted); }
+.summary dd { font-size: 21px; font-weight: 650; }
+.preview-controls { padding: 10px 4px; color: var(--muted); font-size: 13px; }
+.preview-controls summary { cursor: pointer; }
+.poses { margin: 8px 0; }
+.poses button { min-height: 34px; padding: 4px 9px; }
+.pet-dock { position: fixed; left: max(12px, env(safe-area-inset-left)); bottom: max(12px, env(safe-area-inset-bottom)); z-index: 2; }
+#pet { display: grid; justify-items: center; gap: 0; width: clamp(78px, 10vw, 138px); padding: 0; border: 0; background: transparent; }
+#pet-art { display: block; width: 100%; height: auto; aspect-ratio: 1; overflow: hidden; mix-blend-mode: multiply; }
+#pet span { padding: 1px 11px; background: var(--paper); border: 1px solid var(--line); border-radius: 20px; font-weight: 650; font-size: 13px; }
+#pet[data-pose="celebrate"] svg { animation: hop .42s ease-out; }
+#pet[data-pose="stretch"] svg { animation: stretch .42s ease-out; }
+@keyframes hop { 50% { transform: translateY(-8px); } }
+@keyframes stretch { 50% { transform: scaleY(1.05); } }
+.assistant {
+  position: fixed; z-index: 3; left: clamp(108px, 12vw, 160px); bottom: max(14px, env(safe-area-inset-bottom));
+  width: min(400px, calc(100vw - 180px)); max-height: min(560px, calc(100dvh - 28px));
+  display: grid; grid-template-rows: auto auto minmax(0, 1fr);
+  background: var(--paper); border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: 0 12px 38px #29342824;
+}
+.assistant-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; }
+.assistant-header p, .subtle { color: var(--muted); font-size: 12px; }
+#close { padding: 0; width: 40px; font-size: 21px; }
+.modes { padding: 0 14px 8px; border-bottom: 1px solid var(--line); }
+.modes button { padding: 4px 9px; min-height: 34px; }
+.assistant-body { overflow: auto; overscroll-behavior: contain; padding: 14px; }
+.assistant-body > * + * { margin-top: 10px; }
+.assistant-body .bubble > button { margin-top: 8px; }
+#quiz fieldset { border: 1px solid var(--line); border-radius: 10px; min-width: 0; }
+#quiz-feedback:not(:empty) { margin-top: 12px; }
+.assistant-body form { display: grid; gap: 8px; }
+.assistant-body label { display: grid; gap: 3px; font-size: 13px; }
+.assistant-body input:not([type=checkbox]), .assistant-body select { width: 100%; min-width: 0; min-height: 40px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); font-size: 16px; }
+.assistant-body .check { display: flex; align-items: center; gap: 6px; }
+.bubble { padding: 9px 11px; border-radius: 10px; background: var(--leaf); overflow-wrap: anywhere; }
+.message-user { margin-left: 22px; background: var(--background); }
+.thread { display: grid; gap: 8px; }
+.option { display: flex; align-items: baseline; gap: 8px; margin-top: 7px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 650px) {
+  .shell, .workspace { width: calc(100% - 26px); }
+  .shell { flex-wrap: wrap; justify-content: flex-start; padding: 8px 10px; }
+  .shell nav { order: 1; width: 100%; }
+  .shell nav button { min-height: 37px; padding: 5px 9px; }
+  .shell .badge { margin-left: auto; }
+  .workspace { grid-template-columns: 1fr; padding-top: 20px; gap: 12px; }
+  .assistant { left: 10px; bottom: calc(120px + env(safe-area-inset-bottom)); width: calc(100% - 20px); max-height: min(520px, calc(100dvh - 132px)); }
+}
+@media (prefers-reduced-motion: reduce) { #pet svg { animation: none !important; } }

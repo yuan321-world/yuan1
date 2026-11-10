@@ -9,4 +9,6 @@ import './styles/auth.css'
 import './styles/reading.css'
 import './styles/reading-library.css'
 import './styles/reading-detail.css'
+import './styles/practice-compact.css'
+import './styles/admin-workspace.css'
 createApp(App).use(createPinia()).use(router).mount('#app')

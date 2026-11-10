@@ -92,7 +92,7 @@ async function changePublication(unpublish: boolean) {
 }</script>
 <template>
   <section class="reading-page">
-    <header class="reading-page-header"><div><RouterLink class="reading-back" to="/admin/articles">← 文章管理</RouterLink><h1>{{ record ? '编辑草稿' : '创建文章' }}</h1><p>保存生成独立版本，不会自动发布。</p><RouterLink v-if="record" class="text-button" :to="{path: `/admin/articles/${record.id}/writing`,query:{version:record.publishedVersionId||record.draftVersionId}}">管理写作素材</RouterLink><RouterLink v-if="record" class="text-button" :to="{path: `/admin/articles/${record.id}/quiz`,query:{version:record.publishedVersionId||record.draftVersionId}}">管理阅读题组</RouterLink></div><RouterLink v-if="record && !dirty" class="button-secondary" :to="`/admin/articles/${record.id}/preview?version=${record.draftVersionId}`">预览草稿</RouterLink></header>
+    <header class="reading-page-header"><div><RouterLink class="reading-back" to="/admin/articles">← 文章管理</RouterLink><h1>{{ record ? '编辑草稿' : '创建文章' }}</h1><p>保存生成独立版本，不会自动发布。</p><RouterLink v-if="record" class="text-button" :to="{path: `/admin/articles/${record.id}/quiz`,query:{version:record.publishedVersionId||record.draftVersionId}}">管理阅读题组</RouterLink></div><RouterLink v-if="record && !dirty" class="button-secondary" :to="`/admin/articles/${record.id}/preview?version=${record.draftVersionId}`">预览草稿</RouterLink></header>
     <p v-if="loading" role="status">正在加载编辑器…</p>
     <div v-if="!loading && pageError" class="reading-notice" role="alert"><p>{{ pageError.message }}</p><button class="button-secondary" @click="reconnect">重新连接</button></div>
     <form v-if="!loading && hasLoaded" ref="form" class="article-editor" :aria-busy="busy" @invalid.capture="feedback.invalid" @submit.prevent="save">
